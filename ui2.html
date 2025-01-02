@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 90%;
+        }
+
+        .card {
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #fefbf3;
+        }
+
+        .card-header {
+        
+            font-size: 15px; /* Slightly larger for better readability */
+            font-weight: bold;
+            color: #027cc9; /* A complementary darker shade for contrast */
+            border-bottom: none;
+            text-transform: uppercase; /* Adds a touch of formality */
+            
+            border-radius: 8px 8px 0 0; /* Rounded corners at the top */
+            letter-spacing: 1px; /* Slight letter spacing for a modern touch */
+            text-align: left; /* Center-aligned text for elegance */
+        }
+
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .input-field-container {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #a26d2b;
+            position: absolute;
+            top: -8px;
+            left: 12px;
+            background-color: #fefbf3;
+            padding: 0 5px;
+            z-index: 1;
+        }
+
+        .styled-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+            border: 1px solid #a26d2b;
+            border-radius: 5px;
+            background-color: tran;
+            position: relative;
+        }
+
+        .styled-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button[type="submit"] {
+            background-color: #a26d2b;
+            border-color: #a26d2b;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #7c5623;
+            border-color: #7c5623;
+        }
+        
+        .gradient-text {
+    font-size: 24px; /* Adjust size as needed */
+    font-weight: bold; /* Optional */
+    background: #027cc9; /* Adjust gradient colors */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block; /* Ensures proper rendering */
+  }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4 text-center gradient-text">Service Request Form</h3>
+
+        <!-- Card 1: Customer Details -->
+        <div class="card">
+            <div class="card-header">Customer Details</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Customer Name</label>
+                            <input id="customer-name" class="styled-input" name="customer_name"
+                                placeholder="Search by name or phone" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Phone Number</label>
+                            <input type="text" id="emergency_contact_number" class="styled-input"
+                                name="emergency_contact_number" placeholder="Phone Number" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Patient Name</label>
+                            <input type="text" class="styled-input" name="patient_name" id="patient_name"
+                                placeholder="Patient Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Patient Relation</label>
+                            <input type="text" class="styled-input" name="relationship" id="relationship"
+                                placeholder="Relation with Customer" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Service Details -->
+        <div class="card">
+            <div class="card-header">Service Details</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Enquiry Time</label>
+                            <input type="time" name="enquiry_time" class="styled-input" id="enquiry-time" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Enquiry Date</label>
+                            <input type="date" class="styled-input" name="enquiry_date" id="enquiry-date" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Start Date</label>
+                            <input type="date" class="styled-input" name="from_date" id="fromDate" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">End Date</label>
+                            <input type="date" class="styled-input" name="end_date" id="endDate" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Pricing Details -->
+        <div class="card">
+            <div class="card-header">Pricing Details</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Service Duration</label>
+                            <select class="styled-input" name="service_duration" id="service_duration">
+                                <option value="" disabled selected>Select Duration</option>
+                                <option value="8">8 Hours</option>
+                                <option value="12">12 Hours</option>
+                                <option value="24">24 Hours</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Per Day Price</label>
+                            <input type="text" class="styled-input" name="per_day_service_price"
+                                id="per_day_service_price" placeholder="Service Price" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Total Price</label>
+                            <input type="text" class="styled-input" name="service_price" id="service_price"
+                                placeholder="Total Price" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-field-container">
+                            <label class="input-label">Enquiry Source</label>
+                            <select class="styled-input" name="enquiry_source">
+                                <option value="" disabled selected>Select Source</option>
+                                <option value="phone">Phone</option>
+                                <option value="email">Email</option>
+                                <option value="walkin">Walk-In</option>
+                                <option value="website">Website</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

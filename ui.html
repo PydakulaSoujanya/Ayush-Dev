@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            text-align: center;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        fieldset {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            font-size: 1.2rem;
+            color: #007bff;
+            padding: 0 05px;
+            font-weight: bold;
+        }
+
+        .input-label {
+            font-weight: bold;
+            color: #495057;
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        .styled-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            margin-top: 2px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 10px !important;
+        }
+
+        .styled-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4">Service Request Form</h3>
+        <form action="services_db.php" method="POST">
+
+            <!-- Personal Info Section -->
+            <fieldset>
+                <legend>Personal Info</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="input-label">Customer Name</label>
+                        <div class="d-flex align-items-center">
+                            <input id="customer-name" class="styled-input" name="customer_name" oninput="if (this.value.length >= 3) searchCustomers(this.value)" placeholder="Search by name or phone" />
+                            <button type="button" class="btn btn-primary btn-sm ml-2" data-toggle="modal" data-target="#addCustomerModal">+</button>
+                        </div>
+                        <div class="suggestionItem">
+                            <ul id="customerList"></ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Patient Name</label>
+                        <input type="text" class="styled-input" name="patient_name" id="patient_name" placeholder="Patient Name" readonly />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Patient Relation With Customer</label>
+                        <input type="text" class="styled-input" name="relationship" id="relationship" placeholder="Patient Relation With Customer" readonly />
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Contact Info Section -->
+            <fieldset>
+                <legend>Contact Info</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="input-label">Phone Number</label>
+                        <input type="text" id="emergency_contact_number" class="styled-input" name="emergency_contact_number" placeholder="Phone Number" readonly />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Enquiry Source</label>
+                        <select class="styled-input" name="enquiry_source">
+                            <option value="" disabled selected>Select Enquiry Source</option>
+                            <option value="phone">Phone Call</option>
+                            <option value="email">Email</option>
+                            <option value="walkin">Walk-In</option>
+                            <option value="website">Website</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Priority Level</label>
+                        <select class="styled-input" name="priority_level">
+                            <option value="" disabled selected>Select Priority Level</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Comments</label>
+                        <textarea class="styled-input" rows="1" name="comments" placeholder="Enter Comments"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Service Info Section -->
+            <fieldset>
+                <legend>Service Info</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="input-label">Enquiry Time</label>
+                        <input type="time" name="enquiry_time" class="styled-input" id="enquiry-time" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Enquiry Date</label>
+                        <input type="date" class="styled-input date-input" name="enquiry_date" id="enquiry-date" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Start Date</label>
+                        <input type="date" class="styled-input" name="from_date" id="fromDate" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">End Date</label>
+                        <input type="date" class="styled-input" name="end_date" id="endDate" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Total Days</label>
+                        <input type="number" class="styled-input" name="total_days" id="total_days" placeholder="Total Days" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Service Duration (in Hours)</label>
+                        <select class="styled-input" name="service_duration" id="service_duration">
+                            <option value="" disabled selected>Select Service Duration</option>
+                            <option value="8">8 Hours</option>
+                            <option value="12">12 Hours</option>
+                            <option value="24">24 Hours</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Service Type</label>
+                        <select class="styled-input" name="service_type" id="service_type">
+                            <option value="" disabled selected>Select Service Type</option>
+                            <option value="care_taker">Care Taker</option>
+                            <option value="fully_trained_nurse">Fully Trained Nurse</option>
+                            <option value="semi_trained_nurse">Semi Trained Nurse</option>
+                            <option value="nannies">Nannies</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Per Day Service Price</label>
+                        <input type="text" class="styled-input" name="per_day_service_price" id="per_day_service_price" placeholder="Service Price" readonly />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Total Service Price</label>
+                        <input type="text" class="styled-input" name="service_price" id="service_price" placeholder="Service Price" readonly />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Request Details</label>
+                        <textarea class="styled-input" rows="1" name="request_details" placeholder="Enter Request Details"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Resolution Notes</label>
+                        <textarea class="styled-input" rows="1" name="resolution_notes" placeholder="Enter Resolution Notes"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="input-label">Status</label>
+                        <select class="styled-input" name="status">
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="booked">Booked</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+
+    <!-- Add Customer Modal -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add New Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="add_customer.php" method="POST" enctype="multipart/form-data">
+                        <!-- Add Customer Fields -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="input-label">Customer Name</label>
+                                <input type="text" class="styled-input" name="customer_name" placeholder="Enter your name" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="input-label">Contact Number</label>
+                                <input type="text" class="styled-input" name="emergency_contact_number" placeholder="Enter contact number" required />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

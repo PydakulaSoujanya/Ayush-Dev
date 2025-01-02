@@ -1,0 +1,97 @@
+body {
+    background-color: #f7f9fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.login-container {
+    width: 400px;
+    background-color: #ffffff;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.form-check-label {
+    margin-left: 5px;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    display: none;
+}
+
+.navbar-logo-img {
+    height: 70px !important;
+    /* Set the desired height */
+    margin-left: 10px;
+    width: auto;
+    /* Maintain aspect ratio */
+    /* border-radius: 50%; */
+    /* Circular logo or adjust to your needs */
+    object-fit: cover;
+    /* Ensure proper scaling of the image */
+}
+
+/* .ayush-logo-img {
+    height: 10px !important;
+   
+    margin-left: 10px;
+    width: auto;
+ 
+    border-radius: 50%;
+   
+    object-fit: cover;
+   
+}
+
+.payfiller-logo-img{
+    height: 70px !important;
+   
+    width: auto;
+   
+    border-radius: 50%;
+  
+    object-fit: cover;
+   
+} */

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Billing and Payouts</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .input-field-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-label {
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      background-color: white;
+      padding: 0 5px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #A26D2B;
+    }
+
+    .styled-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      border: 1px solid #A26D2B;
+      border-radius: 5px;
+    }
+
+    .styled-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    h3 {
+      color: #A26D2B;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h3 class="text-center">Vendor Billing and Payouts</h3>
+    <form>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Bill ID</label>
+            <input type="text" class="styled-input" placeholder="Enter Associated Bill ID">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Vendor ID</label>
+            <input type="text" class="styled-input" placeholder="Enter Vendor ID">
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Payment Amount</label>
+            <input type="number" class="styled-input" placeholder="Enter Payment Amount">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Remaining Balance</label>
+            <input type="number" class="styled-input" placeholder="Enter Remaining Balance">
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Payment Status</label>
+            <select class="styled-input">
+              <option value="" disabled selected>Select Payment Status</option>
+              <option value="paid">Paid</option>
+              <option value="partially_paid">Partially Paid</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Payment Date</label>
+            <input type="date" class="styled-input">
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-field-container">
+            <label class="input-label">Transaction ID</label>
+            <input type="text" class="styled-input" placeholder="Enter Transaction ID">
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

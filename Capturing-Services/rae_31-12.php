@@ -1,0 +1,873 @@
+<?php
+// Connect to the database
+include '../config.php';
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+require_once  '../vendor/autoload.php';
+//require_once __DIR__ . '../vendor/autoload.php';
+
+
+
+    use setasign\fpdf\fpdf;
+    use setasign\Fpdi\Fpdi;
+    // use setasign\FpdiProtection\FpdiProtection;
+    
+// Fetch employees from the emp_info table
+$empSql = "SELECT id, name FROM emp_info";
+$empResult = $conn->query($empSql);
+
+// Store employees in an array
+$employees = [];
+if ($empResult->num_rows > 0) {
+    while ($empRow = $empResult->fetch_assoc()) {
+        $employees[] = $empRow;
+    }
+}
+// Pagination Variables
+$pageSize = isset($_GET['pageSize']) ? intval($_GET['pageSize']) : 5;
+$pageIndex = isset($_GET['pageIndex']) ? intval($_GET['pageIndex']) : 0;
+$searchTerm = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+
+
+// Calculate the starting row
+$start = $pageIndex * $pageSize;
+
+// SQL Query for Paginated and Filtered Results
+$sql = "SELECT * FROM service_requests 
+        WHERE customer_name LIKE '%$searchTerm%' 
+        ORDER BY id DESC 
+        LIMIT $start, $pageSize";
+$result = $conn->query($sql);
+
+// Get Total Records for Pagination
+$countSql = "SELECT COUNT(*) as total FROM service_requests 
+             WHERE customer_name LIKE '%$searchTerm%'";
+$countResult = $conn->query($countSql);
+$totalRecords = $countResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRecords / $pageSize);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_service'])) {
+    // Sanitize the input
+    $serviceId = intval($_POST['service_id']); // Converts to an integer for safety
+
+    // Prepare the SQL query to update the status
+    $cancelSql = "UPDATE service_requests SET status = 'Cancelled' WHERE id = $serviceId";
+
+    // Execute the query (assuming $conn is your database connection)
+    if (mysqli_query($conn, $cancelSql)) {
+      
+         echo "<script>
+                        alert('Service cancelled successfully!');
+                        window.location.href = 'view_services.php';
+                    </script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+
+// Check if the employee is already assigned to a service request
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['assign_employee'])) {
+    $serviceId = $_POST['service_id'];  // This should be the correct column name
+    $empId = $_POST['emp_id'];
+
+    // Fetch employee name based on emp_id
+    $empNameSql = "SELECT name FROM emp_info WHERE id = '$empId'";
+    $empNameResult = $conn->query($empNameSql);
+
+    if ($empNameResult->num_rows > 0) {
+        $empRow = $empNameResult->fetch_assoc();
+        $empName = $empRow['name'];
+
+        // Check if the employee is already assigned to a service request
+        $checkSql = "SELECT * FROM service_requests WHERE assigned_employee = '$empName'";
+        $checkResult = $conn->query($checkSql);
+
+        // if ($checkResult->num_rows > 0) {
+            // If employee is already assigned to a different service request
+            // echo "<script>alert('This employee is already assigned to another service!!');
+            // window.location.href = 'view_services.php';
+            // </script>";
+        // } else
+        
+        {
+            // Assign the employee name to the service request
+            $assignSql = "UPDATE service_requests SET emp_id='$empId',assigned_employee = '$empName' WHERE id = '$serviceId'";
+            if ($conn->query($assignSql) === TRUE) {
+                // Change the status to "Confirmed"
+                $statusSql = "UPDATE service_requests SET status = 'Confirmed' WHERE id = '$serviceId'";
+                if ($conn->query($statusSql) === TRUE) {
+                    // Generate invoice after successfully assigning the employee
+                    $invoiceSql = "
+                        INSERT INTO invoice (invoice_id, customer_id, service_id, customer_name, mobile_number, customer_email, total_amount, due_date, status, created_at)
+                        SELECT 
+                            CONCAT('INV', LPAD(FLOOR(RAND() * 100000), 6, '0')), 
+                            '', sr.id, sr.customer_name, sr.contact_no, sr.email, sr.service_price, 
+                            DATE_ADD(NOW(), INTERVAL 7 DAY), 'Pending', NOW()
+                        FROM service_requests sr
+                        WHERE sr.id = '$serviceId'
+                    ";
+                    
+                if ($conn->query($invoiceSql) === TRUE) {
+    // Fetch the generated invoice details
+    $invoiceDetailsSql = "SELECT * FROM invoice WHERE service_id = '$serviceId'";
+    $invoiceDetailsResult = $conn->query($invoiceDetailsSql);
+    $invoiceDetails = $invoiceDetailsResult->fetch_assoc();
+    
+    // Directly get values from the invoice table
+    $customer_name = $invoiceDetails['customer_name'];  // Assuming 'customer_name' is in the 'invoice' table
+    $mobile_number = $invoiceDetails['mobile_number'];  // Assuming 'mobile_number' is in the 'invoice' table
+    $total_amount = $invoiceDetails['total_amount'];    // Assuming 'total_amount' is in the 'invoice' table
+$description="";
+    $expense_type = "Employee Payout";
+    $payment_status = "Pending";
+    $expense_date = date('Y-m-d'); // Current date
+    $additional_details = ""; // Use file name as additional details if uploaded
+    $payment_status="Pending";
+    $status="Pending";
+
+    $expenseStmt = $conn->prepare("
+    INSERT INTO Expenses (expense_type, entity_id, entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+");
+
+    $expenseStmt->bind_param(
+      "sssssdsss", 
+      $expense_type, $empId, $empName, $status, $payment_status, $description, $total_amount, $expense_date, $additional_details
+  );
+  
+    if ($expenseStmt->execute()) {
+     // echo "<script>alert('Expense claim submitted successfully!');        </script>";
+  } else {
+      echo "<script>alert('Error: " . $expenseStmt->error . "'); 
+    
+    </script>";
+  }
+
+// Replace the invoice query with serviceId query
+$serviceIdSql = "SELECT * FROM service_requests WHERE id = '$serviceId'";
+
+// Execute the query and fetch the result
+$serviceIdResult = mysqli_query($conn, $serviceIdSql);
+
+// Check if results exist
+if ($serviceIdResult && mysqli_num_rows($serviceIdResult) > 0) {
+    // Fetch the row
+    $servicerow = mysqli_fetch_assoc($serviceIdResult);
+ 
+} else {
+    echo "No records found.";
+}
+
+    // Create PDF
+    $pdf = new FPDI();
+    $pdf->SetTitle("Invoice #" . $invoiceDetails['invoice_id']);
+    
+    // Add a new page
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', '', 12);
+    
+    // Add the logo
+    $pdf->Image('../assets/images/logo.jpg', 10, 10, 30); // Adjust the path to your logo image
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(190, 10, 'Aayush Home Health Solutions', 0, 1, 'C');
+    
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(190, 5, 'Caring with compassion', 0, 1, 'C');
+    $pdf->Ln(10);
+    
+    // Add header details
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(95, 5, "Address: #27, 9th Street,", 0, 0);
+   // Get the current date in the format 'd/m/Y'
+$currentDate = date('d/m/Y');
+
+// Correct invoice ID referencing
+$pdf->Cell(95, 5, "Date: $currentDate", 0, 1, 'R');
+$pdf->Cell(95, 5, "Chikka Nanjunda Reddy Layout,", 0, 0);
+
+// Ensure that $invoiceDetails['invoice_id'] is correctly referenced
+$pdf->Cell(95, 5, "Invoice No.: " . $invoiceDetails['invoice_id'], 0, 1, 'R');
+
+    $pdf->Cell(95, 5, "Bank Avenue Colony, Horamavu Post,", 0, 0);
+    $pdf->Cell(95, 5, "GST IN: 29ATAPS5160J1ZC", 0, 1, 'R');
+    $pdf->Cell(95, 5, "Bengaluru, Karnataka - 560 043", 0, 1);
+    $pdf->Cell(95, 5, "Phone: +91 7013050751", 0, 1);
+    $pdf->Cell(95, 5, "E-mail: santosh@aayushhomehealth.com", 0, 1);
+    $pdf->Ln(10);
+    
+    // Invoice details section
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(190, 10, 'INVOICE TO:', 0, 1);
+    
+    $customersql = "SELECT `address` FROM `customer_master` WHERE `id` = ?";
+$customerstmt = $conn->prepare($customersql);
+$customerstmt->bind_param("i", $servicerow['customer_id']);
+$customerstmt->execute();
+$result = $customerstmt->get_result();
+$address = $result->fetch_assoc()['address'];
+
+    
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(95, 5, "Name: $customer_name", 0, 1);
+    $pdf->Cell(95, 5, "Address: $address,", 0, 1); // Add customer address if available
+    // $pdf->Cell(95, 5, "Phone: +91 " .$servicerow['$contact_no'], 0, 1);
+    $pdf->Ln(10);
+    
+    // Add table header
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->SetFillColor(230, 230, 230); // Light gray background
+    $pdf->Cell(10, 10, 'No', 1, 0, 'C', true);
+    $pdf->Cell(100, 10, 'Description', 1, 0, 'C', true);
+    $pdf->Cell(25, 10, 'Rate', 1, 0, 'C', true);
+    $pdf->Cell(25, 10, 'Days', 1, 0, 'C', true);
+    $pdf->Cell(30, 10, 'Amount', 1, 1, 'C', true);
+
+  
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(10, 10, '01', 1, 0, 'C');
+  
+// Format the from_date and end_date to dd/mm/yyyy
+$fromDateFormatted = date('d/m/Y', strtotime($servicerow['from_date']));
+$endDateFormatted = date('d/m/Y', strtotime($servicerow['end_date']));
+
+// Add service details with the correctly formatted dates
+$pdf->Cell(100, 10, $servicerow['service_type'] . " provided for -- Hrs  (" . $fromDateFormatted . " - " . $endDateFormatted . ")", 1, 0);
+
+
+
+$ttoaday = (strtotime($servicerow['end_date']) - strtotime($servicerow['from_date'])) / (60 * 60 * 24); // Difference in days
+
+
+
+
+    $pdf->Cell(25, 10, $servicerow['per_day_service_price'], 1, 0, 'C');
+   $pdf->Cell(25, 10, $servicerow['total_days'], 1, 0, 'C');
+    $pdf->Cell(30, 10, $total_amount, 1, 1, 'C');
+
+echo "<script>
+    alert('Customer address is $address and total days are " . $servicerow['total_days'] . "');
+</script>";
+
+    // Add total
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(160, 10, 'TOTAL =', 1, 0, 'R', true);
+    $pdf->Cell(30, 10, $total_amount, 1, 1, 'C', true);
+
+    // Add comments
+    $pdf->Ln(10);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(190, 5, "OTHER COMMENTS", 0, 1, 'C');
+    $pdf->SetFont('Arial', '', 8);
+    $pdf->MultiCell(190, 5, "Thank you for giving us an opportunity to serve you.\nIt's a system generated invoice and doesn't require a signature.\nPlease visit our website - www.aayushhomehealth.com", 0, 'C');
+
+    $pdf->Ln(10);
+
+    // Tax summary
+    $pdf->Cell(160, 5, 'IGST', 1, 0, 'R');
+    $pdf->Cell(30, 5, 'Nil', 1, 1, 'C');
+    $pdf->Cell(160, 5, 'CGST', 1, 0, 'R');
+    $pdf->Cell(30, 5, 'Nil', 1, 1, 'C');
+
+    // Final due amount
+    $pdf->Cell(160, 10, 'DUE =', 1, 0, 'R', true);
+    $pdf->Cell(30, 10, "$total_amount", 1, 1, 'C', true);
+
+// $pdf->Output('F', $pdfFileName);  // Save the PDF to the "invoices" folder
+$invoicesFolder = 'invoices';
+
+
+if (!file_exists($invoicesFolder)) {
+    mkdir($invoicesFolder, 0777, true);  // Create the invoices folder if it doesn't exist
+}
+
+
+$pdfFileName = $invoicesFolder . '/invoice_' . $invoiceDetails['invoice_id'] . '.pdf';
+
+
+$pdf->Output('F', $pdfFileName);  // Save the PDF to the "invoices" folder
+
+$pdf_path_query = "UPDATE `invoice` SET `pdf_invoice_path` = ? WHERE `service_id` = ?";
+
+
+$pdf_path_stmt = $conn->prepare($pdf_path_query);
+
+$pdf_path_stmt->bind_param("ss", $pdfFileName, $serviceId);
+
+
+// if ($pdf_path_stmt->execute()) {
+//     echo "Invoice path updated successfully.";
+//     echo "PDF Path: " . $pdfFileName . "<br>";
+// // echo "Service ID: " . $serviceId . "<br>";
+// } else {
+//     echo "Error updating invoice path: " . $pdf_path_stmt->error;
+// }
+
+// Close the statement
+$pdf_path_stmt->close();
+
+
+                    echo "<script>
+                        alert('Employee allocated successfully, service request Confirmed, invoice generated, and PDF created!');
+                       
+                    </script>";
+                    }
+                     //window.location.href = 'view_services.php';
+                    else {
+                        echo "<script>
+                            alert('Employee allocated and service Confirmed, but failed to generate invoice: " . $conn->error . "');
+                            window.location.href = 'view_services.php';
+                        </script>";
+                    }
+                } 
+                else {
+                    echo "<script>
+                        alert('Employee allocated successfully, but failed to update status: " . $conn->error . "');
+                        window.location.href = 'view_services.php';
+                    </script>";
+                }
+            } else {
+                echo "<script>
+                    alert('Error allocating employee: " . $conn->error . "');
+                    window.location.href = 'view_services.php';
+                </script>";
+            }
+        }
+    } else {
+        echo "<script>alert('Employee not found!');</script>";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+  <title>Services</title>
+  <style>
+  
+        /* Add color to icons */
+        .fa-user {
+            color: #007bff; /* Blue color for the user icon */
+        }
+        .fa-phone {
+            color: #28a745; /* Green color for the phone icon */
+        }
+
+
+        /* Desktop view (1025px and above) */
+@media (min-width: 1025px) and (max-width: 1920px) {
+   .customer_info_th{
+    width:124px;
+   }   
+   .details_th{
+    width: 150px;
+   }
+   .payment_details_th{
+    width:144px;
+   }
+   .total_price_th{
+    width:100px;
+   }
+   .total_days_th{
+    width:215px;
+   }
+ 
+}
+
+  </style>
+
+
+</head>
+<body>
+ <?php
+  include '../navbar.php';
+  ?>   
+
+  
+  <div class="container  mt-6">
+    <div class="dataTable_card card">
+      <!-- Card Header -->
+      <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0 table-title">Capturing Services Table</h5>
+      <a href="services.php" class="add_button"><strong class="add_button_plus">+</strong>Add Capture Service</a>
+    </div>
+
+
+
+        <!-- Table -->
+        <div class="table-responsive mt-3 p-4">
+        <table id="serviceRequestsTable" class="display table table-striped" style="width:100%">
+    <thead>
+        <tr></tr>
+            <th class="s_th">S.no</th>
+            <th class="customer_info_th">Customer </th>
+            <th class="details_th">Details Date</th>
+            <th class="total_days_th">Total Days & Service </th> 
+            <th class="payment_details_th">Payment</th>
+            <th class="total_price_th">Total Price</th>
+            <th>Status</th>
+            <th>Invoice ID</th>
+            <th>Action</th>
+            <th>Assign Employee</th>
+        </tr>
+    </thead>
+    <tbody>
+<?php
+$start = 0; // Or calculate it dynamically for pagination
+$sql1 = "SELECT * FROM service_requests 
+        ";
+        $result1 = mysqli_query($conn, $sql1);
+
+
+if ($result1->num_rows > 0) {
+    $serial = $start + 1; // Assuming $start is defined elsewhere
+   while ($row = mysqli_fetch_assoc($result1)) {
+        $assignedEmployee = !empty($row['assigned_employee']) ? $row['assigned_employee'] : 'Not Assigned';
+
+
+    // Fetch invoice ID for this specific row (service request)
+    $serviceId = $row['id'];
+    $invoiceQuery = "SELECT invoice_id FROM invoice WHERE service_id = ?";
+    $stmt = $conn->prepare($invoiceQuery);
+    $stmt->bind_param("i", $serviceId);  // Assuming `id` and `service_id` are integers
+    $stmt->execute();
+    $invoiceResult = $stmt->get_result();
+
+    // Fetch the invoice ID if it exists
+    $invoiceId = null;
+    if ($invoiceResult->num_rows > 0) {
+        $invoiceRow = $invoiceResult->fetch_assoc();
+        $invoiceId = $invoiceRow['invoice_id'];
+    }
+        echo "<tr>
+                <td>{$serial}</td>
+                <td>
+                            <i class='fas fa-user' title='Name' style='margin-right: 5px;'></i>" . htmlspecialchars($row['customer_name']) . "<br>
+                            <i class='fas fa-phone' title='Phone' style='margin-right: 5px;'></i>" . htmlspecialchars($row['contact_no']) . "
+                        </td>
+                <td>
+                  <strong>Start :</strong> " . htmlspecialchars($row['from_date']) . "<br>
+                  <strong>End :</strong> " . htmlspecialchars($row['end_date']) . "
+                </td>
+                <!-- Merged Total Days and Service Type column -->
+                <td>
+                  <strong>Days :</strong> {$row['total_days']}<br>
+                  <strong>Service :</strong> {$row['service_type']}
+                </td>
+               <td>
+                  <strong>Status:</strong> Fully paid<br>
+                  <strong>Paid:</strong> 2500
+                </td>
+                <td>{$row['service_price']}</td>
+                
+                <!-- Status Column with dropdown -->
+                <td>
+                    {$row['status']}
+                </td>
+               
+<td onclick=\"window.location.href='view_single_invoice.php?invoice_id=" . $invoiceId . "';\" 
+    style=\"cursor: pointer; color: blue; text-decoration: underline;\">
+   $invoiceId
+</td>
+
+
+                <td>";
+
+        // Check if the employee is assigned
+        if (!empty($row['assigned_employee'])) {
+          // Show the assigned employee's name
+          echo '<span class="text-success d-block" id="assigned_employee">'
+              . htmlspecialchars($row['assigned_employee'], ENT_QUOTES, 'UTF-8') .
+              '</span>';
+      
+            ?>
+<button 
+                id="reassignEmployee" 
+                class="btn btn-success btn-sm mt-1" 
+                data-bs-toggle="modal" 
+                data-bs-target="#reassignEmployeePopupModal"
+                data-employee-id="<?= htmlspecialchars($row['emp_id'], ENT_QUOTES, 'UTF-8'); ?>" 
+                data-employee-name="<?= htmlspecialchars($row['assigned_employee'], ENT_QUOTES, 'UTF-8'); ?>"
+                data-role="<?= htmlspecialchars($row['service_type'], ENT_QUOTES, 'UTF-8'); ?>" 
+                data-from-date="<?= htmlspecialchars($row['from_date'], ENT_QUOTES, 'UTF-8'); ?>" 
+                data-end-date="<?= htmlspecialchars($row['end_date'], ENT_QUOTES, 'UTF-8'); ?>"
+                data-service-id="<?= htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                Reassign
+            </button>
+
+<?php
+        } 
+      else {
+    // Query to fetch unassigned employees for the given service duration
+   $query = "
+    SELECT e.id, e.name 
+    FROM emp_info e 
+    WHERE e.role = ? -- This ensures only employees with the matching role are considered
+      AND e.id NOT IN (
+        SELECT a.employee_id 
+        FROM allotment a
+        WHERE 
+            a.service_type = e.role AND -- Ensure the role and service type match
+            (
+                (a.start_date <= ? AND a.end_date >= ?) OR -- Overlapping period check
+                (a.start_date <= ? AND a.end_date >= ?) OR
+                (a.start_date >= ? AND a.end_date <= ?)
+            )
+    );";
+
+        ;
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param(
+    "sssssss",
+    $row['service_type'], // Added this parameter to bind the role
+    $row['from_date'], $row['from_date'],
+    $row['end_date'], $row['end_date'],
+    $row['from_date'], $row['end_date']
+);
+
+
+
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Dropdown for assigning an employee
+    echo "<form method='POST' action=''>
+    <select name='emp_id' class='select2-employee' style='width: 95%; display: block; margin-bottom: 10px;' required>
+        <option value=''>Select Employee</option>";
+
+while ($employee = $result->fetch_assoc()) {
+    // Display the full employee name
+    echo "<option value='" . htmlspecialchars($employee['id']) . "'>" . htmlspecialchars($employee['name']) . "</option>";
+}
+
+echo "</select>
+    <input type='hidden' name='service_id' value='" . htmlspecialchars($row['id']) . "'>
+    <button type='submit' name='assign_employee' class='btn btn-primary mt-1' style='border: black; cursor: pointer; display: block;'>
+        Assign 
+    </button>
+    
+
+          </form>";
+}
+
+       echo "
+    </td>
+    <td class='action-icons'>
+        <form method='POST' action='' onsubmit='return confirm(\"Are you sure you want to cancel this service?\")'>
+            <input type='hidden' name='service_id' value='" . $row['id'] . "'>
+            <button type='submit' name='cancel_service' class='btn btn-warning btn-sm'>Cancel</button>
+        </form>
+    </td>
+</tr>";
+
+        $serial++;
+    }
+} else {
+    echo "<tr><td colspan='8'>No data available</td></tr>"; // Adjusted to show all columns
+}
+?>
+    </tbody>
+</table>
+
+              
+
+<div id="reassignEmployeePopupModal" class="modal fade" tabindex="-1" aria-labelledby="reassignEmployeePopupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reassignEmployeePopupModalLabel">Reassign Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reassignEmployeeForm" method="POST" action="reassign_employee_handler.php">
+                    <!-- Hidden field to hold the current employee ID -->
+                    <input type="text" id="modalEmployeeId" name="employee_id" />
+                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2" />
+<input type="text" id="modalFromDate" name="from_date" readonly class="form-control mb-2" />
+<input type="text" id="modalEndDate" name="end_date" readonly class="form-control mb-2" />
+
+
+                    <!-- Display currently assigned employee -->
+                    <p>Currently assigned to: <span id="modalEmployeeName" class="fw-bold"></span></p>
+
+                    <!-- Reason for reassignment -->
+                    <div class="form-group mb-3">
+                        <label for="reason">Reason for Reassignment</label>
+                        <textarea id="reason" name="reason" class="form-control" rows="3" placeholder="Enter the reason for changing the employee" required></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="from_date">From Date</label>
+                        <input type="date" id="from_date" name="from_date" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control" required>
+                    </div>
+
+
+                    <!-- Dropdown for selecting new employee -->
+                    <div class="form-group mb-3">
+                        <label for="newEmployee">Select New Employee</label>
+                        <select id="newEmployee" name="newEmployee" class="form-control" required>
+                            <option value="">Select Employee</option>
+                            <!-- Dynamically populated by JavaScript -->
+                        </select>
+                    </div>
+
+                    <!-- Hidden field to hold service ID -->
+                    <input type="text" id="modalServiceId" name="service_id" >
+
+                    <!-- Submit and Cancel buttons -->
+                    <div class="form-group text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" name="assign_employee">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+        
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('reassignEmployeePopupModal');
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        const button = event.relatedTarget;
+
+        // Extract data from the button
+        const employeeId = button.getAttribute('data-employee-id');
+        const employeeName = button.getAttribute('data-employee-name');
+        const role = button.getAttribute('data-role');
+        const fromDate = button.getAttribute('data-from-date');
+        const endDate = button.getAttribute('data-end-date');
+        const serviceId = button.getAttribute('data-service-id');
+
+        // Update modal content
+        modal.querySelector('#modalServiceId').value = serviceId;
+        modal.querySelector('#modalEmployeeId').value = employeeId;
+        modal.querySelector('#modalEmployeeName').textContent = employeeName;
+        modal.querySelector('#modalEmployeeRole').value = role;
+modal.querySelector('#modalFromDate').value = fromDate;
+modal.querySelector('#modalEndDate').value = endDate;
+
+
+        // Fetch new employees from the server
+        fetch('exclude_assigned_employee.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                role: role,
+                from_date: fromDate,
+                end_date: endDate,
+                exclude_employee_id: employeeId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+           
+            const select = modal.querySelector('#newEmployee');
+            select.innerHTML = '<option value="">Select Employee</option>';
+            data.forEach(employee => {
+                const option = document.createElement('option');
+                option.value = employee.id;
+                option.textContent = employee.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            alert("ERROR fetching emp details");
+          //  console.error('Error fetching employees:', error);
+        });
+    });
+});
+
+</script>
+
+
+    <!-- Handle form submission -->
+    <script>
+        document.getElementById('reassignEmployeeForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const reason = document.getElementById('reason').value;
+    
+    const employeeId = document.getElementById('modalEmployeeId').value; // Current assigned employee ID
+    const serviceId = document.getElementById('modalServiceId').value; // Service ID
+
+    // Get the select element
+const newEmployeeSelect = document.getElementById('newEmployee');
+// Get the selected option's ID and name
+const selectedOption = newEmployeeSelect.options[newEmployeeSelect.selectedIndex];
+const newEmployeeId = selectedOption.value; // The ID from the 'value' attribute
+const newEmployeeName = selectedOption.text; // The name from the text of the option
+
+
+// Assuming 'reason', 'serviceId', 'fromDate', and 'endDate' are already defined
+const formData = new FormData();
+formData.append('employee_id', newEmployeeId);  // Use 'newEmployeeId' here
+formData.append('new_employee', newEmployeeName);  // Use 'newEmployeeName' here
+formData.append('reason', reason);
+formData.append('service_id', serviceId);
+formData.append('from_date', document.getElementById('from_date').value);  // Add 'from_date' by ID
+formData.append('end_date', document.getElementById('end_date').value);  // Add 'end_date' by ID
+
+
+
+// Now you can send 'formData' to the server via AJAX or a form submission
+
+
+        fetch('update_reassigned_employee_details.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Employee reassignment successfully completed!');
+                const modal = document.getElementById('reassignEmployeePopupModal');
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide(); // Hide modal after successful submission
+                window.location.href = 'view_services.php';
+            } else {
+                alert('There was an issue with the reassignment. Please try again.');
+            }
+        })
+        .catch(error => {
+            //console.error('Error:', error);
+            alert('An error occurred while processing the request.');
+        });
+   
+});
+
+    </script>
+
+<script>
+    function fetchInvoiceDetails(invoiceId) {
+    // Clear the previous content
+    document.getElementById("invoiceDetails").innerHTML = "Loading...";
+
+    // Make an AJAX request to fetch the invoice details
+    fetch('get_single_invoice_details.php?invoiceId=' + invoiceId)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Received JSON data:', data);
+        if (data.success) {
+            // Populate the modal with the fetched data
+            document.getElementById('invoice_id').value = data.invoice_id;
+            document.getElementById('customer_name').value = data.customer_name;
+            document.getElementById('mobile_number').value = data.mobile_number;
+            document.getElementById('customer_email').value = data.customer_email;
+            document.getElementById('total_amount').value = data.total_amount;
+            document.getElementById('due_date').value = data.due_date;
+            
+             document.getElementById('status').value = data.status;
+            document.getElementById('created_at').value = data.created_at;
+            document.getElementById('updated_at').value = data.updated_at;
+
+            // Trigger the modal to show
+            $('#viewInvoiceModal').modal('show');
+        } else {
+            document.getElementById("invoiceDetails").innerHTML = "No details found for this invoice.";
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching invoice details:", error);
+        document.getElementById("invoiceDetails").innerHTML = "Error loading details.";
+    });
+
+}
+
+</script>
+          <!-- Modal -->
+   <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewModalLabel">Service Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modalContent">
+            <!-- Details will be populated dynamically -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+     function viewDetails(data) {
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = `
+        <table class="table table-bordered">
+          <tr><th>Customer Name</th><td>${data.customer_name}</td></tr>
+          <tr><th>Contact Number</th><td>${data.contact_no}</td></tr>
+          <tr><th>Email</th><td>${data.email}</td></tr>
+          <tr><th>Enquiry Date</th><td>${data.enquiry_date}</td></tr>
+          <tr><th>Enquiry Time</th><td>${data.enquiry_time}</td></tr>
+          <tr><th>Service Type</th><td>${data.service_type}</td></tr>
+          <tr><th>Enquiry Source</th><td>${data.enquiry_source}</td></tr>
+          <tr><th>Priority Level</th><td>${data.priority_level}</td></tr>
+           <tr><th>Status</th><td>${data.status}</td></tr>
+            <tr><th>Request Details</th><td>${data.request_details}</td></tr>
+             <tr><th>Resolution Notes</th><td>${data.resolution_notes}</td></tr>
+              <tr><th>Comments</th><td>${data.comments}</td></tr>
+          <tr><th>Created At</th><td>${data.created_at}</td></tr>
+        </table>
+      `;
+    }
+      
+  </script>
+
+<!-- Add these in the head or before the closing body tag -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#serviceRequestsTable').DataTable({
+        paging: true, // Enable pagination
+        searching: true, // Enable search bar
+        ordering: true, // Enable column sorting
+        lengthMenu: [5, 10, 20, 50], // Define pagination options
+        pageLength: 5, // Default page length
+        language: {
+            search: "Search:", // Custom search bar placeholder text
+        },
+        columnDefs: [
+            { orderable: false, targets: [8, 9] } // Disable sorting for "Assign Employee" & "Action" columns
+        ]
+    });
+});
+</script>
+
+</body>
+</html>
