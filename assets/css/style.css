@@ -1035,6 +1035,13 @@ h4 {
       padding: 10px 20px;
       margin-top: 40px;
     }
+
+    .emp-submit .btn {
+        display: inline-block !important;
+        width: 30% !important;
+        padding: 10px 20px;
+        margin-top: 50px;
+      }
   }
 
 /* style for employee ends  */
