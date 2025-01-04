@@ -214,7 +214,7 @@ $conn->close();
 </div>
 
 <div class="card">
-<a href="../Vendor-Master/vendors.php" style="text-decoration: none; color: inherit;">
+<a href="../Employee-Master/table.php?type=ayush" style="text-decoration: none; color: inherit;">
     <div class="card-title">Employees (Vendors)</div>
     <div class="card-body"><?php echo $vendors_count; ?></div>
     </a>
