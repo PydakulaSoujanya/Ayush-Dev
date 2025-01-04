@@ -200,53 +200,79 @@ $conn->close();
     <div class="container-fluid dashboard">
         <!-- Left Section -->
         <div class="left-section">
-                <div class="card">
+                <!-- <div class="card">
     <div class="card-title">Employees (Ayush)</div>
     <div class="card-body"><?php echo $ayush_count; ?></div>
 </div>
-            
+             -->
+
+             <div class="card">
+    <a href="../Employee-Master/table.php?type=ayush" style="text-decoration: none; color: inherit;">
+        <div class="card-title">Employees (Ayush)</div>
+        <div class="card-body"><?php echo $ayush_count; ?></div>
+    </a>
+</div>
+
 <div class="card">
+<a href="../Employee-Master/table.php?type=ayush" style="text-decoration: none; color: inherit;">
     <div class="card-title">Employees (Vendors)</div>
     <div class="card-body"><?php echo $vendors_count; ?></div>
+    </a>
 </div>
             <div class="card">
+            <a href="../Vendor-Master/vendors.php" style="text-decoration: none; color: inherit;">
     <div class="card-title" >Vendors</div>
     <div class="card-body"><?php echo str_pad($vendor_count, 2, '0', STR_PAD_LEFT); ?></div>
+    </a>
 </div>
             
 <div class="card">
+<a href="../Customer-Master/customer_table.php" style="text-decoration: none; color: inherit;">
     <div class="card-title" >Patients</div>
     <div class="card-body"><?php echo str_pad($patient_count, 2, '0', STR_PAD_LEFT); ?></div>
+    </a>
 </div>
             <div class="card">
+            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
     <div class="card-title">Fully Trained Nurses</div>
     <div class="card-body"><?php echo str_pad($nurse_count, 2, '0', STR_PAD_LEFT); ?></div>
+    </a>
 </div>
             <div class="card">
+            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Semi Trained Nurses</div>
             <div class="card-body"><?php echo $semi_trained_nurse_count; ?></div>
+            </a>
             </div>
             <div class="card">
+            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Caretakers</div>
             <div class="card-body"><?php echo $caretaker_count; ?></div>
+            </a>
             </div>
             <div class="card">
+            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Nannies</div>
             <div class="card-body"><?php echo $nannies_count; ?></div>
+            </a>
             </div>
             <div class="card wide">
+            <a href="../Reports/account_recievables.php" style="text-decoration: none; color: inherit;">
                 <div class="card-title">Accounts Receivables</div>
                 <div class="card-body" style="color: green;">
                         <?php echo number_format($total_balance, 2); // Display formatted balance ?>
                     </div>
+                    </a>
             </div>
 
 
             <div class="card wide">
+            <a href="../Reports/account_payables.php" style="text-decoration: none; color: inherit;">
                 <div class="card-title">Account Payables</div>
                 <div class="card-body" style="color: red;">
                 <?php echo number_format($total_amount_to_pay, 2); ?>
                 </div>
+                </a>
             </div>
         </div>
 
