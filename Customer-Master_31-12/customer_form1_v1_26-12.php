@@ -49,7 +49,6 @@
 </head>
 <body>
 
-<?php include('../navbar.php'); ?>
 
 <div class="container mt-7">
   <h3 class="mb-4">Customer Details Form</h3>
