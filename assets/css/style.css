@@ -943,23 +943,23 @@ h4 {
       margin-left: 3px;
     }
     .form-second-row {
-      background-color: #f5f5f5;
-      padding: 20px;
-      border-radius: 8px;
-      margin-left: 14px;
-      width: 91%;
-      /* height: 55%; */
-      margin-top: 9px;
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        margin-left: 14px !important;
+        width: 91% !important;
+        /* height: 55%; */
+        margin-top: 9px;
     }
   
   .form-second-row-bank-details{
     background-color: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
-    margin-left: 16px;
-    width: 91%;
+    margin-left: 13px !important;
+    width: 91% !important;
     /* height: 149%; */
-    margin-top: 25px;
+    margin-top: 15px !important;
   
   }
     .form-third-row{
@@ -978,7 +978,7 @@ h4 {
       border-radius: 8px;
       /* height: auto; */
       height: 79%;
-      width: 33%;
+      width: 32% !important;
     }
     
     .basic-title{
@@ -992,24 +992,24 @@ h4 {
     color: #a26d2b;
     }
     .daily-title{
-      position: absolute;
-      top: 370px;
-      left: 127px;
-      background-color: white;
-      padding: 4px 5px; 
-      font-size: 22px; 
-      color: #a26d2b;
-      width:8%
+        position: absolute;
+        top: 370px;
+        left: 127px;
+        background-color: white;
+        padding: 4px 5px;
+        font-size: 22px;
+        color: #a26d2b;
+        width: 9% !important;
     }
     .bank-title{
       position: absolute; 
-      top: 512px; 
+      top: 503px; 
       left: 127px; 
       background-color: white; 
       padding: 4px 5px; 
       font-size: 22px; 
       color: #a26d2b; 
-      width: 134px;
+      width: 151px !important;
     }
     .address-title{
       background-color: white;

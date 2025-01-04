@@ -25,6 +25,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
 <body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 <?php include('../navbar.php'); ?>
   <div class="container mt-7">
     <h3 class="mb-4">Employee Form</h3>
@@ -674,7 +675,7 @@ function fetchVendorData() {
       document.querySelector('.add-more-documents').addEventListener('click', function () {
         // Create a new card for document input
         const newCard = document.createElement('div');
-        newCard.classList.add('card', 'document-card', 'mb-3');
+         newCard.classList.add('document-card', 'mb-3');
         newCard.innerHTML = `
           <div class="card-body">
             <div class="row align-items-center">
@@ -732,8 +733,7 @@ function fetchVendorData() {
       });
     });
     
-    
-    
+
     
     
         document.getElementById('reference').addEventListener('change', function () {
