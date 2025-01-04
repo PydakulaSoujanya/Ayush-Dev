@@ -655,3 +655,386 @@ h4 {
 }
 
 /* Styles for navbar Ends from Here */
+
+/* style for employe form starts */
+ /* Mobile (Portrait and Landscape) */
+ @media (max-width: 767px) {
+    .form-first-row {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      height: 83%;
+    }
+    .form-first-sub-row{
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      height: 19%;
+      margin-top: 12px;
+    }
+    
+    .form-second-row {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 11px;
+      width: 97%;
+      height: 40%;
+      margin-top: 52px;
+  
+    }
+    .form-second-row-bank-details{
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 16px;
+      width: 96%;
+      /* height: 149%; */
+      margin-top: 22px;
+    
+    }
+    /* .form-third-row{
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-right: 10px;
+      height: auto;
+    } */
+    .form-third-row {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 0 auto; /* Center horizontally */
+      display: block; /* Ensure block-level display */
+      margin-right: -14px;
+      width: 100%; /* Adjust the width to fit within the screen */
+  }
+    .form-third-sub-row{
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      height: auto;
+      width: 104%;
+      display: flex;
+      flex-direction: column; /* Stack elements vertically */
+      align-items: stretch;
+      margin-left: 15px;
+    }
+    .form-third-sub-row .input-field-container {
+      width: 100%; /* Full width for containers */
+      margin-bottom: 1rem; /* Add spacing between sections */
+    }
+  
+    .form-third-sub-row .d-flex {
+      flex-wrap: wrap; /* Wrap elements to the next line */
+    }
+  
+    .form-third-sub-row .me-2 {
+      width: 100%; /* Full width for input fields */
+      margin-bottom: 1rem; /* Add spacing between inputs */
+    }
+  
+    .form-third-sub-row .fa-plus-square,
+    .form-third-sub-row .fa-trash-alt {
+      align-self: flex-start;
+      margin-top: 0.5rem; /* Adjust spacing */
+    }
+    .basic-title{
+      position: absolute;
+      top: 187px;
+      left: 25px;
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 17px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+    }
+    .daily-title{
+      position: absolute;
+      top: 1058px;
+      left: 41px;
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 17px;
+      color: #a26d2b;
+      width: 25%;
+    }
+    .bank-title{
+      position: absolute;
+      top: 1356px;
+      left: 44px;
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 17px;
+      color: #a26d2b;
+      width: 122px;
+    }
+    .address-title{
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 17px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+      width: 86px;
+      margin-top: -28px;
+    }
+    .upload-title{
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 17px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+      width: 167px;
+      margin-top: -25px;
+   
+    }
+    .emp-submit .btn {
+      width: 100%; /* Full width on small screens */
+      text-align: center;
+    }
+   
+  }
+  
+  /* iPad (Portrait) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    /* iPad styles here */
+    .form-first-row {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-right: 10px;
+      height: 62%;
+    }
+    .form-first-sub-row{
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-right: 10px;
+      height: 36%;
+      margin-top: 16px;
+    }
+    .form-second-row {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 11px;
+      width: 97%;
+      height: 11%;
+      margin-top: 27px;
+    }
+  
+    .form-second-row-bank-details{
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 16px;
+      width: 96%;
+      /* height: 149%; */
+      margin-top: 22px;
+    
+    }
+  
+    .form-third-row{
+      background-color: #f5f5f5;
+      padding: 20px; 
+      border-radius: 8px;
+      margin-right: 10px;
+       height: 91%;
+    }
+    .form-third-sub-row{
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      height: 91%;
+      width: 40%;
+      display: flex;
+      flex-direction: column; /* Stack elements vertically */
+      align-items: stretch;
+    }
+  
+    .basic-title{
+      position: absolute;
+      top: 187px;
+      left: 51px;
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 20px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+    }
+    .daily-title{
+      position: absolute;
+      top: 592px;
+      left: 52px;
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 20px;
+      color: #a26d2b;
+      width: 15%;
+    }
+    .bank-title{
+      position: absolute;
+      top: 731px;
+      left: 52px;
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 20px;
+      color: #a26d2b;
+      width: 134px;
+    }
+    .address-title{
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 20px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+      width: 89px;
+      margin-top: -28px;
+    }
+    .upload-title{
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 20px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+      width: 200px;
+      margin-top: -25px;
+    }
+  
+  
+    .form-third-sub-row .input-field-container {
+      width: 100%; /* Full width for containers */
+      margin-bottom: 1rem; /* Add spacing between sections */
+    }
+  
+    .form-third-sub-row .d-flex {
+      flex-wrap: wrap; /* Wrap elements to the next line */
+    }
+  
+    .form-third-sub-row .me-2 {
+      width: 100%; /* Full width for input fields */
+      margin-bottom: 1rem; /* Add spacing between inputs */
+    }
+  
+    .form-third-sub-row .fa-plus-square,
+    .form-third-sub-row .fa-trash-alt {
+      align-self: flex-start;
+      margin-top: 0.5rem; /* Adjust spacing */
+    }
+    
+  }
+  
+  
+  /* Desktop */
+  @media (min-width: 1025px) and (max-width: 1920px){
+    .form-first-row {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-right: 10px;
+      height: 93%;
+    }
+    .form-first-sub-row{
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      height: 93%;
+      width: 17%;
+      margin-left: 3px;
+    }
+    .form-second-row {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 14px;
+      width: 91%;
+      /* height: 55%; */
+      margin-top: 9px;
+    }
+  
+  .form-second-row-bank-details{
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: 16px;
+    width: 91%;
+    /* height: 149%; */
+    margin-top: 25px;
+  
+  }
+    .form-third-row{
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-right: 26px;
+      height: auto;
+      /* margin-top: 73px; */
+      margin-bottom: 42px;
+      margin-left: 14px;
+    }
+    .form-third-sub-row{
+      background-color: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      /* height: auto; */
+      height: 79%;
+      width: 33%;
+    }
+    
+    .basic-title{
+      position: absolute;
+    top: 190px;
+    left: 127px;
+    background-color: white;
+    padding: 4px 5px;
+    font-size: 22px;
+    /* font-weight: bold; */
+    color: #a26d2b;
+    }
+    .daily-title{
+      position: absolute;
+      top: 370px;
+      left: 127px;
+      background-color: white;
+      padding: 4px 5px; 
+      font-size: 22px; 
+      color: #a26d2b;
+      width:8%
+    }
+    .bank-title{
+      position: absolute; 
+      top: 512px; 
+      left: 127px; 
+      background-color: white; 
+      padding: 4px 5px; 
+      font-size: 22px; 
+      color: #a26d2b; 
+      width: 134px;
+    }
+    .address-title{
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 22px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+      width: 89px;
+      margin-top: -28px;
+    }
+    .upload-title{
+      background-color: white;
+      padding: 4px 5px;
+      font-size: 22px;
+      /* font-weight: bold; */
+      color: #a26d2b;
+      width: 200px;
+      margin-top: -25px;
+    }
+    .emp-submit .btn {
+      display: inline-block !important;
+      width: 30% !important;
+      padding: 10px 20px;
+      margin-top: 40px;
+    }
+  }
+
+/* style for employee ends  */
