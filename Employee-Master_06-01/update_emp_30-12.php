@@ -113,81 +113,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Handle documents
-// Handle documents
-foreach ($document_ids as $index => $doc_id) {
-            // Sanitize document name
-            $doc_name = $document_names[$index] ?? '';
-            $doc_name = mysqli_real_escape_string($conn, $doc_name);
+        for ($i = 0; $i < count($document_names); $i++) {
+            $document_id = $document_ids[$i] ?? null;
+            $document_name = $document_names[$i];
+            $delete = $delete_docs[$i] ?? 0;
 
-            // Check if the document should be deleted
-            if (isset($delete_docs[$index]) && $delete_docs[$index] == 1) {
-                // Prepare the DELETE query
-                $query = "DELETE FROM emp_documents WHERE id = ? AND emp_id = ?";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param('ii', $doc_id, $employee_id);
-
-                // Execute the DELETE query
-                if (!$stmt->execute()) {
-                    throw new Exception("Error deleting document: " . $stmt->error);
-                }
-                continue;  // Skip to the next document in the array
-            }
-
-            // File upload logic (only if file is uploaded)
-            $file_path = null;
-            if (isset($uploaded_files['name'][$index]) && $uploaded_files['error'][$index] == 0) {
-                $file_name = $uploaded_files['name'][$index];
-                $tmp_name = $uploaded_files['tmp_name'][$index];
-                $upload_dir = 'uploads/documents/';
-                $new_file_name = time() . "_" . basename($file_name);
-                $file_path = $upload_dir . $new_file_name;
-
-                // Ensure upload directory exists
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0777, true);
-                }
-
-                // Move the uploaded file to the target directory
-                if (!move_uploaded_file($tmp_name, $file_path)) {
-                    throw new Exception("Failed to upload document: $file_name");
-                }
-            }
-
-            // Update or Insert the document record
-            if ($doc_id) {
-                // Update existing document for the specific emp_id and doc_id
-                $query = "UPDATE emp_documents SET document_name = ?, file_path = COALESCE(?, file_path) WHERE id = ? AND emp_id = ?";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param('ssii', $doc_name, $file_path, $doc_id, $employee_id);
+            if ($delete == 1 && !empty($document_id)) {
+                $query_delete_doc = "DELETE FROM emp_documents WHERE id = ? AND emp_id = ?";
+                $stmt_delete_doc = $conn->prepare($query_delete_doc);
+                $stmt_delete_doc->bind_param('ii', $document_id, $employee_id);
+                $stmt_delete_doc->execute();
+            } elseif (!empty($document_id)) {
+                $query_update_doc = "UPDATE emp_documents 
+                                     SET document_name = ? 
+                                     WHERE emp_id = ? AND id = ?";
+                $stmt_update_doc = $conn->prepare($query_update_doc);
+                $stmt_update_doc->bind_param('sii', $document_name, $employee_id, $document_id);
+                $stmt_update_doc->execute();
             } else {
-                // Insert new document for the given emp_id
-                $query = "INSERT INTO emp_documents (emp_id, document_name, file_path) VALUES (?, ?, ?)";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param('iss', $employee_id, $doc_name, $file_path);
-            }
+                // Handle file upload for new documents
+                if (!empty($uploaded_files['name'][$i])) {
+                    $file_tmp_name = $uploaded_files['tmp_name'][$i];
+                    $file_name = $uploaded_files['name'][$i];
+                    $upload_dir = "uploads/documents/";
+                    $file_path = $upload_dir . time() . "_" . $file_name;
 
-            // Execute the query and check for errors
-            if (!$stmt->execute()) {
-                throw new Exception("Error updating/inserting document: " . $stmt->error);
+                    if (move_uploaded_file($file_tmp_name, $file_path)) {
+                        $query_insert_doc = "INSERT INTO emp_documents (emp_id, document_name, file_path) 
+                                             VALUES (?, ?, ?)";
+                        $stmt_insert_doc = $conn->prepare($query_insert_doc);
+                        $stmt_insert_doc->bind_param('iss', $employee_id, $document_name, $file_path);
+                        $stmt_insert_doc->execute();
+                    }
+                }
             }
         }
 
-// Commit transaction if all document handling is successful
-$conn->commit();
+        // Commit transaction
+        $conn->commit();
 
-// Success alert
-echo "<script>
-        alert('Successfully updated record');
-        window.location.href = 'table.php';
-      </script>";
-} catch (Exception $e) {
-    // Rollback transaction if there was an error
-    $conn->rollback();
-
-    // Display the error message
-    echo "Error: " . $e->getMessage();
-}
-
+        echo "<script>
+                alert('Successfully updated record');
+                window.location.href = 'manage_employee.php';
+              </script>";
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo "Error: " . $e->getMessage();
+    }
 } else {
     die('Invalid request method.');
 }
