@@ -32,7 +32,6 @@ include '../config.php';
             <tr>
               <th>S.No</th>
               <th>Patient Name</th>
-              <th>Customer Name</th>
               <th>Emergency Contact</th>
               <th>Email</th>
               <th>Gender</th>
@@ -53,7 +52,6 @@ include '../config.php';
                           echo "<tr>
                                   <td>{$serial}</td>
                                   <td>{$row['patient_name']}</td>
-                                   <td>{$row['customer_name']}</td>
                                   <td>{$row['emergency_contact_number']}</td>
                                   <td>{$row['email']}</td>
                                   <td>{$row['gender']}</td>
