@@ -1,14 +1,29 @@
-
-
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include('../config.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $employeeId = intval($_POST['id']); // Sanitize input
+    $stmt = $conn->prepare("SELECT * FROM emp_info WHERE id = ?");
+    $stmt->bind_param("i", $employeeId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+    if ($data) {
+        echo json_encode($data);
+    } else {
+        echo json_encode(['error' => 'Employee not found.']);
+    }
+    $stmt->close();
+} else {
+    echo json_encode(['error' => 'Invalid request.']);
+}
+$conn->close();
+?>
+<?php
 include '../config.php'; // Include your database connection file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   
     $conn->begin_transaction(); // Start the transaction
 
     try {
@@ -34,14 +49,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $vendor_name = $_POST['vendor_name'] ?? null;
         $vendor_contact = $_POST['vendor_contact'] ?? null;
         $beneficiary_name = $_POST['beneficiary_name'] ?? null;
+        $vendor_id = $_POST['vendor_id'] ?? null;
         $police_verification = $_POST['police_verification'] ?? null;
 
         // Handle file uploads for police verification document
         $police_verification_document = null;
-        if (!empty($_FILES['police_verification_document']['name'])) {
-            $police_verification_document = "../uploads/police_verification_" . time() . "_" . basename($_FILES['police_verification_document']['name']);
-            if (!move_uploaded_file($_FILES['police_verification_document']['tmp_name'], $police_verification_document)) {
-                throw new Exception("Failed to upload police verification document.");
+        if (in_array($police_verification, ['verified', 'rejected'])) {
+            if (!empty($_FILES['police_verification_document']['name'])) {
+                $police_verification_document = "../uploads/police_verification_" . time() . "_" . basename($_FILES['police_verification_document']['name']);
+                if (!move_uploaded_file($_FILES['police_verification_document']['tmp_name'], $police_verification_document)) {
+                    throw new Exception("Failed to upload police verification document.");
+                }
+            } else {
+                throw new Exception("Police verification document is required for 'Verified' or 'Rejected' status.");
             }
         }
 
@@ -54,18 +74,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        // Insert into emp_info table
+        // Collect and concatenate other_doc_name values
+        $other_doc_names = isset($_POST['other_doc_name']) ? implode(',', $_POST['other_doc_name']) : null;
+
+        // Insert into emp_info
         $sql = "INSERT INTO emp_info (
                     name, dob, gender, phone, email, role, qualification, experience, doj, aadhar,
                     police_verification, police_verification_document, adhar_upload_doc, daily_rate8, daily_rate12,
-                    daily_rate24, bank_name, bank_account_no, ifsc_code, branch, reference, vendor_name, vendor_contact, beneficiary_name
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    daily_rate24, bank_name, bank_account_no, ifsc_code, branch, reference, vendor_name, vendor_id, beneficiary_name, vendor_contact, other_doc_name
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(
-            "ssssssssssssssssssssssss",
+            "ssssssssssssssssssssssssss",
             $name, $dob, $gender, $phone, $email, $role, $qualification, $experience, $doj, $aadhar,
             $police_verification, $police_verification_document, $adhar_upload_doc, $daily_rate8, $daily_rate12,
-            $daily_rate24, $bank_name, $bank_account_no, $ifsc_code, $branch, $reference, $vendor_name, $vendor_contact, $beneficiary_name
+            $daily_rate24, $bank_name, $bank_account_no, $ifsc_code, $branch, $reference, $vendor_name, $vendor_id, $beneficiary_name, $vendor_contact, $other_doc_names
         );
         $stmt->execute();
         $emp_id = $conn->insert_id; // Get the inserted employee ID
@@ -88,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $line2 = $address_line2[$index] ?? null;
 
                     $sql = "INSERT INTO emp_addresses (emp_id, address_line1, address_line2, landmark, city, state, pincode)
-                            VALUES (?, ?, ?, ?, ?, ?, ?);";
+                            VALUES (?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("issssss", $emp_id, $address, $line2, $landmark, $city, $state, $pincode);
                     $stmt->execute();
@@ -104,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $filePath = "../uploads/other_doc_" . time() . "_" . basename($fileName);
 
                 if (move_uploaded_file($fileTmp, $filePath)) {
-                    $sql = "INSERT INTO emp_documents (emp_id, file_path, document_name) VALUES (?, ?, ?);";
+                    $sql = "INSERT INTO emp_documents (emp_id, file_path, document_name) VALUES (?, ?, ?)";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("iss", $emp_id, $filePath, $documentName);
                     $stmt->execute();
@@ -122,3 +145,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+

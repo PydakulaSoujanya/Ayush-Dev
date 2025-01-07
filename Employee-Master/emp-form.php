@@ -39,7 +39,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     <div class="row">
       <!-- Name Field -->
        
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3 ">
       <div class="input-field-container">
         <label class="input-label">Name</label>
         <input type="text" name="name" class="styled-input" placeholder="Enter your name"  />
@@ -50,11 +50,8 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
       <div class="input-field-container">
       <label class="input-label">DOB</label>
             <input type="date" name="dob" class="styled-input date-input"  />
-            <!-- <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" > -->
       </div>
     </div>
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
       <div class="input-field-container">
         <label class="input-label">Gender</label>
@@ -66,24 +63,18 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
-
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
       <div class="input-field-container">
         <label class="input-label">Phone Number</label>
-        <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" pattern="[0-9]{10}"  />
+        <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" />
       </div>
     </div>
-
-
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
       <div class="input-field-container">
         <label class="input-label">Email</label>
         <input type="email" name="email" class="styled-input" placeholder="Enter email"  />
       </div>
     </div>
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
   <div class="input-field-container">
     <label class="input-label">Role</label>
@@ -97,8 +88,6 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
    
   </div>
 </div>
-
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
       <div class="input-field-container">
         <label class="input-label">Qualification</label>
@@ -112,7 +101,6 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
       <div class="input-field-container">
         <label class="input-label">Experience</label>
@@ -126,9 +114,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
- 
 
-  <!-- Row 3 -->
 
   <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
     <div class="input-field-container">
@@ -137,19 +123,14 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     </div>
 </div>
 
-
     <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
       <div class="input-field-container">
         <label class="input-label">Aadhar Number</label>
-        <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number" pattern="[0-9]{12}"  />
+        <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number"   />
       </div>
     </div>
     </div>
     </div>
-
-   
-  <!-- Police Verification Field -->
-  <!-- Right Section (col-md-3) -->
   <div class="col-12 col-lg-2 form-first-sub-row" >
     <!-- Daily Rate Fields -->
     <div class="row">
@@ -183,13 +164,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
 </div>
 
-
-<!-- </div> -->
-
-
-
-
-<div class="row form-second-row">
+<div class="row form-second-row-full">
   <!-- Daily Rates Section -->
   <h2 class="daily-title">Daily Rates</h2>
   <div class="row">
@@ -232,9 +207,6 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
       </select>
     </div>
   </div>
-
-
-
 <!-- Hidden Fields for Vendor Name and Contact -->
 <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorFields" style="display: none;">
   <div class="input-field-container">
@@ -253,13 +225,10 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
 </div>
 
-
-
-
 <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorContactField" style="display: none;">
     <div class="input-field-container">
       <label class="input-label">Vendor Contact Number</label>
-      <input type="text" id="vendor_contact" name="vendor_contact" class="styled-input" placeholder="Enter Vendor Contact Number" pattern="[0-9]{10}" readonly />
+      <input type="text" id="vendor_contact" name="vendor_contact" class="styled-input" placeholder="Enter Vendor Contact Number"  readonly />
     </div>
   </div>
       
@@ -301,27 +270,13 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
   </div>
   </div>
-
-
-    
     <div class="row">
     <!-- Card inside col-md-6 -->
     <div class="col-md-7 col-12 mt-3 form-third-row">
-        <!-- <div class="card" style="border: 1px solid #8B4513; border-radius: 8px;">
-            <div class="card-body"> -->
-                <!-- <h5 class="card-title">Address Details</h5> -->
-                <div id="address-container">
+      <div id="address-container">
                 <h2 class="address-title">Address</h2>
                     <div class="address-entry" id="address-1">
                         <div class="row">
-                            <!-- Pincode Field -->
-                            <!-- <div class="col-12 col-sm-6 col-md-12 col-lg-5 mt-3">
-                                <div class="input-field-container">
-                                    <label class="input-label">Pincode</label>
-                                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code"  pattern="\d{6}" maxlength="6" />
-                                </div>
-                            </div> -->
-                            
                             <!-- Flat, House No., Building, Apartment -->
                             <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
                                 <div class="input-field-container">
@@ -341,7 +296,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
                             <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
                                 <div class="input-field-container">
                                     <label class="input-label">Pincode</label>
-                                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code"  pattern="\d{6}" maxlength="6" />
+                                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" maxlength="6" />
                                 </div>
                             </div>
 
@@ -368,7 +323,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
       <select 
         name="state" 
         class="styled-input" 
-        required>
+        >
         <option value="" disabled selected>Choose a state</option>
         <option value="Andhra Pradesh">Andhra Pradesh</option>
         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -475,35 +430,23 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
       </div>
     </div>
     </div>
-  <!-- </div>
+
+
+  <div class="row emp-submit">
+    <div class="col-md-12 text-center">
+      <button type="submit" class="btn btn-primary w-100">Submit</button>
+    </div>
+  </div>
+</form>
 </div>
-</div> -->
 
+    <?php include 'vendormodal.php'; ?>
 
-
- 
+    
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script>
- document.getElementById('reference').addEventListener('change', function () {
-  const vendorFields = document.getElementById('vendorFields');
-  const vendorContactField = document.getElementById('vendorContactField');
-  const vendorNameInput = document.getElementById('vendor_name');
-  const vendorContactInput = document.getElementById('vendor_contact');
 
-  if (this.value === 'vendors') {
-    vendorFields.style.display = 'block';
-    vendorContactField.style.display = 'block';
-    fetchVendorData();
-  } else {
-    vendorFields.style.display = 'none';
-    vendorContactField.style.display = 'none';
-
-    // Clear vendor fields
-    vendorNameInput.value = '';
-    vendorContactInput.value = '';
-  }
-});
 
 function fetchVendorData() {
   fetch("fetch_vendor_data.php")
@@ -543,21 +486,21 @@ function fetchVendorData() {
 }
 
 </script>
-<!-- </div> -->
-<!-- Submit Button -->
-  <div class="row emp-submit">
-    <div class="col-md-12 text-center">
-      <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </div>
-  </div>
-</form>
-</div>
-
-    <?php include 'vendormodal.php'; ?>
-
-   
 
 
+<script>
+  document.getElementById('reference').addEventListener('change', function() {
+  const vendorFields = document.getElementById('vendorFields');
+  const vendorContactField = document.getElementById('vendorContactField');
+  if (this.value === 'vendors') {
+    vendorFields.style.display = 'block';
+    vendorContactField.style.display = 'block';
+  } else {
+    vendorFields.style.display = 'none';
+    vendorContactField.style.display = 'none';
+  }
+});
+</script>
 
     <script>
     
