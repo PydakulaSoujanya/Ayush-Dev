@@ -462,7 +462,7 @@ if ($result1->num_rows > 0) {
                   <strong>Status:</strong> Fully paid<br>
                   <strong>Paid:</strong> 2500
                 </td>
-                <td>{$row['service_price']}</td>
+                <td>{$row['total_price']}</td>
                 
                 <!-- Status Column with dropdown -->
                 <td>
