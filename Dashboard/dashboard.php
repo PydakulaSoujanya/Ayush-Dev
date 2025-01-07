@@ -207,14 +207,14 @@ $conn->close();
              -->
 
              <div class="card">
-    <a href="../Employee-Master/table.php?type=ayush" style="text-decoration: none; color: inherit;">
+    <a href="../Employee-Master/ayush_emp.php"  style="text-decoration: none; color: inherit;">
         <div class="card-title">Employees (Ayush)</div>
         <div class="card-body"><?php echo $ayush_count; ?></div>
     </a>
 </div>
 
 <div class="card">
-<a href="../Employee-Master/table.php?type=ayush" style="text-decoration: none; color: inherit;">
+<a href="../Employee-Master/vendors_emp.php" style="text-decoration: none; color: inherit;">
     <div class="card-title">Employees (Vendors)</div>
     <div class="card-body"><?php echo $vendors_count; ?></div>
     </a>
@@ -227,31 +227,31 @@ $conn->close();
 </div>
             
 <div class="card">
-<a href="../Customer-Master/customer_table.php" style="text-decoration: none; color: inherit;">
+<a href="../Customer-Master/patients_table.php" style="text-decoration: none; color: inherit;">
     <div class="card-title" >Patients</div>
     <div class="card-body"><?php echo str_pad($patient_count, 2, '0', STR_PAD_LEFT); ?></div>
     </a>
 </div>
             <div class="card">
-            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
+            <a href="../Employee-Master/fully_trained_nurse_emp.php" style="text-decoration: none; color: inherit;">
     <div class="card-title">Fully Trained Nurses</div>
     <div class="card-body"><?php echo str_pad($nurse_count, 2, '0', STR_PAD_LEFT); ?></div>
     </a>
 </div>
             <div class="card">
-            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
+            <a href="../Employee-Master/semi_trained_nurse_emp.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Semi Trained Nurses</div>
             <div class="card-body"><?php echo $semi_trained_nurse_count; ?></div>
             </a>
             </div>
             <div class="card">
-            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
+            <a href="../Employee-Master/care_taker_emp.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Caretakers</div>
             <div class="card-body"><?php echo $caretaker_count; ?></div>
             </a>
             </div>
             <div class="card">
-            <a href="../Employee-Master/table.php" style="text-decoration: none; color: inherit;">
+            <a href="../Employee-Master/nannies_emp.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Nannies</div>
             <div class="card-body"><?php echo $nannies_count; ?></div>
             </a>

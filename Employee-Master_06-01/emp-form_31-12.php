@@ -29,27 +29,21 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     <form method="POST" id="employee_registartion" enctype="multipart/form-data" action="empdb.php">
     <!-- Row 1 -->
   <div class="row">
-  <div class="row" style="margin: 0;">
-    <div class="col-12 col-lg-9 form-first-row">
-  <!-- Fields Container -->
-  <h2 class="basic-title">Basic Details</h2>
-    <div class="row">
-      <!-- Name Field -->
-       
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3 ">
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Name</label>
         <input type="text" name="name" class="styled-input" placeholder="Enter your name"  />
       </div>
     </div>
-
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+    <div class="col-md-3">
       <div class="input-field-container">
-      <label class="input-label">DOB</label>
+      <label class="input-label">Date of Birth</label>
             <input type="date" name="dob" class="styled-input date-input"  />
+            <!-- <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" > -->
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Gender</label>
         <select name="gender" class="styled-input" >
@@ -60,19 +54,23 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Phone Number</label>
-        <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" />
+        <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" pattern="[0-9]{10}"  />
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+  </div>
+
+  <!-- Row 2 -->
+  <div class="row">
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Email</label>
         <input type="email" name="email" class="styled-input" placeholder="Enter email"  />
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+    <div class="col-md-3">
   <div class="input-field-container">
     <label class="input-label">Role</label>
     <select name="role" class="styled-input" >
@@ -85,7 +83,9 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
    
   </div>
 </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
+
+
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Qualification</label>
         <select name="qualification" class="styled-input" >
@@ -98,7 +98,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Experience</label>
         <select name="experience" class="styled-input" >
@@ -111,28 +111,27 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
+  </div>
 
-
-  <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+  <!-- Row 3 -->
+  <div class="row">
+  <div class="col-md-3">
     <div class="input-field-container">
-        <label class="input-label">DOJ</label>
+        <label class="input-label">Date of Joining</label>
         <input type="date" name="doj" class="styled-input date-input" id="doj"  />
     </div>
 </div>
 
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
+    <div class="col-md-3">
       <div class="input-field-container">
         <label class="input-label">Aadhar Number</label>
-        <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number"   />
+        <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number" pattern="[0-9]{12}"  />
       </div>
     </div>
-    </div>
-    </div>
-  <div class="col-12 col-lg-2 form-first-sub-row" >
-    <!-- Daily Rate Fields -->
-    <div class="row">
-      <div class="col-12 mt-4">
-        <div class="input-field-container">
+    <!-- <div class="row"> -->
+  <!-- Police Verification Field -->
+  <div class="col-md-3">
+  <div class="input-field-container">
     <label class="input-label">Police Verification</label>
     <select 
       name="police_verification" 
@@ -147,7 +146,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
 </div>
 
-<div class="col-12" id="documentUploadField" style="display: none;">
+<div class="col-md-3" id="documentUploadField" style="display: none;">
   <div class="input-field-container">
     <label class="input-label" id="documentLabel">Upload Document</label>
     <input 
@@ -157,45 +156,43 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
       accept=".pdf,.jpg,.png,.doc,.docx" />
   </div>
 </div>
-</div>
+
+<!-- </div> -->
+<div class="col-md-3">
+  <div class="input-field-container">
+    <label class="input-label">Aadhar Upload Document</label>
+    <input 
+      type="file" 
+      name="adhar_upload_doc" 
+      class="styled-input" 
+      accept=".pdf,.jpg,.jpeg,.png" 
+       
+      title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
   </div>
 </div>
 
-<div class="row form-second-row-full">
-  <!-- Daily Rates Section -->
-  <h2 class="daily-title">Daily Rates</h2>
-  <div class="row">
-    <!-- Daily Rate (8 hours) -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4 ">
+  <!-- Row 4 -->
+<div class="row">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Daily Rate (8 hours)</label>
       <input type="number" name="daily_rate8" class="styled-input" placeholder="Enter Daily Rate" />
     </div>
   </div>
-
-  <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Daily Rate (12 hours)</label>
       <input type="number" name="daily_rate12" class="styled-input" placeholder="Enter Daily Rate" />
     </div>
   </div>
-
-  <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Daily Rate (24 hours)</label>
       <input type="number" name="daily_rate24" class="styled-input" placeholder="Enter Daily Rate" />
     </div>
   </div>
-  </div>
-  </div>
-
-  <div class="row form-second-row-bank-details">
-  <!-- Bank Details Section -->
-  <h2 class="bank-title">Bank Details</h2>
-  <div class="row">
-    <!-- Reference -->
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-      <div class="input-field-container">
+  <div class="col-md-3">
+    <div class="input-field-container">
       <label class="input-label">Reference</label>
       <select name="reference" id="reference" class="styled-input">
         <option value="" disabled selected>Select Reference</option>
@@ -204,78 +201,89 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
       </select>
     </div>
   </div>
+</div>
+
+
 <!-- Hidden Fields for Vendor Name and Contact -->
-<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorFields" style="display: none;">
+<div class="col-md-3" id="vendorFields" style="display: none;">
   <div class="input-field-container">
-    <label class="input-label">Vendor Name</label>
-    <div class="d-flex align-items-center">
-      <select name="vendor_name" id="vendor_name" class="styled-input form-control me-2">
-        <option value="" disabled selected>Select Vendor</option>
-      </select>
-      <i 
-        class="fas fa-plus-square text-success" 
-        id="addVendorBtn" 
-        style="font-size: 1.5rem; cursor: pointer;" 
-        title="Add Vendor">
-      </i>
-    </div>
+  <div class="d-flex align-items-center">
+        <label class="input-label me-2 mb-0">Vendor Name</label>
+        <select name="vendor_name" id="vendor_name" class="styled-input form-control me-2">
+          <option value="" disabled selected>Select Vendor</option>
+        </select>
+        <i 
+          class="fas fa-plus-square text-success" 
+          id="addVendorBtn" 
+          style="font-size: 1.5rem; cursor: pointer;" 
+          title="Add Vendor">
+        </i>
+      </div>
   </div>
 </div>
 
-<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorContactField" style="display: none;">
+
+<div class="col-md-3" id="vendorContactField" style="display: none;">
     <div class="input-field-container">
       <label class="input-label">Vendor Contact Number</label>
-      <input type="text" id="vendor_contact" name="vendor_contact" class="styled-input" placeholder="Enter Vendor Contact Number"  readonly />
+      <input type="text" id="vendor_contact" name="vendor_contact" class="styled-input" placeholder="Enter Vendor Contact Number" pattern="[0-9]{10}" readonly />
     </div>
   </div>
       
-  <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Beneficiary Name</label>
       <input type="text" id="beneficiary_name" name="beneficiary_name" class="styled-input" placeholder="Enter Beneficiary Name"/>
     </div>
   </div>
 
-
-
-  <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Bank Name</label>
       <input type="text" id="bank_name" name="bank_name" class="styled-input" placeholder="Enter Bank Name"  />
     </div>
   </div>
 
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Branch</label>
       <input type="text" id="branch" name="branch" class="styled-input" placeholder="Enter Branch Name"  />
     </div>
   </div>
 
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">Bank Account Number</label>
       <input type="text" id="bank_account_no" name="bank_account_no" class="styled-input" placeholder="Enter Account Number"  />
     </div>
   </div>
 
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+  <div class="col-md-3">
     <div class="input-field-container">
       <label class="input-label">IFSC Code</label>
       <input type="text" id="ifsc_code" name="ifsc_code" class="styled-input" placeholder="Enter IFSC Code"  />
     </div>
   </div>
-  </div>
-  </div>
+    
     <div class="row">
     <!-- Card inside col-md-6 -->
-    <div class="col-md-7 col-12 mt-3 form-third-row">
-      <div id="address-container">
-                <h2 class="address-title">Address</h2>
+    <div class="col-md-6">
+        <div class="card" style="border: 1px solid #8B4513; border-radius: 8px;">
+            <div class="card-body">
+                <!-- <h5 class="card-title">Address Details</h5> -->
+                <div id="address-container">
+                    <!-- First Address Entry -->
                     <div class="address-entry" id="address-1">
                         <div class="row">
+                            <!-- Pincode Field -->
+                            <div class="col-md-6">
+                                <div class="input-field-container">
+                                    <label class="input-label">Pincode</label>
+                                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code"  pattern="\d{6}" maxlength="6" />
+                                </div>
+                            </div>
                             <!-- Flat, House No., Building, Apartment -->
-                            <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
+                            <div class="col-md-6">
                                 <div class="input-field-container">
                                     <label class="input-label">Flat, House No., Building, Apartment</label>
                                     <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc."  />
@@ -283,22 +291,15 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
                             </div>
 
                             <!-- Area, Street, Sector, Village -->
-                            <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
+                            <div class="col-md-6">
                                 <div class="input-field-container">
                                     <label class="input-label">Area, Street, Sector, Village</label>
                                     <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" />
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
-                                <div class="input-field-container">
-                                    <label class="input-label">Pincode</label>
-                                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" maxlength="6" />
-                                </div>
-                            </div>
-
                             <!-- Landmark -->
-                            <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
+                            <div class="col-md-6">
                                 <div class="input-field-container">
                                     <label class="input-label">Landmark</label>
                                     <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" />
@@ -306,7 +307,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
                             </div>
 
                             <!-- Town/City -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
+                            <div class="col-md-6">
                                 <div class="input-field-container">
                                     <label class="input-label">Town/City</label>
                                     <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" />
@@ -314,13 +315,13 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
                             </div>
 
                             <!-- State Dropdown -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
+                            <div class="col-md-6">
     <div class="input-field-container">
       <label class="input-label">State</label>
       <select 
         name="state" 
         class="styled-input" 
-        >
+        required>
         <option value="" disabled selected>Choose a state</option>
         <option value="Andhra Pradesh">Andhra Pradesh</option>
         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -372,16 +373,15 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
                     </div>
                 </div>
             </div>
-        <!-- </div>
-    </div> -->
-    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mt-3 form-third-sub-row">
-    <h2 class="upload-title">Upload documents</h2>
-    <div class="input-field-container">
+        </div>
+    </div>
+    <div class="col-md-6">
+  <div class="input-field-container">
     <label class="input-label">Other Documents</label>
     <div id="document-card-container" class="mt-3">
       <!-- Initial Card for Document -->
-      <!-- <div class="card document-card mb-3">
-        <div class="card-body"> -->
+      <div class="card document-card mb-3">
+        <div class="card-body">
           <div class="d-flex align-items-center justify-content-between">
             <!-- Document Name Field -->
             <div class="me-2  w-100">
@@ -408,48 +408,49 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
             </div>
 
             <!-- Add More Icon -->
-            <i class="fas fa-plus-square text-success me-2 add-more-documents" style="font-size: 1.5rem; cursor: pointer;" title="Add More"></i>
-              <i class="fas fa-trash-alt text-danger remove-field" style="font-size: 1rem; cursor: pointer; display: none;" title="Remove"></i>
+            <i 
+              class="fas fa-plus-square text-success me-2 add-more-documents" 
+              style="font-size: 1.5rem; cursor: pointer;" 
+              title="Add More">
+            </i>
+            <!-- Remove Icon (Initially Hidden) -->
+            <i 
+              class="fas fa-trash-alt text-danger remove-field" 
+              style="font-size: 1rem; cursor: pointer; display: none;" 
+              title="Remove">
+            </i>
           </div>
-          <div class="col-12 col-sm-6 col-md-12 col-lg-8 mt-4">
-  <div class="input-field-container">
-    <label class="input-label">Aadhar Upload Document</label>
-    <input 
-      type="file" 
-      name="adhar_upload_doc" 
-      class="styled-input" 
-      accept=".pdf,.jpg,.jpeg,.png" 
-       
-      title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
-  </div>
-</div>
         </div>
       </div>
     </div>
-    </div>
-
-
-  <div class="row emp-submit">
-    <div class="col-md-12 text-center">
-      <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </div>
   </div>
-</form>
+</div>
 </div>
 
-    <?php include 'vendormodal.php'; ?>
 
-<<<<<<< HEAD
-    
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-=======
 
  
 
->>>>>>> f70f15e403b4fb4cbb3f65c41af2247c72386c9b
 <script>
+ document.getElementById('reference').addEventListener('change', function () {
+  const vendorFields = document.getElementById('vendorFields');
+  const vendorContactField = document.getElementById('vendorContactField');
+  const vendorNameInput = document.getElementById('vendor_name');
+  const vendorContactInput = document.getElementById('vendor_contact');
 
+  if (this.value === 'vendors') {
+    vendorFields.style.display = 'block';
+    vendorContactField.style.display = 'block';
+    fetchVendorData();
+  } else {
+    vendorFields.style.display = 'none';
+    vendorContactField.style.display = 'none';
+
+    // Clear vendor fields
+    vendorNameInput.value = '';
+    vendorContactInput.value = '';
+  }
+});
 
 function fetchVendorData() {
   fetch("fetch_vendor_data.php")
@@ -489,21 +490,21 @@ function fetchVendorData() {
 }
 
 </script>
+</div>
+<!-- Submit Button -->
+  <div class="row mt-4">
+    <div class="col-md-12 text-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+</div>
+
+    <?php include 'vendormodal.php'; ?>
+
+   
 
 
-<script>
-  document.getElementById('reference').addEventListener('change', function() {
-  const vendorFields = document.getElementById('vendorFields');
-  const vendorContactField = document.getElementById('vendorContactField');
-  if (this.value === 'vendors') {
-    vendorFields.style.display = 'block';
-    vendorContactField.style.display = 'block';
-  } else {
-    vendorFields.style.display = 'none';
-    vendorContactField.style.display = 'none';
-  }
-});
-</script>
 
     <script>
     
@@ -714,20 +715,21 @@ function fetchVendorData() {
     </script>
     
     <script>
-    window.onload = function() {
-    // Set Date of Joining field to today's date
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = ("0" + (today.getMonth() + 1)).slice(-2); // Adding 1 because months are 0-indexed
-    const day = ("0" + today.getDate()).slice(-2);
-
-    const dateOfJoiningField = document.getElementById('doj');
-    if (dateOfJoiningField) {
-        dateOfJoiningField.value = `${year}-${month}-${day}`;
-    }
-};
-
-// Add more address functionality
+        // Function to set the Date of Joining field to today's date
+        window.onload = function() {
+            // Get today's date
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = ("0" + (today.getMonth() + 1)).slice(-2); // Adding 1 because months are 0-indexed
+            const day = ("0" + today.getDate()).slice(-2);
+    
+            // Set the date input value
+            const dateOfJoiningField = document.getElementById('doj');
+            dateOfJoiningField.value = ${year}-${month}-${day};
+        };
+    
+    
+       // Add more address functionality
 document.querySelector('.add-more').addEventListener('click', function() {
     const addressContainer = document.getElementById('address-container');
     const addressEntry = document.querySelector('.address-entry');
