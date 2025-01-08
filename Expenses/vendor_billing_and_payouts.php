@@ -75,7 +75,7 @@ include('../navbar.php');
 </div>
 </div>
   <form action="vendor_payment_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row form-section form-first-row">
       <!-- Purchase Invoice Number (Auto-Generated) -->
       <div class="col-md-4">
         <div class="input-field-container">
@@ -109,7 +109,7 @@ include('../navbar.php');
       </div>
     </div>
 
-    <div class="row">
+    <div class="row form-section form-second-row-full mt-3">
       <!-- Invoice Amount -->
       <div class="col-md-4">
         <div class="input-field-container">

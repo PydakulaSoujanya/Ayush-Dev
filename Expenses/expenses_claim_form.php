@@ -52,7 +52,7 @@ include('../navbar.php');
   
   <h3 class="mb-4">Employee Expenses Claim</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row form-section form-first-row">
     
     <!-- Employee Name -->
     <!-- Employee Search -->
@@ -120,7 +120,7 @@ function updateEmployeeFields() {
       </div>
     </div>
 
-    <div class="row">
+    <div class="row form-section form-second-row-full mt-3">
       <!-- Amount Claimed -->
       <div class="col-md-4">
         <div class="input-field-container">
@@ -162,10 +162,10 @@ function updateEmployeeFields() {
 
     
 
-    <div class="row">
+    <div class="row  mt-3">
     
       <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
+        <button type="submit" class="btn btn-primary w-50" name="submit" value="Submit">Submit</button>
       </div>
     </div>
   </form>
