@@ -1098,13 +1098,13 @@ margin-top: 9px;
         margin-top: 9px;
     }
     .form-second-row-full {
-              background-color: #f5f5f5;
-        padding: 20px;
-        border-radius: 8px;
-        margin-left: -6px !important;
-        width: 101% !important;
-        /* height: 55%; */
-        margin-top: 9px;
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 9px !important;
+      width: 91% !important;
+      /* height: 55%; */
+      margin-top: 9px;
   
   }
   

@@ -439,15 +439,11 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
 
     <?php include 'vendormodal.php'; ?>
 
-<<<<<<< HEAD
+
     
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-=======
 
- 
-
->>>>>>> f70f15e403b4fb4cbb3f65c41af2247c72386c9b
 <script>
 
 
