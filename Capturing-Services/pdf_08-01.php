@@ -797,8 +797,8 @@ modal.querySelector('#modalEndDate').value = endDate;
             <div class="modal-body">
                 <form id="reassignEmployeeForm" method="POST" action="reassign_employee_handler.php">
                     <!-- Hidden field to hold the current employee ID -->
-                    <input type="text" id="modalEmployeeId" name="employee_id" hidden/>
-                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2" hidden/>
+                    <input type="text" id="modalEmployeeId" name="employee_id" />
+                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2" />
 <input type="text" id="modalFromDate" name="from_date" readonly class="form-control mb-2" />
 <input type="text" id="modalEndDate" name="end_date" readonly class="form-control mb-2" />
 
@@ -831,7 +831,7 @@ modal.querySelector('#modalEndDate').value = endDate;
                     </div>
 
                     <!-- Hidden field to hold service ID -->
-                    <input type="text" id="modalServiceId" name="service_id" hidden>
+                    <input type="text" id="modalServiceId" name="service_id" >
 
                     <!-- Submit and Cancel buttons -->
                     <div class="form-group text-end">
