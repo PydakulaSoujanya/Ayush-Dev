@@ -3,15 +3,37 @@ include('../config.php'); // Include database connection
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Call the stored procedure
-$query = "CALL GetVendorPaymentData()";
+// Fetch vendor payment data without pagination
+$query = "
+SELECT 
+    vp.purchase_invoice_number,
+    vp.bill_id,
+    vp.vendor_name,
+    vp.invoice_amount,
+    vp.created_at,
+    COALESCE(SUM(v.paid_amount), 0) AS total_paid_amount,
+    vp.invoice_amount - COALESCE(SUM(v.paid_amount), 0) AS remaining_balance,
+    CASE 
+        WHEN vp.invoice_amount - COALESCE(SUM(v.paid_amount), 0) = 0 THEN 'Paid'
+        WHEN COALESCE(SUM(v.paid_amount), 0) = 0 THEN 'Pending'
+        ELSE 'Partially Paid'
+    END AS payment_status
+FROM 
+    vendor_payments_new vp
+LEFT JOIN 
+    vouchers_new v 
+ON 
+    vp.purchase_invoice_number = v.purchase_invoice_number
+GROUP BY 
+    vp.purchase_invoice_number, vp.bill_id, vp.vendor_name, vp.invoice_amount, vp.created_at
+ORDER BY 
+    vp.created_at DESC";
 
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
     die("Query Failed: " . mysqli_error($conn));
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -116,8 +138,3 @@ if (!$result) {
 
 </body>
 </html>
-
-<?php
-// Free the result set after all processing is complete
-mysqli_free_result($result);
-?>
