@@ -194,15 +194,26 @@ if (isset($_GET['id'])) {
             <input type="email" id="email" name="email" class="styled-input" value="<?php echo htmlspecialchars($vendor['email']); ?>" required />
           </div>
         </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+                    <div class="input-field-container">
+                        <label class="input-label">Documents</label>
+                        <input type="file" name="supporting_documents" class="styled-input" value="<?php echo htmlspecialchars($vendor['supporting_documents']); ?>"/>
+                    </div>
+                </div>
+                </div>
+                </div>
      
+   <div class="row form-section form-second-row-full-vendor mt-3">
+   <h2 class="section-title2">Services Provided</h2>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Services Provided</label>
             <input type="text" id="services_provided" name="services_provided" class="styled-input" value="<?php echo htmlspecialchars($vendor['services_provided']); ?>" />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Vendor Type</label>
             <select class="styled-input" name="vendor_type" id="vendor_type">
@@ -212,10 +223,10 @@ if (isset($_GET['id'])) {
             </select>
           </div>
         </div>
-  </div>
-        <div class="row">
-        <div class="col-md-6">
-  <div class="input-field-container">
+
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+       <div class="input-field-container">
     <label class="input-label">Vendor Groups</label>
     <select id="vendor_groups" name="vendor_groups" class="styled-input">
       <option value="Nursing Services" <?php echo isset($vendor['vendor_groups']) && $vendor['vendor_groups'] == 'Nursing Services' ? 'selected' : ''; ?>>Nursing Services</option>
@@ -224,8 +235,13 @@ if (isset($_GET['id'])) {
     </select>
   </div>
 </div>
+</div>
+</div>
 
-      <div class="col-md-6">
+<div class="row form-section form-first-row mt-3">
+            <h2 class="section-title3">Address Details</h2>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Pincode</label>
             <input 
@@ -239,7 +255,7 @@ if (isset($_GET['id'])) {
               maxlength="6" />
           </div>
         </div>
-      <div class="col-md-6">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Flat, House No., Building, Company, Apartment</label>
             <input 
@@ -251,7 +267,8 @@ if (isset($_GET['id'])) {
               required />
           </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Area, Street, Sector, Village</label>
             <input 
@@ -262,12 +279,8 @@ if (isset($_GET['id'])) {
               placeholder="Enter Area, Street, Sector, Village" />
           </div>
         </div>
-      </div>
-
-      <div class="row">
-      
-
-        <div class="col-md-6">
+     
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Landmark</label>
             <input 
@@ -278,7 +291,7 @@ if (isset($_GET['id'])) {
               placeholder="E.g. near Apollo Hospital" />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Town/City</label>
             <input 
@@ -290,16 +303,14 @@ if (isset($_GET['id'])) {
               required />
           </div>
         </div>
-      </div>
+      
 
-      <div class="row">
-       
-
-      <div class="col-md-6">
+     
     <?php
     include('states_dropdown.php'); // Assuming this file defines an array $states with all state names
     $selectedState = $vendor['state']; // Fetch the current state from the vendor data
     ?>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
     <div class="input-field-container">
         <label class="input-label">State</label>
         <select name="state" class="styled-input" required> <!-- Use "state" instead of "state[]" -->
@@ -310,40 +321,50 @@ if (isset($_GET['id'])) {
             <?php endforeach; ?>
         </select>
     </div>
+   </div>
+  </div>
 </div>
 
-      </div>
-      <h3 class="mb-4">Bank Details</h3>
+
+<div class="row form-section form-fouth-row-bank-details">
+      <h3 class="section-title4">Bank Details</h3>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Bank Name</label>
             <input type="text" id="bank_name" name="bank_name" class="styled-input" value="<?php echo htmlspecialchars($vendor['bank_name']); ?>" />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Account Number</label>
             <input type="text" class="styled-input" id="account_number" name="account_number" value="<?php echo htmlspecialchars($vendor['account_number']); ?>" />
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
+     
+     
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">IFSC</label>
             <input type="text" id="ifsc" name="ifsc" class="styled-input" value="<?php echo htmlspecialchars($vendor['ifsc']); ?>" />
           </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Branch</label>
             <input type="text" id="branch" name="branch" class="styled-input" placeholder="Enter Branch" value="<?php echo htmlspecialchars($vendor['branch']); ?>"  />
           </div>
         </div>
-        
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">Update Vendor</button>
+
+      <div class="row form-submit emp-submit mt-2">
+            <div class="col-md-12 text-center">
+      <button type="submit" class="btn w-100">Update Vendor</button>
+      </div>
+      </div>
+ 
     </form>
   </div>
 

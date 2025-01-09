@@ -891,6 +891,15 @@ h4 {
         margin-top: 9px;
     
     }
+    .emp-submit .btn {
+      display: inline-block !important;
+      width: 42% !important;
+      padding: 10px 20px;
+      margin-top: 19px;
+      background-color: #A26D2B;
+      color: white;
+  
+     }
   }
   
   /* iPad (Portrait) */
@@ -1098,7 +1107,7 @@ h4 {
       display: inline-block !important;
       width: 30% !important;
       padding: 10px 20px;
-      margin-top: 77px;
+      margin-top: 38px;
       background-color: #A26D2B;
       color: white;
   
