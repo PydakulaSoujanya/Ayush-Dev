@@ -60,7 +60,7 @@
                 </span>
                 <div class="navbar-dropdown-content" id="service">
                     <a href="../Service-Master/view_servicemaster.php">Services</a>
-                    <a href="../Capturing-Services/rae.php">Capture Services</a>
+                    <a href="../Capturing-Services/view_services.php">Capture Services</a>
                     
                 </div>
             </div>
