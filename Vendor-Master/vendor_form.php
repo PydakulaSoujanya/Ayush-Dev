@@ -60,7 +60,7 @@
         </div>
 
         <!-- Services Provided -->
-        <div class="row form-section form-second-row-full mt-3">
+        <div class="row form-section form-second-row-full-vendor mt-3">
             <h2 class="section-title2">Services Provided</h2>
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
@@ -176,9 +176,9 @@
         </div>
 
         <!-- Submit Button -->
-        <div class="row form-submit mt-3">
+        <div class="row form-submit emp-submit mt-2">
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary w-50">Submit</button>
+                <button type="submit" class="btn w-100">Submit</button>
             </div>
         </div>
     </form>

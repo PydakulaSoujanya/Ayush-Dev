@@ -153,44 +153,49 @@ if (isset($_GET['id'])) {
   </style> -->
 </head>
 <body>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <?php
   include '../navbar.php';
   ?>
   <div class="container mt-7">
     <h3 class="mb-4">Update Vendor</h3>
     <form action="update_vendor.php?id=<?php echo $id; ?>" method="POST">
-      <div class="row form-section form-first-row">
-      <h2 class="section-title1">Update Vendor</h2>
-        <div class="col-md-6">
+    <div class="row form-section form-first-row">
+            <h2 class="section-title1">Vendor Details</h2>
+            <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Vendor Name</label>
             <input type="text" id="vendor_name" name="vendor_name" class="styled-input" value="<?php echo htmlspecialchars($vendor['vendor_name']); ?>" required />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">GSTIN</label>
             <input type="text" class="styled-input" id="gstin" name="gstin" value="<?php echo htmlspecialchars($vendor['gstin']); ?>" required />
           </div>
         </div>
-      </div>
-      <div class="row form-section form-first-row mt-3">
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                    <div class="input-field-container">
+                        <label class="input-label">Contact Person</label>
+                        <input type="text" name="contact_person" class="styled-input" value="<?php echo htmlspecialchars($vendor['contact_person']); ?>" placeholder="Enter Contact Person" />
+                    </div>
+                </div>
+ 
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Phone Number</label>
             <input type="text" id="phone_number" name="phone_number" class="styled-input" value="<?php echo htmlspecialchars($vendor['phone_number']); ?>" required />
           </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Email</label>
             <input type="email" id="email" name="email" class="styled-input" value="<?php echo htmlspecialchars($vendor['email']); ?>" required />
           </div>
         </div>
-      </div>
-      <div class="row form-section form-first-row mt-3">
+     
+      <div class="row">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Services Provided</label>
@@ -208,7 +213,7 @@ if (isset($_GET['id'])) {
           </div>
         </div>
   </div>
-        <div class="row form-section form-first-row mt-3">
+        <div class="row">
         <div class="col-md-6">
   <div class="input-field-container">
     <label class="input-label">Vendor Groups</label>
@@ -259,7 +264,7 @@ if (isset($_GET['id'])) {
         </div>
       </div>
 
-      <div class="row form-section form-first-row mt-3">
+      <div class="row">
       
 
         <div class="col-md-6">
@@ -287,7 +292,7 @@ if (isset($_GET['id'])) {
         </div>
       </div>
 
-      <div class="row form-section form-first-row mt-3">
+      <div class="row">
        
 
       <div class="col-md-6">
@@ -309,8 +314,7 @@ if (isset($_GET['id'])) {
 
       </div>
       <h3 class="mb-4">Bank Details</h3>
-      <div class="row form-section form-first-row mt-3">
-    
+      <div class="row">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Bank Name</label>
@@ -324,7 +328,7 @@ if (isset($_GET['id'])) {
           </div>
         </div>
       </div>
-      <div class="row form-section form-first-row mt-3">
+      <div class="row">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">IFSC</label>
@@ -339,18 +343,10 @@ if (isset($_GET['id'])) {
         </div>
         
       </div>
-      <div class="col-md-12 mt-4 text-center">
-  <div class="input-field-container">
-    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
-     Update Vendor
-    </button>
-  </div>
-</div>
+      <button type="submit" class="btn btn-primary">Update Vendor</button>
     </form>
   </div>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

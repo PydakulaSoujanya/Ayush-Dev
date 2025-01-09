@@ -49,12 +49,12 @@ body {
 }
 
 .navbar-logo-img {
-    height: 55px !important;
-    width: auto;
-    object-fit: cover;
-    margin-right: 33px;
-    margin-bottom: -10px;
-    margin-left: 24px;
+  height: 55px !important;
+  width: auto;
+  object-fit: cover;
+  margin-right: -85px;
+  margin-bottom: -10px;
+  margin-left: 105px;
 }
 
 .navbar-links {
@@ -66,7 +66,7 @@ body {
     padding: 0;
     white-space: nowrap;
     /* margin-left: 50px; */
-    margin-right: 5px;
+    margin-right: -154px;
     margin-bottom: 9px;
 }
 
@@ -550,8 +550,9 @@ h4 {
     }
 
     .dataTable_card .card-header {
-        font-size: 2px !important;
+         font-size: 14px !important;
         padding: 10px;
+     
     }
 
     .dataTable_headerRow th,
@@ -670,7 +671,7 @@ h4 {
       padding: 20px;
       border-radius: 8px;
       height: 19%;
-      margin-top: 12px;
+      margin-top: 12px !important;
     }
     
     .form-second-row {
@@ -687,10 +688,10 @@ h4 {
       background-color: #f5f5f5;
       padding: 20px;
       border-radius: 8px;
-      margin-left: 16px;
-      width: 96%;
+      margin-left: 14px !important;
+      width: 94% !important;
       /* height: 149%; */
-      margin-top: 22px;
+      margin-top: 22px !important;
     
     }
     /* .form-third-row{
@@ -751,23 +752,23 @@ h4 {
     }
     .daily-title{
       position: absolute;
-      top: 1058px;
-      left: 41px;
+      top: 1065px;
+      left: 23px;
       background-color: white;
       padding: 4px 5px;
-      font-size: 17px;
+      font-size: 18px;
       color: #a26d2b;
-      width: 25%;
+      width: 30% !important;
     }
     .bank-title{
       position: absolute;
       top: 1356px;
-      left: 44px;
+      left: 25px;
       background-color: white;
       padding: 4px 5px;
       font-size: 17px;
       color: #a26d2b;
-      width: 122px;
+      width: 121px !important;
     }
     .address-title{
       background-color: white;
@@ -788,10 +789,10 @@ h4 {
       margin-top: -25px;
    
     }
-    .emp-submit .btn {
-      width: 100%; /* Full width on small screens */
+    /* .emp-submit .btn {
+      width: 100%; 
       text-align: center;
-    }
+    } */
    
     .form-fouth-row-bank-details{
       background-color: #f5f5f5;
@@ -801,16 +802,17 @@ h4 {
       width: 102% !important;
       height: 181%;
       margin-top: 15px !important;
+      color:white
     }
 
     .form-second-row-full {
       background-color: #f5f5f5;
-padding: 20px;
-border-radius: 8px;
-margin-left: -6px !important;
-width: 101% !important;
-/* height: 55%; */
-margin-top: 9px;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 13px !important;
+      width: 94% !important;
+      /* height: 55%; */
+      margin-top: 50px !important;
 
 }
     
@@ -867,6 +869,28 @@ margin-top: 9px;
 
     
     }
+    .form-center{
+      margin-left: 3px;
+      width: 95%;
+     }
+     .emp-submit .btn {
+      display: inline-block !important;
+      width: 30% !important;
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #A26D2B;
+      color: white;
+      }
+      .form-second-row-full-vendor {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        margin-left: -11px !important;
+        width: 102% !important;
+        /* height: 55%; */
+        margin-top: 9px;
+    
+    }
   }
   
   /* iPad (Portrait) */
@@ -901,29 +925,32 @@ margin-top: 9px;
       background-color: #f5f5f5;
       padding: 20px;
       border-radius: 8px;
-      margin-left: 16px;
-      width: 96%;
+      margin-left: 7px !important;
+      width: 98% !important;
       /* height: 149%; */
-      margin-top: 22px;
+      margin-top: 22px !important;
     
     }
   
     .form-third-row{
       background-color: #f5f5f5;
-      padding: 20px; 
+      padding: 20px;
       border-radius: 8px;
-      margin-right: 10px;
-       height: 91%;
+      margin-right: 18px;
+      height: 57%;
+      width: 122% !important;
+      margin-left: 10px;
     }
     .form-third-sub-row{
       background-color: #f5f5f5;
       padding: 15px;
       border-radius: 8px;
-      height: 91%;
-      width: 40%;
+      height: 45%;
+      width: 104% !important;
       display: flex;
-      flex-direction: column; /* Stack elements vertically */
-      align-items: stretch;
+      flex-direction: column;
+      /* align-items: stretch; */
+      margin-left: 10px;
     }
   
     .basic-title{
@@ -938,23 +965,23 @@ margin-top: 9px;
     }
     .daily-title{
       position: absolute;
-      top: 592px;
+      top: 566px;
       left: 52px;
       background-color: white;
       padding: 4px 5px;
       font-size: 20px;
       color: #a26d2b;
-      width: 15%;
+      width: 17% !important;
     }
     .bank-title{
       position: absolute;
-      top: 731px;
+      top: 706px;
       left: 52px;
       background-color: white;
       padding: 4px 5px;
       font-size: 20px;
       color: #a26d2b;
-      width: 134px;
+      width: 150px !important;
     }
     .address-title{
       background-color: white;
@@ -1007,12 +1034,12 @@ margin-top: 9px;
 
     .form-second-row-full {
       background-color: #f5f5f5;
-padding: 20px;
-border-radius: 8px;
-margin-left: -6px !important;
-width: 101% !important;
-/* height: 55%; */
-margin-top: 9px;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: 8px !important;
+      width: 98% !important;
+      /* height: 55%; */
+      margin-top: 12px !important;
 
 }
     
@@ -1067,8 +1094,30 @@ margin-top: 9px;
       width: 18% !important;
     
     }
-    
+    .emp-submit .btn {
+      display: inline-block !important;
+      width: 30% !important;
+      padding: 10px 20px;
+      margin-top: 77px;
+      background-color: #A26D2B;
+      color: white;
+  
+     }
+     .form-center{
+      margin-left: 18px;
+      width: 95%;
+     }
+     .form-second-row-full-vendor {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-left: -11px !important;
+      width: 102% !important;
+      /* height: 55%; */
+      margin-top: 9px;
+  
   }
+}
   
   
   /* Desktop */
@@ -1101,12 +1150,24 @@ margin-top: 9px;
       background-color: #f5f5f5;
       padding: 20px;
       border-radius: 8px;
-      margin-left: 9px !important;
+      margin-left: 13px !important;
       width: 91% !important;
       /* height: 55%; */
       margin-top: 9px;
   
+  
   }
+  .form-second-row-full-vendor {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: -11px !important;
+    width: 102% !important;
+    /* height: 55%; */
+    margin-top: 9px;
+
+
+}
   
   .form-second-row-bank-details{
     background-color: #f5f5f5;
@@ -1153,7 +1214,7 @@ margin-top: 9px;
       left: 127px;
       background-color: white;
       padding: 4px 5px;
-      font-size: 18px;
+      font-size: 22px;
       /* font-weight: bold; */
       color: #a26d2b;
       width: 14% !important;
@@ -1165,7 +1226,7 @@ margin-top: 9px;
       left: 127px;
       background-color: white;
       padding: 4px 5px;
-      font-size: 18px;
+      font-size: 22px;
       /* font-weight: bold; */
       color: #a26d2b;
       width: 15% !important;
@@ -1179,7 +1240,7 @@ margin-top: 9px;
       left: 127px;
       background-color: white;
       padding: 4px 5px;
-      font-size: 18px;
+      font-size: 22px;
       /* font-weight: bold; */
       color: #a26d2b;
       width: 14% !important;
@@ -1192,7 +1253,7 @@ margin-top: 9px;
       left: 127px;
       background-color: white;
       padding: 4px 5px;
-      font-size: 18px;
+      font-size: 22px;
       /* font-weight: bold; */
       color: #a26d2b;
       width: 10% !important;
@@ -1202,7 +1263,7 @@ margin-top: 9px;
     .basic-title{
       position: absolute;
     top: 190px;
-    left: 127px;
+    left: 179px;
     background-color: white;
     padding: 4px 5px;
     font-size: 22px;
@@ -1212,7 +1273,7 @@ margin-top: 9px;
     .daily-title{
         position: absolute;
         top: 370px;
-        left: 127px;
+        left: 179px;
         background-color: white;
         padding: 4px 5px;
         font-size: 22px;
@@ -1222,7 +1283,7 @@ margin-top: 9px;
     .bank-title{
       position: absolute; 
       top: 503px; 
-      left: 127px; 
+      left: 179px;
       background-color: white; 
       padding: 4px 5px; 
       font-size: 22px; 
@@ -1247,19 +1308,124 @@ margin-top: 9px;
       width: 200px;
       margin-top: -25px;
     }
-    .emp-submit .btn {
+    /* .emp-submit .btn {
       display: inline-block !important;
       width: 30% !important;
       padding: 10px 20px;
       margin-top: 40px;
-    }
+    } */
 
     .emp-submit .btn {
-        display: inline-block !important;
-        width: 30% !important;
-        padding: 10px 20px;
-        margin-top: 50px;
+      display: inline-block !important;
+      width: 18% !important;
+      padding: 10px 20px;
+      margin-top: 5px;
+      background-color:#A26D2B;
+      color:white;
+      
+  
       }
+      .form-center{
+        margin-left: 110px;
+       }
   }
 
 /* style for employee ends  */
+/* Navbar profile icon styles starts */
+/* Container styles */
+.profile-icon-container {
+  display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 10px;
+      margin-left: -39px;
+      margin-top: 28px;
+}
+
+/* Icon styles */
+.profile-icon {
+  font-size: 40px; /* Set the size of the icon */
+  color: #000; /* Default color of the icon */
+  cursor: pointer; /* Indicates interactivity */
+  transition: transform 0.3s ease, font-size 0.3s ease; /* Smooth zoom effect */
+}
+
+/* Hover effect */
+.profile-icon:hover {
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .profile-icon {
+      font-size: 35px; /* Adjust size for tablets */
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-icon {
+      font-size: 30px; /* Adjust size for mobile */
+  }
+
+  .profile-icon-container {
+      margin: 0 5px; /* Reduce spacing on smaller screens */
+  }
+}
+
+ /* Nabrbar profile icon styles Ends */
+
+/* When the modal is shown, blur the background */
+/* .modal-backdrop.show {
+  backdrop-filter: blur(5px); 
+} */
+/* Optional: Apply dark overlay to the background */
+/* .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5); 
+} */
+
+/* Make sure the modal itself is unaffected by the blur */
+.modal-content {
+  background-color: white; /* Ensure modal has solid background */
+  border-radius: 8px; /* Optional: add rounded corners to the modal */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+}
+
+/* Profile Icon Styling */
+.profile-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 -71px;
+}
+
+.profile-icon {
+  width: 100px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive styling */
+@media (max-width: 1024px) {
+  .profile-icon {
+      width: 35px;
+      height: 35px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-icon {
+      width: 30px;
+      height: 30px;
+  }
+
+  .profile-icon-container {
+      margin: 0 5px;
+  }
+}

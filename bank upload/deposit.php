@@ -91,6 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
     <title>Deposits Data</title>
 </head>
+<style>
+    button.btn-primary, a.btn-success {
+        width:70px !important;
+        background-color:#0d6efd;
+        color:white;
+    } 
+</style>
 <body>
 <?php 
 include '../navbar.php';
@@ -136,7 +143,7 @@ include '../navbar.php';
                     if (htmlspecialchars($row['status']) === 'Matched') {
                         echo "<button class='btn btn-secondary btn-sm' disabled>Matched</button>";
                     } else {
-                        echo "<button class='btn btn-primary btn-sm match-btn' data-bs-toggle='modal' data-bs-target='#matchModal' data-id='" . $row['id'] . "' data-tran-id='" . $row['tran_id'] . "'>Match</button>";
+                        echo "<button class='btn btn-primary btn-sm match-btn ' data-bs-toggle='modal' data-bs-target='#matchModal' data-id='" . $row['id'] . "' data-tran-id='" . $row['tran_id'] . "'>Match</button>";
                     }
                     echo "</td>";
                     echo "</tr>";

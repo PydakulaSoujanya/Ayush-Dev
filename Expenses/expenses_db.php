@@ -12,13 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    // $attachment = $_FILES['attachment']['name'] ?? null;
    $expense_type = $_POST['expense_type'];
    $payment_status = isset($_POST['payment_status'])?$_POST['payment_status']:"Pending";
-   $bank_account= $_POST['bank_account']?$_POST['bank_account']:"null";
+   $bank_account_no= $_POST['bank_account_no']?$_POST['bank_account_no']:"null";
 
     // Prepare the insert statement
-    $query = $conn->prepare("INSERT INTO Expenses (expense_type,entity_id, entity_name, bank_account,description, amount, date_incurred, status,payment_status, additional_details, created_at, updated_at) VALUES (?, ?, ?,?, ?, ?, ?,?,?, ?, NOW(), NOW())");
+    $query = $conn->prepare("INSERT INTO Expenses (expense_type,entity_id, entity_name, bank_account_no,description, amount, date_incurred, status,payment_status, additional_details, created_at, updated_at) VALUES (?, ?, ?,?, ?, ?, ?,?,?, ?, NOW(), NOW())");
     
     $additional_details = $attachment; // Use file name as additional details if uploaded
-    $query->bind_param("sssssdssss", $expense_type,$entity_id, $entity_name, $bank_account,$description, $amount_claimed, $expense_date, $status, $payment_status,$additional_details);
+    $query->bind_param("sssssdssss", $expense_type,$entity_id, $entity_name, $bank_account_no,$description, $amount_claimed, $expense_date, $status, $payment_status,$additional_details);
 
     // Execute the query
     if ($query->execute()) {

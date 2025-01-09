@@ -46,6 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
     <title>Withdrawal Data</title>
 </head>
+<style>
+      button.btn-primary, a.btn-success {
+        width:70px !important;
+        background-color:#0d6efd;
+        color:white;
+    } 
+</style>
 <body>
 <?php 
 include '../navbar.php';
