@@ -160,14 +160,17 @@ if ($totalPaidAmount == 0) {
  <!-- Button to trigger modal -->
 <?php
 // Determine the visibility of the button
-$button_visibility = ($status === 'Paid') ? 'style="display:none;"' : '';
+// $button_visibility = ($status === 'Paid') ? 'style="display:none;"' : '';
+$button_visibility = ($status === 'Paid') ? 'display: none;' : '';
+
 ?>
   </div>
 
-  <div class="card-header" style="display: flex; justify-content: flex-end;">
-
-    <button id="paymentBtn" class="add_button" style="text-align: right;"> <?php echo $button_visibility; ?> <strong class="add_button_plus">+</strong>Receipt</button></div>
-
+<div class="card-header" style="display: flex; justify-content: flex-end;">
+    <button id="paymentBtn" class="add_button" style="<?php echo $button_visibility; ?>">
+        <strong class="add_button_plus">+</strong>Receipt
+    </button>
+</div>
   
   
 <!-- Button to trigger modal -->
@@ -200,16 +203,29 @@ $button_visibility = ($status === 'Paid') ? 'style="display:none;"' : '';
         </div>
 
         <!-- Form for entering amount to pay -->
-        <div style="padding: 5px;">
-            <label for="amountToPay">Amount to Pay:</label>
-            <input type="number" id="amountToPay" name="amountToPay" />
-        </div>
+        <div style="padding: 10px; display: flex; flex-direction: column; gap: 5px;">
+    <!-- Amount to Pay -->
+    <label for="amountToPay" style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">Amount to Pay:</label>
+    <input 
+        type="number" 
+        id="amountToPay" 
+        name="amountToPay" 
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;" 
+    />
+</div>
 
-        <!-- Receipt Date -->
-        <div style="padding: 5px;">
-            <label for="receipt_date">Receipt Date:</label>
-            <input type="date" id="receipt_date" name="receipt_date" required />
-        </div>
+<!-- Receipt Date -->
+<div style="padding: 10px; display: flex; flex-direction: column; gap: 5px;">
+    <label for="receipt_date" style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">Receipt Date:</label>
+    <input 
+        type="date" 
+        id="receipt_date" 
+        name="receipt_date" 
+        required 
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;" 
+    />
+</div>
+
 
         <!-- Hidden input for invoice_id -->
         <input type="hidden" id="modalinvoiceId" name="modalinvoiceId">

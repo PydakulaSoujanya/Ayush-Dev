@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +62,7 @@ include '../navbar.php';
     <h3 class="mb-4">Service Master Details</h3>
     <form action="service_masterdb.php" method="POST">
       <!-- Service Name -->
-      <div class="row">
+      <div class="row form-section form-first-row">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Service Name</label>
@@ -89,7 +88,7 @@ include '../navbar.php';
       </div>
     
       <!-- Daily Rates -->
-      <div class="row">
+      <div class="row form-section form-second-row-full mt-3">
         <div class="col-md-4">
           <div class="input-field-container">
             <label class="input-label">Daily Rate (8 Hours)</label>
@@ -110,7 +109,7 @@ include '../navbar.php';
         </div>
       </div>
        <!-- Description -->
-       <div class="row">
+       <div class="row form-section form-first-row mt-3">
         <div class="col-md-12">
           <div class="input-field-container">
             <label class="input-label">Description</label>
@@ -118,7 +117,11 @@ include '../navbar.php';
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+      <div class="row form-submit mt-3">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary w-50">Submit</button>
+            </div>
+        </div>
     </form>
   </div>
 

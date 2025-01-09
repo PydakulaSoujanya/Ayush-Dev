@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 include '../config.php';
 ?>
 
@@ -70,18 +70,8 @@ include '../config.php';
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT 
-                                        assigned_employee, 
-                                        service_type, 
-                                        customer_name, 
-                                        total_days, 
-                                        total_service_price, 
-                                        emp_id, 
-                                        status 
-                                    FROM service_requests 
-                                    WHERE assigned_employee IS NOT NULL 
-                                    ORDER BY created_at DESC";
-
+                            // Call the stored procedure to get employee payout info
+                            $sql = "CALL GetEmployeePayoutInfo()";
                             $result = $conn->query($sql);
                             $serial_no = 1;
 

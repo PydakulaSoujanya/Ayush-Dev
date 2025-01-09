@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         echo "<script>
                 alert('All services added successfully.');
-                window.location.href = 'rae.php';
+                window.location.href = 'view_services.php';
               </script>";
     } else {
         echo "<script>
