@@ -63,7 +63,9 @@ include '../navbar.php';
     <form action="service_masterdb.php" method="POST">
       <!-- Service Name -->
       <div class="row form-section form-first-row">
-        <div class="col-md-6">
+      <h2 class="section-title1">Service Details</h2>
+
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Service Name</label>
             <select id="service-name" class="styled-input" name="service_name" onchange="handleOtherOption()">
@@ -76,7 +78,7 @@ include '../navbar.php';
             </select>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Status</label>
             <select class="styled-input" name="status">
@@ -85,44 +87,50 @@ include '../navbar.php';
             </select>
           </div>
         </div>
-      </div>
+    
     
       <!-- Daily Rates -->
-      <div class="row form-section form-second-row-full mt-3">
-        <div class="col-md-4">
+      
+     
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Daily Rate (8 Hours)</label>
             <input type="number" class="styled-input" name="daily_rate_8_hours" placeholder="Enter Rate for 8 Hours" />
           </div>
         </div>
-        <div class="col-md-4">
+        
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Daily Rate (12 Hours)</label>
             <input type="number" class="styled-input" name="daily_rate_12_hours" placeholder="Enter Rate for 12 Hours" />
           </div>
         </div>
-        <div class="col-md-4">
+      
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Daily Rate (24 Hours)</label>
             <input type="number" class="styled-input" name="daily_rate_24_hours" placeholder="Enter Rate for 24 Hours" />
           </div>
         </div>
-      </div>
+     
+
+
        <!-- Description -->
-       <div class="row form-section form-first-row mt-3">
-        <div class="col-md-12">
+      
+        <div class="col-md-12 mt-3">
           <div class="input-field-container">
             <label class="input-label">Description</label>
             <textarea class="styled-input" rows="1" name="description" placeholder="Enter Service Description"></textarea>
           </div>
         </div>
       </div>
-      <div class="row form-submit mt-3">
-            <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary w-50">Submit</button>
-            </div>
-        </div>
-    </form>
+      <div class="col-md-12 mt-4 text-center">
+  <div class="input-field-container">
+    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
+      Submit
+    </button>
+  </div>
+</div>
   </div>
 
   <!-- Modal for Adding New Service -->

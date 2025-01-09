@@ -163,6 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
 </head>
 <body>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 <?php include('../navbar.php'); ?>
 
@@ -356,6 +358,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </form>
 </div>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script>
   document.getElementById('patientStatus').addEventListener('change', function () {
     var patientNameField = document.getElementById('patientNameField');

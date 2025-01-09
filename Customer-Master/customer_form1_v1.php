@@ -17,7 +17,7 @@
   <h3 class="mb-4">Customer Details Form</h3>
   
   <form action="customer_db.php" method="POST" id="customer_form" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row form-section form-first-row">
       <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Are you a patient?</label>
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row form-section form-second-row-full mt-3">
       <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Customer Name</label>
@@ -87,7 +87,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row form-section form-third-row mt-3">
       <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Known Medical Conditions</label>
@@ -147,7 +147,7 @@
         <div class="card-body">
           <div id="address-container">
             <div class="address-entry" id="address-1">
-              <div class="row">
+              <div class="row form-section form-third-row mt-3">
                 <div class="col-md-6">
                   <div class="input-field-container">
                     <label class="input-label">Pincode</label>
@@ -192,11 +192,11 @@
       </div>
     </div>
 
-    <div class="col-md-12 mt-4">
-      <div class="input-field-container">
-        <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-      </div>
-    </div>
+    <div class="row form-submit mt-3">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary w-50">Submit</button>
+            </div>
+        </div>
   </form>
 </div>
 

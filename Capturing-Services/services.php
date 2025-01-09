@@ -61,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <div class="form-section">
     <form action="services_db.php" method="POST">
     <input type="hidden" id="customer_id" name="customer_id" >
-      <div class="row">
+      <div class="row form-section form-first-row">
+      <h2 class="section-title1">Capturing Service</h2>
+
         <!-- Customer Name -->
         <div class="col-md-6">
   <div class="input-field-container">
@@ -133,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 
       <!-- Dynamic Fields for Service Details -->
       <div id="field-container">
-    <div class="row field-set bordered-field">
+    <div class="row form-section form-first-row mt-3">
         <div class="col-md-6">
             <div class="input-field-container">
                 <label class="input-label">Start Date</label>
@@ -225,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 
 
       <!-- Additional Inputs -->
-      <div class="row">
+      <div class="row form-section form-first-row">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Enquiry Source</label>
@@ -281,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+      <button type="submit" class="btn btn-primary  w-50 mt-3">Submit</button>
     </form>
   </div>
 </div>
@@ -577,12 +579,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
           </div> -->
 
           <!-- Submit Button -->
-          <div class="row">
-            <div class="col-md-12">
-              <div class="input-field-container">
-                <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-              </div>
-            </div>
+       
+          <!-- <div class="col-md-12 mt-4 text-center"> -->
+          <div class="col-md-12 mt-4 text-center">
+  <div class="input-field-container">
+    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
+      Submit
+    </button>
+  </div>
+</div>
+</div>
+</div>
           </div>
         </form>
       </div>

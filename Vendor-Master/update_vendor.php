@@ -153,13 +153,16 @@ if (isset($_GET['id'])) {
   </style> -->
 </head>
 <body>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <?php
   include '../navbar.php';
   ?>
   <div class="container mt-7">
     <h3 class="mb-4">Update Vendor</h3>
     <form action="update_vendor.php?id=<?php echo $id; ?>" method="POST">
-      <div class="row">
+      <div class="row form-section form-first-row">
+      <h2 class="section-title1">Update Vendor</h2>
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Vendor Name</label>
@@ -173,7 +176,7 @@ if (isset($_GET['id'])) {
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row form-section form-first-row mt-3">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Phone Number</label>
@@ -187,7 +190,7 @@ if (isset($_GET['id'])) {
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row form-section form-first-row mt-3">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Services Provided</label>
@@ -205,7 +208,7 @@ if (isset($_GET['id'])) {
           </div>
         </div>
   </div>
-        <div class="row">
+        <div class="row form-section form-first-row mt-3">
         <div class="col-md-6">
   <div class="input-field-container">
     <label class="input-label">Vendor Groups</label>
@@ -256,7 +259,7 @@ if (isset($_GET['id'])) {
         </div>
       </div>
 
-      <div class="row">
+      <div class="row form-section form-first-row mt-3">
       
 
         <div class="col-md-6">
@@ -284,7 +287,7 @@ if (isset($_GET['id'])) {
         </div>
       </div>
 
-      <div class="row">
+      <div class="row form-section form-first-row mt-3">
        
 
       <div class="col-md-6">
@@ -306,7 +309,8 @@ if (isset($_GET['id'])) {
 
       </div>
       <h3 class="mb-4">Bank Details</h3>
-      <div class="row">
+      <div class="row form-section form-first-row mt-3">
+    
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">Bank Name</label>
@@ -320,7 +324,7 @@ if (isset($_GET['id'])) {
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row form-section form-first-row mt-3">
         <div class="col-md-6">
           <div class="input-field-container">
             <label class="input-label">IFSC</label>
@@ -335,10 +339,18 @@ if (isset($_GET['id'])) {
         </div>
         
       </div>
-      <button type="submit" class="btn btn-primary">Update Vendor</button>
+      <div class="col-md-12 mt-4 text-center">
+  <div class="input-field-container">
+    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
+     Update Vendor
+    </button>
+  </div>
+</div>
     </form>
   </div>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
