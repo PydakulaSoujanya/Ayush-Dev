@@ -7,6 +7,13 @@
     <title>Ayush</title>
     <link rel="stylesheet" href="../style.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </head>
 
@@ -14,9 +21,59 @@
 
 
     <header class="navbar-header">
-        <div class="text-center mb-4 d-flex justify-content-center align-items-center gap-3">
-            <img src="../assets/images/ayush_logo.jpg" alt="Ayush App Logo" class="navbar-ayushlogo-img mt-3" />
+    <div class="text-center mb-4 d-flex justify-content-center align-items-center gap-3">
+    <img src="../assets/images/ayush_logo.jpg" alt="Ayush App Logo" class="navbar-ayushlogo-img mt-3" />
+   <!-- Profile Icon -->
+<!-- Profile Icon -->
+<!-- <div class="profile-icon-container">
+    <i class="bi bi-person-circle profile-icon" data-bs-toggle="modal" data-bs-target="#profileModal"></i> 
+</div> -->
+
+<!-- Modal Structure -->
+<!-- <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card wide">
+                    <div class="card-title text-center">Company Profile</div>
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+               
+                        <div class="profile-picture mb-3">
+                            <img src="https://via.placeholder.com/80" alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #027cc9;">
+                        </div>
+
+                        <div class="company-info text-center" style="font-size: 0.9rem; line-height: 1.5;">
+                            <h6 style="margin: 0; color: #383636;"><strong>Ayush Healthcare</strong></h6>
+                            <p style="margin: 5px 0; color: #383636;">Leading provider of healthcare solutions.</p>
+                            <p style="margin: 5px 0; color: #383636;"><strong>Established:</strong> 2010</p>
+                            <p style="margin: 5px 0; color: #383636;"><strong>Location:</strong> Bangalore, India</p>
+                        </div>
+
+           
+                        <div class="contact-info text-center mt-3" style="font-size: 0.9rem; color: #383636;">
+                            <p style="margin: 5px 0;"><strong>Phone:</strong> +91-9876543210</p>
+                            <p style="margin: 5px 0;"><strong>Email:</strong> info@ayush.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               
+            </div>
         </div>
+    </div>
+</div> -->
+
+
+</div>
+
+
+
 
         <div class="navbar-hamburger" onclick="toggleMenu()">
             <div class="navbar-bar"></div>

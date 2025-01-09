@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Form</title>
+  <title>Employee Edit Form</title>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
@@ -216,32 +216,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
 
 </head>
-
+<style>
+  .file-link {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+  .bank-title {
+        position: absolute;
+        top: 787px;
+        left: 52px;
+  }
+  .daily-title {
+        position: absolute;
+        top: 658px;
+         left: 52px;
+  }
+}
+@media (max-width: 767px) {
+  .bank-title {
+    position: absolute;
+        top: 172%;
+        left: 29px;
+  }
+  .daily-title {
+    position: absolute;
+        top: 136%;
+        left: 36px;
+    
+  }
+}
+</style>
 <body>
   <?php include('../navbar.php'); ?>
-  <div class="container mt-7">
+  <section class="form-center">
+  <div class="container mt-6">
     <h3 class="mb-4">Employee Form</h3>
-    <!-- <form method="POST" id="employee_registartion" enctype="multipart/form-data" action="empdb.php"> -->
-    <!-- Row 1 -->
+ 
     <form action="update_emp.php" method="POST" enctype="multipart/form-data">
       <!-- Hidden ID Field -->
       <input type="hidden" name="id" value="<?= htmlspecialchars($employee['id']); ?>">
       <div class="row">
-        <div class="col-md-3">
+  <div class="row" style="margin: 0;">
+    <div class="col-12 col-lg-9 form-first-row">
+  <!-- Fields Container -->
+  <h2 class="basic-title">Basic Details</h2>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Name</label>
             <input type="text" name="name" class="styled-input" placeholder="Enter your name" value="<?= htmlspecialchars($employee['name']); ?>" />
           </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
           <div class="input-field-container">
-            <label class="input-label">Date of Birth</label>
+            <label class="input-label">DOB</label>
             <input type="date" name="dob" class="styled-input date-input" value="<?= htmlspecialchars($employee['dob']); ?>" />
             <!-- <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" > -->
           </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
           <div class="input-field-container">
             <label class="input-label">Gender</label>
             <select name="gender" class="styled-input">
@@ -251,23 +292,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             </select>
           </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
           <div class="input-field-container">
             <label class="input-label">Phone Number</label>
             <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" pattern="[0-9]{10}" value="<?= htmlspecialchars($employee['phone']); ?>" />
           </div>
         </div>
-      </div>
+      <!-- </div> -->
 
-      <!-- Row 2 -->
-      <div class="row">
-        <div class="col-md-3">
+      <!-- <div class="row"> -->
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Email</label>
             <input type="email" name="email" class="styled-input" placeholder="Enter email" value="<?= htmlspecialchars($employee['email']); ?>" />
           </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
           <div class="input-field-container">
             <label class="input-label">Role</label>
             <select name="role" class="styled-input">
@@ -276,13 +318,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
               <option value="fully_trained_nurse" <?= $employee['role'] == 'fully_trained_nurse' ? 'selected' : ''; ?>>Fully Trained Nurse</option>
               <option value="semi_trained_nurse" <?= $employee['role'] == 'semi_trained_nurse' ? 'selected' : ''; ?>>Semi Trained Nurse</option>
             </select>
-
-
           </div>
         </div>
 
 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
           <div class="input-field-container">
             <label class="input-label">Qualification</label>
             <select name="qualification" class="styled-input">
@@ -294,7 +334,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
           </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
           <div class="input-field-container">
             <label class="input-label">Experience</label>
             <select name="experience" class="styled-input">
@@ -306,26 +347,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
           </div>
         </div>
-      </div>
+      <!-- </div> -->
 
       <!-- Row 3 -->
-      <div class="row">
-        <div class="col-md-3">
+      <!-- <div class="row"> -->
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
           <div class="input-field-container">
-            <label class="input-label">Date of Joining</label>
+            <label class="input-label">DOJ</label>
             <input type="date" name="doj" class="styled-input date-input" id="doj" value="<?= htmlspecialchars($employee['doj']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
           <div class="input-field-container">
             <label class="input-label">Aadhar Number</label>
             <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number" pattern="[0-9]{12}" value="<?= htmlspecialchars($employee['aadhar']); ?>" />
           </div>
         </div>
-        <!-- <div class="row"> -->
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-2 form-first-sub-row" >
         <!-- Police Verification Field -->
-        <div class="col-md-3">
+        <div class="row">
+        <div class="col-12 mt-4">
           <div class="input-field-container">
             <label class="input-label">Police Verification</label>
             <select
@@ -340,69 +385,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             </select>
           </div>
         </div>
+        <div class="col-12" id="documentUploadField">
+  <div class="input-field-container">
+    <label class="input-label" id="documentLabel">Verified Doc</label>
+    <input
+      type="file"
+      name="police_verification_document"
+      class="styled-input"
+      accept=".pdf,.jpg,.png,.doc,.docx" />
+    <?php if (!empty($employee['police_verification_document'])): ?>
+      <a href="../uploads/<?= htmlspecialchars($employee['police_verification_document']); ?>"
+        target="_blank"
+        class="text-muted file-link">
+        <?= htmlspecialchars(str_replace('police_verification_', '', basename($employee['police_verification_document']))); ?>
+      </a>
+    <?php endif; ?>
+  </div>
+</div>
 
-        <div class="col-md-3" id="documentUploadField">
-          <div class="input-field-container">
-            <label class="input-label" id="documentLabel">Upload Verified Document</label>
-            <input
-              type="file"
-              name="police_verification_document"
-              class="styled-input"
-              accept=".pdf,.jpg,.png,.doc,.docx" />
-            <?php if (!empty($employee['police_verification_document'])): ?>
-              <a href="../uploads/<?= htmlspecialchars($employee['police_verification_document']); ?>"
-                target="_blank"
-                class="text-muted">
-                <?= basename($employee['police_verification_document']); ?>
-              </a>
-            <?php endif; ?>
-          </div>
         </div>
+  </div>
+</div>
 
-        <!-- Row 4 -->
-        <div class="row">
-          <div class="col-md-3">
-            <div class="input-field-container">
-              <label class="input-label">
-                Aadhar Upload Document
-                <?php if (!empty($employee['adhar_upload_doc'])): ?>
-            
-                  <span class="text-muted ms-2">
-                    (<?= basename($employee['adhar_upload_doc']); ?>)
-                  </span>
-                <?php endif; ?>
-              </label>
-              <input
-                type="file"
-                name="adhar_upload_doc"
-                class="styled-input"
-                accept=".pdf,.jpg,.jpeg,.png"
-                title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
-            </div>
-          </div>
-          <div class="col-md-3">
+<div class="row form-second-row-full">
+  <!-- Daily Rates Section -->
+  <h2 class="daily-title">Daily Rates</h2>
+  <div class="row">
+<div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
             <div class="input-field-container">
               <label class="input-label">Daily Rate (8 hours)</label>
               <input type="number" name="daily_rate8" class="styled-input" value="<?= htmlspecialchars($employee['daily_rate8']); ?>" />
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
             <div class="input-field-container">
               <label class="input-label">Daily Rate (12 hours)</label>
               <input type="number" name="daily_rate12" class="styled-input" value="<?= htmlspecialchars($employee['daily_rate12']); ?>" />
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
             <div class="input-field-container">
               <label class="input-label">Daily Rate (24 hours)</label>
               <input type="number" name="daily_rate24" class="styled-input" value="<?= htmlspecialchars($employee['daily_rate24']); ?>" />
             </div>
           </div>
+          </div>
+          </div>
 
 
-        </div>
-
-        <div class="col-md-3">
+          <div class="row form-second-row-bank-details">
+  <!-- Bank Details Section -->
+  <h2 class="bank-title">Bank Details</h2>
+  <div class="row">
+          <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
     <div class="input-field-container">
         <label class="input-label">Reference</label>
         <select name="reference" id="reference" class="styled-input">
@@ -414,7 +449,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 </div>
 
 
-<div class="col-md-3" id="vendorFields" style="<?= $employee['reference'] === 'vendors' ? '' : 'display: none;' ?>">
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorFields" style="<?= $employee['reference'] === 'vendors' ? '' : 'display: none;' ?>">
     <div class="input-field-container">
         <div class="d-flex align-items-center">
             <label class="input-label me-2 mb-0">Vendor Name</label>
@@ -432,35 +467,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         </div>
     </div>
 </div> 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Beneficiary Name</label>
             <input type="text" id="beneficiary_name" name="beneficiary_name" class="styled-input" placeholder="Enter Beneficiary Name" value="<?= htmlspecialchars($employee['beneficiary_name']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Bank Name</label>
             <input type="text" id="bank_name" name="bank_name" class="styled-input" placeholder="Enter Bank Name" value="<?= htmlspecialchars($employee['bank_name']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Branch</label>
             <input type="text" id="branch" name="branch" class="styled-input" placeholder="Enter Branch Name" value="<?= htmlspecialchars($employee['branch']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Bank Account Number</label>
             <input type="text" id="bank_account_no" name="bank_account_no" class="styled-input" placeholder="Enter Account Number" value="<?= htmlspecialchars($employee['bank_account_no']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">IFSC Code</label>
 
@@ -468,40 +503,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
           </div>
         </div>
+        </div>
+        </div>
 
         <div class="row">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="card" style="border: 1px solid #8B4513; border-radius: 8px;">
-                <div class="card-body">
+    <!-- Card inside col-md-6 -->
+    <div class="col-md-7 col-12 mt-3 form-third-row">
                   <div id="address-container">
+                
                     <?php foreach ($addresses as $index => $address): ?>
                       <!-- Address Entry -->
+                      <h2 class="address-title">Address</h2>
                       <div class="address-entry" id="address-<?= $index + 1 ?>">
                         <div class="row">
                           <input type="hidden" name="address_id[]" value="<?= htmlspecialchars($address['id']); ?>" />
-                          <div class="col-md-6">
-                            <div class="input-field-container">
-                              <label class="input-label">Pincode</label>
-                              <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" pattern="\d{6}" maxlength="6" value="<?= htmlspecialchars($address['pincode']); ?>" />
-                            </div>
-                          </div>
-      
-                          <div class="col-md-6">
+                         
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
                             <div class="input-field-container">
                               <label class="input-label">Flat, House No., Building, Apartment</label>
                               <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc." value="<?= htmlspecialchars($address['address_line1']); ?>" />
                             </div>
                           </div>
+                         
+                         
 
-                          <div class="col-md-6">
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
                             <div class="input-field-container">
                               <label class="input-label">Area, Street, Sector, Village</label>
                               <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" value="<?= htmlspecialchars($address['address_line2']); ?>" />
                             </div>
                           </div>
 
-                          <div class="col-md-6">
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
+                            <div class="input-field-container">
+                              <label class="input-label">Pincode</label>
+                              <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" pattern="\d{6}" maxlength="6" value="<?= htmlspecialchars($address['pincode']); ?>" />
+                            </div>
+                          </div>     
+
+                      
+
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
                             <div class="input-field-container">
                               <label class="input-label">Landmark</label>
                               <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" value="<?= htmlspecialchars($address['landmark']); ?>" />
@@ -509,13 +551,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                           </div>
 
                           <!-- Town/City -->
-                          <div class="col-md-6">
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
                             <div class="input-field-container">
                               <label class="input-label">Town/City</label>
                               <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" value="<?= htmlspecialchars($address['city']); ?>" />
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
                             <?php
                             include('states_dropdown.php');
                             $selectedState = $address['state'];
@@ -531,8 +573,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                               </select>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-md-12 mt-3">
+                        
+                        <div class="col-md-12 ">
                           <i class="fas fa-plus-square text-success add-more" style="font-size: 1.5rem; cursor: pointer;" title="Add More"></i>
                           <i class="fas fa-trash-alt text-danger delete-icon" style="font-size: 1.3rem; cursor: pointer;" title="Delete"></i>
                         </div>
@@ -541,60 +583,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="input-field-container">
-                <label class="input-label">Other Documents</label>
-                <div id="document-card-container" class="mt-3">
-                  <?php
-                  $emp_id = $employee['id']; // Get employee ID from session or wherever it's stored
-                  $query = "SELECT id, emp_id, file_path, file_type, document_name FROM emp_documents WHERE emp_id = '$emp_id'";
-                  $result = mysqli_query($conn, $query);
+          
+              <div class="col-12 col-sm-6 col-md-6 col-lg-4 mt-3 form-third-sub-row">
+    <h2 class="upload-title">Upload documents</h2>
+    <div class="input-field-container">
+        <label class="input-label">Other Documents</label>
+        <div id="document-card-container" class="mt-3">
+            <?php
+            $emp_id = $employee['id']; // Get employee ID from session or wherever it's stored
+            $query = "SELECT id, emp_id, file_path, file_type, document_name FROM emp_documents WHERE emp_id = '$emp_id'";
+            $result = mysqli_query($conn, $query);
 
-                  // Fetch documents if available
-                  if (mysqli_num_rows($result) > 0):
-                    while ($document = mysqli_fetch_assoc($result)):
-                  ?>
-                      <div class="card document-card mb-3">
-                        <div class="card-body">
-                          <div class="d-flex align-items-center justify-content-between">
-                            <div class="me-2 w-100">
-                              <label class="input-label"><?= htmlspecialchars($document['document_name']); ?></label>
-                              <input
-                                type="text"
-                                name="other_doc_name[]"
-                                class="styled-input form-control"
-                                value="<?= htmlspecialchars($document['document_name']); ?>"
-                                placeholder="Enter Document Name" />
-                            </div>
+            // Fetch documents if available
+            if (mysqli_num_rows($result) > 0):
+                while ($document = mysqli_fetch_assoc($result)):
+                    $clean_file_name = preg_replace('/^[a-zA-Z0-9_]+_/', '', basename($document['file_path']));
+            ?>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="me-2 w-100">
+                        <label class="input-label"><?= htmlspecialchars($document['document_name']); ?></label>
+                        <input
+                            type="text"
+                            name="other_doc_name[]"
+                            class="styled-input form-control"
+                            value="<?= htmlspecialchars($document['document_name']); ?>"
+                            placeholder="Enter Document Name" />
+                    </div>
 
-                            <div class="me-2 w-100">
-                              <label class="input-label">Other Document</label>
-                              <input
-                                type="file"
-                                name="other_doc[]"
-                                class="styled-input form-control"
-                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                                title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />
-                              <?php if (!empty($document['file_path'])): ?>
-                                <span class="text-muted ms-2">(<?= basename($document['file_path']); ?>)</span>
-                              <?php endif; ?>
-                            </div>
+                    <div class="me-2 w-100">
+                        <label class="input-label">Other Document</label>
+                        <input
+                            type="file"
+                            name="other_doc[]"
+                            class="styled-input form-control"
+                            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                            title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />
+                        <?php if (!empty($document['file_path'])): ?>
+                            <span class="text-muted ms-2">(<?= $clean_file_name; ?>)</span>
+                        <?php endif; ?>
+                    </div>
 
-                            <i class="fas fa-plus-square text-success me-2 add-more-documents" style="font-size: 1.5rem; cursor: pointer;"></i>
-                            <i class="fas fa-trash-alt text-danger remove-field" style="font-size: 1rem; cursor: pointer; display: none;"></i>
-                          </div>
-                        </div>
-                      </div>
-                  <?php
-                    endwhile;
-                  endif;
-                  ?>
+                    <i class="fas fa-plus-square text-success me-2 add-more-documents" style="font-size: 1.5rem; cursor: pointer;"></i>
+                    <i class="fas fa-trash-alt text-danger remove-field" style="font-size: 1rem; cursor: pointer; display: none;"></i>
                 </div>
+
+                <div class="col-12 col-sm-6 col-md-12 col-lg-8 mt-4">
+                    <div class="input-field-container">
+                        <label class="input-label">
+                            Aadhar Upload Document
+                            <?php 
+                            if (!empty($employee['adhar_upload_doc'])): 
+                                $clean_adhar_file_name = preg_replace('/^[a-zA-Z0-9_]+_/', '', basename($employee['adhar_upload_doc']));
+                            ?>
+                                <span class="text-muted ms-2">
+                                    (<?= $clean_adhar_file_name; ?>)
+                                </span>
+                            <?php endif; ?>
+                        </label>
+                        <input
+                            type="file"
+                            name="adhar_upload_doc"
+                            class="styled-input"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
+                    </div>
+                </div>
+            <?php
+                endwhile;
+            endif;
+            ?>
+        </div>
+    </div>
+</div>
+
               </div>
-            </div>
+            
 
 
+              <div class="row emp-submit">
+  <div class="col-md-12 text-center">
+    <button type="submit" class="btn w-100">Update</button>
+    <button 
+      type="button" 
+      class="btn btn-danger" 
+      onclick="window.location.href='table.php';">
+      Close
+    </button>
+  </div>
+</div>
+    </form>
+  </div>
+  </section>
+
+ 
+
+        
+    
 
             <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -668,22 +752,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                   .catch(error => console.error("Error fetching vendor data:", error));
               }
             </script>
-          </div>
        
-          <div class="row mt-4">
-  <div class="col-md-12 text-center">
-    <button type="submit" class="btn btn-primary">Update</button>
-    <button 
-      type="button" 
-      class="btn btn-danger" 
-      onclick="window.location.href='table.php';">
-      Close
-    </button>
-  </div>
-</div>
-    </form>
-  </div>
-
+       
+   
   <?php include 'vendormodal.php'; ?>
 
   <script>
@@ -816,10 +887,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
         if (selectedValue === 'verified') {
           documentUploadField.style.display = 'block';
-          documentLabel.textContent = 'Upload Verified Document';
+          documentLabel.textContent = 'Verified Document';
         } else if (selectedValue === 'rejected') {
           documentUploadField.style.display = 'block';
-          documentLabel.textContent = 'Upload Rejected Document';
+          documentLabel.textContent = 'Rejected Document';
         } else {
           documentUploadField.style.display = 'none';
         }

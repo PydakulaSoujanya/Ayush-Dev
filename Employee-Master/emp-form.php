@@ -22,9 +22,15 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
 
   
 </head>
+<style>
+ /* .form-center{
+  margin-left: 110px;
+ } */
+</style>
 <body>
 <?php include('../navbar.php'); ?>
-  <div class="container mt-7">
+<section class="form-center">
+  <div class="container mt-6">
     <h3 class="mb-4">Employee Form</h3>
     <form method="POST" id="employee_registartion" enctype="multipart/form-data" action="empdb.php">
     <!-- Row 1 -->
@@ -166,7 +172,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   <h2 class="daily-title">Daily Rates</h2>
   <div class="row">
     <!-- Daily Rate (8 hours) -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4 ">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
     <div class="input-field-container">
       <label class="input-label">Daily Rate (8 hours)</label>
       <input type="number" name="daily_rate8" class="styled-input" placeholder="Enter Daily Rate" />
@@ -267,6 +273,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
   </div>
   </div>
+  
     <div class="row">
     <!-- Card inside col-md-6 -->
     <div class="col-md-7 col-12 mt-3 form-third-row">
@@ -436,7 +443,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
 </form>
 </div>
-
+</section>
     <?php include 'vendormodal.php'; ?>
 
 

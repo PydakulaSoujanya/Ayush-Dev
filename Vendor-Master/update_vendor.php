@@ -159,34 +159,42 @@ if (isset($_GET['id'])) {
   <div class="container mt-7">
     <h3 class="mb-4">Update Vendor</h3>
     <form action="update_vendor.php?id=<?php echo $id; ?>" method="POST">
-      <div class="row">
-        <div class="col-md-6">
+    <div class="row form-section form-first-row">
+            <h2 class="section-title1">Vendor Details</h2>
+            <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Vendor Name</label>
             <input type="text" id="vendor_name" name="vendor_name" class="styled-input" value="<?php echo htmlspecialchars($vendor['vendor_name']); ?>" required />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">GSTIN</label>
             <input type="text" class="styled-input" id="gstin" name="gstin" value="<?php echo htmlspecialchars($vendor['gstin']); ?>" required />
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                    <div class="input-field-container">
+                        <label class="input-label">Contact Person</label>
+                        <input type="text" name="contact_person" class="styled-input" value="<?php echo htmlspecialchars($vendor['contact_person']); ?>" placeholder="Enter Contact Person" />
+                    </div>
+                </div>
+ 
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="input-field-container">
             <label class="input-label">Phone Number</label>
             <input type="text" id="phone_number" name="phone_number" class="styled-input" value="<?php echo htmlspecialchars($vendor['phone_number']); ?>" required />
           </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
           <div class="input-field-container">
             <label class="input-label">Email</label>
             <input type="email" id="email" name="email" class="styled-input" value="<?php echo htmlspecialchars($vendor['email']); ?>" required />
           </div>
         </div>
-      </div>
+     
       <div class="row">
         <div class="col-md-6">
           <div class="input-field-container">

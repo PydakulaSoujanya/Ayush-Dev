@@ -23,6 +23,12 @@ include '../config.php';
             color: white;
             font-weight: bold;
         }
+        @media (max-width: 767px) {
+    .form-select-mobile {
+        width: 110px !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -95,7 +101,7 @@ include '../config.php';
                                     echo "<td>" . number_format($daily_rate, 2) . "</td>";
                                     echo "<td>" . number_format($total_pay, 2) . "</td>";
                                     echo "<td>
-                                        <select name='status[]' class='form-select'>
+                                        <select name='status[]' class='form-select form-select-mobile'>
                                             <option value='Pending'" . ($row['status'] === 'Pending' ? " selected" : "") . ">Pending</option>
                                             <option value='Paid'" . ($row['status'] === 'Paid' ? " selected" : "") . ">Paid</option>
                                         </select>
