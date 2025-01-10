@@ -18,42 +18,7 @@ $vendor_result = mysqli_query($conn, $vendor_query);
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- <style>
-    .input-field-container {
-      position: relative;
-      margin-bottom: 15px;
-    }
 
-    .input-label {
-      position: absolute;
-      top: -10px;
-      left: 10px;
-      background-color: white;
-      padding: 0 5px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #A26D2B;
-    }
-
-    .styled-input {
-      width: 100%;
-      padding: 10px;
-      font-size: 12px;
-      outline: none;
-      box-sizing: border-box;
-      border: 1px solid #A26D2B;
-      border-radius: 5px;
-    }
-
-    .styled-input:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    h3 {
-      color: #A26D2B;
-    }
-  </style> -->
 </head>
 <body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -76,7 +41,7 @@ include('../navbar.php');
 </div>
   <form action="vendor_payment_db.php" method="POST" enctype="multipart/form-data">
     <div class="row form-section form-first-row">
-      <!-- Purchase Invoice Number (Auto-Generated) -->
+     
       <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Purchase Invoice Number</label>
