@@ -162,6 +162,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="../assets/css/style.css">
   
 </head>
+<style>
+@media (min-width: 1025px) and (max-width: 1920px) {
+  .section-title2 {
+ 
+    position: absolute;
+        top: 45%;
+        left: 125px;
+    }
+  .section-title3 {
+      position: absolute;
+      top: 85%;
+      left: 125px; 
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px){
+  .section-title2 {
+    position: absolute;
+        top: 30%;
+        left: 38px;
+    }
+  .section-title3 {
+    position: absolute;
+        top: 63%;
+        left: 40px;
+  }
+  .form-third-row {
+    width:103%;
+  }
+}
+@media (min-width: 425px) and (max-width: 767px){
+  .section-title2 {
+    position: absolute;
+        top: 48%;
+        left: 19px;
+    }
+  .section-title3 {
+    position: absolute;
+        top: 124%;
+        left: 17px;
+  }
+  .form-third-row {
+    width:103%;
+  }
+}
+
+</style>
 <body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -174,10 +220,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
   <form action="" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= htmlspecialchars($customerData['id']); ?>" />
-
-    <!-- First Row -->
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row form-section form-first-row">
+  <h2 class="section-title1">Basic Details</h2>
+  <div class="row">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">Are you a patient?</label>
           <select class="styled-input" name="patient_status" required>
@@ -188,14 +234,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">Patient Name</label>
           <input type="text" class="styled-input" name="patient_name" placeholder="Enter patient name" value="<?= htmlspecialchars($customerData['patient_name']); ?>" />
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">Relationship with Patient</label>
           <select class="styled-input" name="relationship">
@@ -210,34 +256,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
     </div>
+    </div>
 
-    <!-- Second Row -->
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row form-section form-first-row mt-3">
+<!-- <div class="row form-second-row-full mt-3"> -->
+  <h2 class="section-title2">Customer Details</h2>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Customer Name</label>
           <input type="text" class="styled-input" name="customer_name" placeholder="Enter customer name" value="<?= htmlspecialchars($customerData['customer_name']); ?>" required />
         </div>
       </div>
 
-      <div class="col-md-4">
+
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Contact Number</label>
           <input type="text" class="styled-input" name="emergency_contact_number" placeholder="Enter contact number" value="<?= htmlspecialchars($customerData['emergency_contact_number']); ?>" required />
         </div>
       </div>
 
-      <div class="col-md-4">
-        <div class="input-field-container">
-          <label class="input-label">Email</label>
-          <input type="email" class="styled-input" name="email" placeholder="Enter email" value="<?= htmlspecialchars($customerData['email']); ?>" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Third Row -->
-    <div class="row">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Blood Group</label>
           <select class="styled-input" name="blood_group" required>
@@ -253,25 +294,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </select>
         </div>
       </div>
+      </div>
 
-      <div class="col-md-4">
+      <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+        <div class="input-field-container">
+          <label class="input-label">Known Medical Conditions</label>
+          <input type="text" class="styled-input" name="medical_conditions" placeholder="Enter medical conditions" value="<?= htmlspecialchars($customerData['medical_conditions']); ?>" />
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+        <div class="input-field-container">
+          <label class="input-label">Email</label>
+          <input type="email" class="styled-input" name="email" placeholder="Enter email" value="<?= htmlspecialchars($customerData['email']); ?>" />
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Patient Age</label>
           <input type="number" class="styled-input" name="patient_age" placeholder="Enter patient age" value="<?= htmlspecialchars($customerData['patient_age']); ?>" />
         </div>
       </div>
 
-      <div class="col-md-4">
-        <div class="input-field-container">
-          <label class="input-label">Known Medical Conditions</label>
-          <input type="text" class="styled-input" name="medical_conditions" placeholder="Enter medical conditions" value="<?= htmlspecialchars($customerData['medical_conditions']); ?>" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Fourth Row -->
-    <div class="row">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Gender</label>
           <select class="styled-input" name="gender" required>
@@ -283,7 +330,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Mobility Status</label>
           <select class="styled-input" name="mobility_status">
@@ -294,7 +341,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Discharge Summary Sheet</label>
           <input type="file" class="styled-input" name="discharge_summary_sheet" />
@@ -302,59 +349,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
     </div>
+    </div>
+ 
 
     <!-- Address Row -->
-    <div class="row">
-      <div class="col-md-4">
-        <div class="input-field-container">
+    <div id="address-container">
+            <div class="address-entry" id="address-1">
+            <div class="row form-section form-third-row mt-3">
+            <h2 class="section-title3">Address Details</h2>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                  <div class="input-field-container">
           <label class="input-label">Pincode</label>
           <input type="text" class="styled-input" name="pincode" placeholder="Enter Pincode" value="<?= htmlspecialchars($customerData['pincode']); ?>" />
         </div>
       </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
+          <label class="input-label">Flat/House No./Apartment</label>
+          <input type="text" class="styled-input" name="flat_house_building_apartment" placeholder="Enter Flat/House No./Apartment" value="<?= htmlspecialchars($customerData['address_line2']); ?>" />
+        </div>
+      </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">Area, Street, Sector</label>
           <input type="text" class="styled-input" name="area" placeholder="Enter Area, Street, Sector" value="<?= htmlspecialchars($customerData['address_line1']); ?>" />
         </div>
       </div>
 
-      <div class="col-md-4">
-        <div class="input-field-container">
-          <label class="input-label">Flat/House No./Apartment</label>
-          <input type="text" class="styled-input" name="flat_house_building_apartment" placeholder="Enter Flat/House No./Apartment" value="<?= htmlspecialchars($customerData['address_line2']); ?>" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Address Row Continued -->
-    <div class="row">
-      <div class="col-md-4">
+    
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">Landmark</label>
           <input type="text" class="styled-input" name="landmark" placeholder="Enter Landmark" value="<?= htmlspecialchars($customerData['landmark']); ?>" />
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">Town/City</label>
           <input type="text" class="styled-input" name="town_city" placeholder="Enter Town/City" value="<?= htmlspecialchars($customerData['city']); ?>" />
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
         <div class="input-field-container">
           <label class="input-label">State</label>
           <input type="text" class="styled-input" name="state" placeholder="Enter State" value="<?= htmlspecialchars($customerData['state']); ?>" />
         </div>
       </div>
+      <div class="col-md-12">
+                  <i class="fas fa-plus-square text-success add-more" title="Add More"></i>
+                  <i class="fas fa-trash-alt text-danger delete-icon" title="Delete"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- Submit Button -->
-    <div class="form-group mt-4">
-      <button type="submit" class="btn btn-primary"><?= $editMode ? 'Update' : 'Submit' ?></button>
-    </div>
+</div>
+  
+<div class="row form-submit emp-submit mt-2">
+<div class="col-md-12 text-center">
+      <button type="submit" class="btn w-100"><?= $editMode ? 'Update' : 'Submit' ?></button>
+      </div>
+      </div>
   </form>
 </div>
 

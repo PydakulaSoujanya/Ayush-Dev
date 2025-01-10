@@ -58,123 +58,7 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
-    <!-- <style>
-        :root {
-            --card-bg-color: #e9ecef;
-            --chart-bg-color: #ffffff;
-            --title-bg-color: #806e08;
-            --title-text-color: white;
-        }
-
-        body {
-            background-color: #dbdada62;
-            font-family: Arial, sans-serif;
-        }
-
-        .dashboard {
-            display: flex;
-            gap: 20px;
-            margin: 20px;
-        }
-
-        .left-section {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            flex: 3;
-        }
-
-        .right-section {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            flex: 2;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border-color: #d7d8d86f;
-        }
-
-        .card-title {
-            background-color: var(--title-bg-color);
-            color: var(--title-text-color);
-            padding: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .card-body {
-            padding: 20px;
-            text-align: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .card.wide {
-            grid-column: span 2;
-        }
-
-        .calendar-container {
-            background-color: var(--chart-bg-color);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        canvas {
-            width: 100% !important;
-            height: 300px !important;
-        }
-
-        .chart-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        .chart-filters {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .chart-filters button {
-            background-color: #fff;
-            color: #806e08;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .chart-filters button.active {
-            background-color: #806e08;
-            color: #fff;
-            border: 1px solid #806e08;
-        }
-    
-        @media (max-width: 768px) {
-            .left-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .right-section {
-                flex: 1;
-            }
-
-            canvas {
-                height: 250px !important;
-            }
-        }
-    </style> -->
+ 
 </head>
 <body>
 
@@ -191,18 +75,25 @@ $conn->close();
     <div class="card-title">Employees (Vendors)</div>
     <div class="card-body"><?php echo $vendors_count; ?></div>
 </div>
-            <div class="card">
+<div class="card">
     <div class="card-title" style="line-height: 3.5rem;">Vendors</div>
-    <div class="card-body"><?php echo str_pad($vendor_count, 2, '0', STR_PAD_LEFT); ?></div>
+    <div class="card-body">
+        <?php echo ($vendor_count >= 10) ? str_pad($vendor_count, 2, '0', STR_PAD_LEFT) : $vendor_count; ?>
+    </div>
 </div>
-            
+
 <div class="card">
     <div class="card-title" style="line-height: 3.5rem;">Patients</div>
-    <div class="card-body"><?php echo str_pad($patient_count, 2, '0', STR_PAD_LEFT); ?></div>
+    <div class="card-body">
+        <?php echo ($patient_count >= 10) ? str_pad($patient_count, 2, '0', STR_PAD_LEFT) : $patient_count; ?>
+    </div>
 </div>
-            <div class="card">
+
+<div class="card">
     <div class="card-title">Fully Trained Nurses</div>
-    <div class="card-body"><?php echo str_pad($nurse_count, 2, '0', STR_PAD_LEFT); ?></div>
+    <div class="card-body">
+        <?php echo ($nurse_count >= 10) ? str_pad($nurse_count, 2, '0', STR_PAD_LEFT) : $nurse_count; ?>
+    </div>
 </div>
             <div class="card">
                 <div class="card-title" >Semi Trained Nurses</div>
