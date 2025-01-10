@@ -1326,14 +1326,20 @@ h4 {
 
     .emp-submit .btn {
       display: inline-block !important;
-      width: 18% !important;
+      width: 20% !important;
       padding: 10px 20px;
-      margin-top: 5px;
-      background-color:#A26D2B;
-      color:white;
-      
+      margin-top: 20px;
+      background-color: #A26D2B;
+      color: white;
+  }
   
-      }
+  .emp-submit .btn:hover {
+      background-color: #A26D2B !important; /* Keep the same background color */
+      color: white; /* Keep the same text color */
+      cursor: default; /* Optional: Prevent pointer change */
+      text-decoration: none; /* Optional: Remove underline if links are styled as buttons */
+  }
+  
       .form-center{
         margin-left: 110px;
        }
