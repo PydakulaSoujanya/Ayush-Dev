@@ -71,6 +71,27 @@
 .toggle-password:hover {
   color: #333;
 }
+#submit-button {
+  background-color: #A26D2B;
+  width: 150px;
+  text-align: center;
+  padding: 10px 20px; /* Adjust as needed */
+  border: none; /* Remove border */
+  margin: 0 auto; /* Center horizontally */
+  display: block; /* Required for margin: auto to work */
+  color: white; /* Optional: Ensures text is visible */
+  cursor: pointer; /* Optional: Adds a pointer on hover */
+  border-radius: 0%;
+}
+.forgot-class a {
+  color: #A26D2B; /* Sets the desired color */
+  text-decoration: none; /* Optional: Removes underline */
+}
+
+.forgot-class a:hover {
+  text-decoration: underline; /* Optional: Adds underline on hover */
+}
+
 
   </style>
 </head>
@@ -128,11 +149,11 @@
             <label class="form-check-label" for="rememberMe">Remember Me</label>
         </div> -->
         <div class="login-footer mt-3">
-    <p><a href="forgot_password.php">Forgot Password?</a></p>
+    <p class="forgot-class"><a href="forgot_password.php" >Forgot Password?</a></p>
 </div>
 
 
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" id="submit-button">Login</button>
     </form>
 
     <!-- <div class="login-footer mt-3">

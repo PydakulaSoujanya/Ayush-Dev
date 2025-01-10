@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               ('$employee_name', '$expense_category', '$expense_date', '$amount_claimed', '$attachment', '$status', '$rejection_reason', '$submitted_date', '$approved_date', '$payment_date', '$description', '$transaction_id', '$payment_mode', '$card_reference_number', '$bank_name')";
 
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Expense claim submitted successfully!'); window.location.href='employee_expenditure_table.php';</script>";
+        echo "<script>alert('Expense claim submitted successfully!'); window.location.href='expenses_claim_table.php';</script>";
     } else {
         $error_message = mysqli_error($conn);
         echo "<script>alert('Error: $error_message'); window.location.href='expenses_claim_form.php';</script>";

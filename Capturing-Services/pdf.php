@@ -83,15 +83,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['assign_employee'])) {
         $empName = $empRow['name'];
 
         // Check if the employee is already assigned to a service request
-        $checkSql = "SELECT * FROM service_requests WHERE assigned_employee = '$empName'";
+        $checkSql = "SELECT * FROM service_requests WHERE assigned_employee = '$empId'";
         $checkResult = $conn->query($checkSql);
+        $servcieduraitonSql = "SELECT * FROM service_requests WHERE id = '$serviceId'";
+        $servcieduraitonResult = $conn->query($servcieduraitonSql);
 
-        // if ($checkResult->num_rows > 0) {
-            // If employee is already assigned to a different service request
-            // echo "<script>alert('This employee is already assigned to another service!!');
-            // window.location.href = 'view_services.php';
-            // </script>";
-        // } else
+        
+if ($servcieduraitonResult->num_rows > 0) {
+    // Fetch the row data
+    $row = $servcieduraitonResult->fetch_assoc();
+    
+    // Concatenate 'daily_rate' prefix with 'service_duration'
+    $serviceDuration = 'daily_rate' . $row['service_duration'];  // Concatenate string
+    $serviceTotalDays = $row['total_days'];  // Concatenate string
+    
+    echo "<script type='text/javascript'>alert('Service Duration with Prefix: " . $serviceDuration . "');</script>";
+} else {
+  echo "<script type='text/javascript'>alert('Service Duration with Prefix: no rive dutraion');</script>";
+}
+       
+$empServiceRateHourSql = "SELECT daily_rate8, daily_rate12, daily_rate24 FROM emp_info WHERE id = '$empId'";
+$empServiceRateHourResult = $conn->query($empServiceRateHourSql);
+
+if ($empServiceRateHourResult->num_rows > 0) {
+    // Fetch the row data
+    $row = $empServiceRateHourResult->fetch_assoc();
+    
+    // Check which column matches the serviceDuration
+    if ($serviceDuration === 'daily_rate8') {
+        $rate = $row['daily_rate8']*$serviceTotalDays;
+    } elseif ($serviceDuration === 'daily_rate12') {
+        $rate = $row['daily_rate12']*$serviceTotalDays;
+    } elseif ($serviceDuration === 'daily_rate24') {
+        $rate = $row['daily_rate24']*$serviceTotalDays;
+    } else {
+        // Handle invalid or unexpected serviceDuration values
+        $rate = "Rate not found"; // You can set this to a default value or handle as needed
+    }
+
+    
+
+echo "<script type='text/javascript'>alert('Service Duration with Prefix: " . $rate . "');</script>";
+} else {
+  echo "<script type='text/javascript'>alert('Service Duration with Prefix: no rive dutraion');</script>";
+}
         
         {
             //  Assign the employee name to the service request
@@ -109,56 +144,18 @@ $maxInvoiceId = $row['max_invoice_id'];
 
 $newInvoiceId = 'INV' . str_pad($maxInvoiceId + 1, 7, '0', STR_PAD_LEFT);
 
-// $invoiceSql = "
-//     INSERT INTO invoice (invoice_id, customer_id, service_id, customer_name, mobile_number, customer_email, total_amount, due_date, status, created_at, invoice_date)
-//     SELECT 
-//         '$newInvoiceId', 
-//         '', sr.id, sr.customer_name, sr.contact_no, sr.email, sr.total_price, 
-//         DATE_ADD(NOW(), INTERVAL 7 DAY), 'Pending', NOW()
-//     FROM service_requests sr
-//     WHERE sr.id = '$serviceId'
-// ";
 $invoiceSql = "
-    INSERT INTO invoice (
-        invoice_id, 
-        customer_id, 
-        service_id, 
-        customer_name, 
-        mobile_number, 
-        customer_email, 
-        total_amount, 
-        due_date, 
-        status, 
-        created_at, 
-        invoice_date
-    )
+    INSERT INTO invoice (invoice_id, customer_id, service_id, customer_name, mobile_number, customer_email, total_amount, due_date, status, created_at)
     SELECT 
         '$newInvoiceId', 
-        '', 
-        sr.id, 
-        sr.customer_name, 
-        sr.contact_no, 
-        sr.email, 
-        sr.total_price, 
-        DATE_ADD(NOW(), INTERVAL 7 DAY), 
-        'Pending', 
-        NOW(),
-        IFNULL(sr.assigned_date, NOW()) -- Use assigned_date if available, otherwise use current date
+        '', sr.id, sr.customer_name, sr.contact_no, sr.email, sr.total_price, 
+        DATE_ADD(NOW(), INTERVAL 7 DAY), 'Pending', NOW()
     FROM service_requests sr
     WHERE sr.id = '$serviceId'
 ";
 
 
-                    // Generate invoice after successfully assigning the employee
-                    // $invoiceSql = "
-                    //     INSERT INTO invoice (invoice_id, customer_id, service_id, customer_name, mobile_number, customer_email, total_amount, due_date, status, created_at)
-                    //     SELECT 
-                    //         CONCAT('INV', LPAD(FLOOR(RAND() * 100000), 6, '0')), 
-                    //         '', sr.id, sr.customer_name, sr.contact_no, sr.email, sr.service_price, 
-                    //         DATE_ADD(NOW(), INTERVAL 7 DAY), 'Pending', NOW()
-                    //     FROM service_requests sr
-                    //     WHERE sr.id = '$serviceId'
-                    // ";
+                   
                     
                 if ($conn->query($invoiceSql) === TRUE) {
     // Fetch the generated invoice details
@@ -180,13 +177,13 @@ $invoiceSql = "
     $status="Pending";
 
     $expenseStmt = $conn->prepare("
-    INSERT INTO Expenses (expense_type, entity_id, service_id,entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
-    VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    INSERT INTO Expenses (expense_type, entity_id, entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
     $expenseStmt->bind_param(
-      "ssssssdsss", 
-      $expense_type, $empId,$serviceId, $empName, $status, $payment_status, $description, $rate, $expense_date, $additional_details
+      "sssssdsss", 
+      $expense_type, $empId, $empName, $status, $payment_status, $description, $rate, $expense_date, $additional_details
   );
   
     if ($expenseStmt->execute()) {
@@ -216,7 +213,7 @@ $customerstmt = $conn->prepare($customersql);
 $customerstmt->bind_param("i", $servicerow['customer_id']);
 $customerstmt->execute();
 $result = $customerstmt->get_result();
-$address = $result->fetch_assoc()['address'];
+//$address = $result->fetch_assoc()['address'];
 $emergency_contact_number= $result->fetch_assoc()['emergency_contact_number'];
 //echo "<script>alert('Emergency Contact Number: " . htmlspecialchars($emergency_contact_number) . "');</script>";
 
@@ -225,7 +222,27 @@ $endDateFormatted = date('d/m/Y', strtotime($servicerow['end_date']));
 
 
 $ttoaday = (strtotime($servicerow['end_date']) - strtotime($servicerow['from_date'])) / (60 * 60 * 24) + 1 ;
-//echo "<script>alert('TOTAL DAYS: $ttoaday');</script>";
+
+$addressSql = "SELECT `pincode`, `address_line1`, `address_line2`, `landmark`, `city`, `state` FROM `customer_addresses` WHERE `customer_id` = ?";
+$addressStmt = $conn->prepare($addressSql);
+
+// Bind the customer_id to the query
+$addressStmt->bind_param("i", $servicerow['customer_id']);
+$addressStmt->execute();
+
+// Fetch the results
+$addressResult = $addressStmt->get_result();
+$address = $addressResult->fetch_assoc();  // Now the address is fetched properly
+
+
+if ($address) {
+  // Concatenate the address fields
+  $address = $address['address_line1'] . ' ' . $address['address_line2'] . ' ' . $address['landmark'] . ' ' . $address['city'] . ' ' . $address['state'] . ' ' . $address['pincode'];
+} else {
+  // Handle the case where no address data is returned
+  $address = "No address available";  // Or any fallback text
+}
+echo "Full Address: " . $address;
 
 class PDF extends Fpdi
 {  
@@ -393,10 +410,10 @@ $pdf_path_stmt->close();
 
                     echo "<script>
                         alert('Employee allocated successfully, service request Confirmed, invoice generated, and PDF created!');
-                       
+                       window.location.href = 'pdf.php';
                     </script>";
                     }
-                     //window.location.href = 'view_services.php';
+                     
                     else {
                         echo "<script>
                             alert('Employee allocated and service Confirmed, but failed to generate invoice: " . $conn->error . "');
@@ -429,84 +446,98 @@ $pdf_path_stmt->close();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+ 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Include Font Awesome -->
     <link rel="stylesheet" href="../assets/css/style.css">
 
   <title>Services</title>
   <style>
-  
-        /* Add color to icons */
-        .fa-user {
-            color: #007bff; /* Blue color for the user icon */
-        }
-        .fa-phone {
-            color: #28a745; /* Green color for the phone icon */
-        }
+    .dataTable_wrapper {
+      padding: 20px;
+    }
 
+    .dataTable_search input {
+      max-width: 200px;
+    }
 
-        /* Desktop view (1025px and above) */
-@media (min-width: 1025px) and (max-width: 1920px) {
-   .customer_info_th{
-    width:124px;
-   }   
-   .details_th{
-    width: 150px;
-   }
-   .payment_details_th{
-    width:144px;
-   }
-   .total_price_th{
-    width:100px;
-   }
-   .total_days_th{
-    width:215px;
-   }
- 
-}
+    .dataTable_headerRow th,
+    .dataTable_row td {
+      border: 1px solid #dee2e6; /* Add borders for columns */
+    }
 
+    .dataTable_headerRow {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .dataTable_row:hover {
+      background-color: #f1f1f1;
+    }
+
+    .dataTable_card {
+      border: 1px solid #ced4da; /* Add card border */
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dataTable_card .card-header {
+      background-color:  #A26D2B;
+      color: white;
+      font-weight: bold;
+    }
+    .action-icons i {
+      color: black;
+      cursor: pointer;
+      margin-right: 10px;
+    }
   </style>
-
-
 </head>
 <body>
  <?php
   include '../navbar.php';
   ?>   
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   
-  <div class="container  mt-6">
+  <div class="container  mt-7">
     <div class="dataTable_card card">
       <!-- Card Header -->
-      <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 table-title">Capturing Services Info</h5>
-      <a href="services.php" class="add_button"><strong class="add_button_plus">+</strong>Add Capture Service</a>
-    </div>
+      <div class="card-header"> Capturing Services Table</div>
 
+      <!-- Card Body -->
+      <div class="card-body">
+        <!-- Search Input -->
+        <div class="dataTable_search mb-3 d-flex justify-content-between">
+        <form class="d-flex w-75">
+    <input type="text" class="form-control" id="globalSearch" placeholder="Search..." oninput="performSearch()">
+</form>
+
+    <a href="services.php" class="btn btn-success">+ Capture Service</a>
+</div>
 
 
         <!-- Table -->
-        <div class="table-responsive mt-3 p-4">
-        <table id="serviceRequestsTable" class="display table table-striped" style="width:100%">
+        <div class="table-responsive">
+        <table class="table table-striped">
     <thead>
-        <tr></tr>
-            <th class="s_th">S.no</th>
-            <th class="customer_info_th">Customer Info</th>
-            <th class="details_th">Details Date</th>
-            <th class="total_days_th">Total Days & Service </th> 
-            <th class="payment_details_th">Payment Details</th>
-            <th class="total_price_th">Total Price</th>
+        <tr class="dataTable_headerRow">
+            <th>S.no</th>
+            <th>Customer Info</th>
+            <th>Details</th>
+            <th>Total Days & Service Type</th> 
+            <th>Payment Details</th>
+            <th>Total Price</th>
             <th>Status</th>
             <th>Invoice ID</th>
-            
-            <th>Assign Employee</th>
             <th>Action</th>
+            <th>Assign Employee</th>
         </tr>
     </thead>
     <tbody>
 <?php
-$start = 0;
-$sql1 = "SELECT * FROM service_requests ORDER BY created_at DESC";
+$sql1 = "SELECT * FROM service_requests 
+        ";
         $result1 = mysqli_query($conn, $sql1);
 
 
@@ -526,49 +557,16 @@ if ($result1->num_rows > 0) {
 
     // Fetch the invoice ID if it exists
     $invoiceId = null;
-$totalPaidAmount = 0;
-$remainingAmount = 0;
-$status = 'Not Paid'; // Default status
-
-if ($invoiceResult->num_rows > 0) {
-    $invoiceRow = $invoiceResult->fetch_assoc();
-    $invoiceId = $invoiceRow['invoice_id'];
-
-    // Query to calculate the total paid amount for the invoice
-    $paidAmountQuery = "
-        SELECT SUM(paid_amount) AS total_paid 
-        FROM invoice 
-        WHERE invoice_id = ? 
-          AND receipt_id IS NOT NULL
-    ";
-    $paidStmt = $conn->prepare($paidAmountQuery);
-    $paidStmt->bind_param("s", $invoiceId);
-    $paidStmt->execute();
-    $paidResult = $paidStmt->get_result();
-
-    if ($paidRow = $paidResult->fetch_assoc()) {
-        $totalPaidAmount = $paidRow['total_paid'] ?? 0; // Handle null sum
+    if ($invoiceResult->num_rows > 0) {
+        $invoiceRow = $invoiceResult->fetch_assoc();
+        $invoiceId = $invoiceRow['invoice_id'];
     }
-
-    // Calculate the remaining balance
-    $remainingAmount = $row['total_price'] - $totalPaidAmount;
-
-    // Determine the payment status based on remaining balance
-    if ($remainingAmount == $row['total_price']) {
-        $status = 'Not Paid';
-    } elseif ($remainingAmount == 0) {
-        $status = 'Fully Paid';
-    } else {
-        $status = 'Partially Paid';
-    }
-}
-        echo "<tr>
+        echo "<tr class='dataTable_row'>
                 <td>{$serial}</td>
                 <td>
-                            <i class='fas fa-user' title='Name' style='margin-right: 5px;'></i>" . htmlspecialchars($row['customer_name']) . "<br>
-                            <i class='fas fa-phone' title='Phone' style='margin-right: 5px;'></i>" . htmlspecialchars($row['contact_no']) . "
-                        </td>
-                
+                  <strong>Name:</strong> " . htmlspecialchars($row['customer_name']) . "<br>
+                  <strong>Phone:</strong> " . htmlspecialchars($row['contact_no']) . "
+                </td>
                 <td>
                   <strong>Start Date:</strong> " . htmlspecialchars($row['from_date']) . "<br>
                   <strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "
@@ -579,8 +577,8 @@ if ($invoiceResult->num_rows > 0) {
                   <strong>Service Type:</strong> {$row['service_type']}
                 </td>
                <td>
-                  <strong>Status:</strong> {$status}<br>
-                  <strong>Amount Paid:</strong> {$totalPaidAmount}
+                  <strong>Status:</strong> Fully paid<br>
+                  <strong>Amount Paid:</strong> 2500
                 </td>
                 <td>{$row['total_price']}</td>
                 
@@ -644,17 +642,7 @@ if ($invoiceResult->num_rows > 0) {
             )
     );";
 
-// <form method='POST' action='update_servicestatus.php'>
-//                         <select name='status' required>
-//                             <option value='Pending' " . ($row['status'] === 'Pending' ? 'selected' : '') . ">Pending</option>
-//                             <option value='Confirmed' " . ($row['status'] === 'Confirmed' ? 'selected' : '') . ">Confirmed</option>
-//                             <option value='Booked' " . ($row['status'] === 'Booked' ? 'selected' : '') . ">Booked</option>
-//                         </select>
-//                         <input type='hidden' name='service_id' value='{$row['id']}'>
-//                         <button type='submit' name='update_status' style='border: none; background: none; cursor: pointer;' title='Update Status'>
-//                             <i class='fas fa-save text-primary'></i>
-//                         </button>
-//                     </form>
+
         ;
     $stmt = $conn->prepare($query);
     $stmt->bind_param(
@@ -715,10 +703,64 @@ echo "</tr>";
 ?>
     </tbody>
 </table>
+<div class="modal fade" id="viewInvoiceModal" tabindex="-1" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewInvoiceModalLabel">Invoice Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="invoiceDetails">
+                <!-- Invoice details will be dynamically inserted here -->
+                <form id="invoiceDetailsForm">
+                    <div class="mb-3">
+                        <label for="invoice_id" class="form-label">Invoice ID</label>
+                        <input type="text" class="form-control" id="invoice_id" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customer_name" class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="customer_name" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile_number" class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="mobile_number" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customer_email" class="form-label">Customer Email</label>
+                        <input type="email" class="form-control" id="customer_email" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total_amount" class="form-label">Total Amount</label>
+                        <input type="text" class="form-control" id="total_amount" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="due_date" class="form-label">Due Date</label>
+                        <input type="text" class="form-control" id="due_date" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="created_at" class="form-label">Created At</label>
+                        <input type="text" class="form-control" id="created_at" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updated_at" class="form-label">Updated At</label>
+                        <input type="text" class="form-control" id="updated_at" readonly>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-              
+<!-- Add these in your HTML -->
 
-<script>
+
+        </div>
+
+        <script>
     document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('reassignEmployeePopupModal');
 
@@ -1156,30 +1198,6 @@ formData.append('end_date', document.getElementById('end_date').value);  // Add 
       })
       .catch(error => console.error('Error fetching data:', error));
   }
-</script>
-
-
-<!-- Add these in the head or before the closing body tag -->
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    $('#serviceRequestsTable').DataTable({
-        paging: true, // Enable pagination
-        searching: true, // Enable search bar
-        ordering: true, // Enable column sorting
-        lengthMenu: [5, 10, 20, 50], // Define pagination options
-        pageLength: 5, // Default page length
-        language: {
-            search: "Search:", // Custom search bar placeholder text
-        },
-        columnDefs: [
-            { orderable: false, targets: [8, 9] } // Disable sorting for "Assign Employee" & "Action" columns
-        ]
-    });
-});
 </script>
 
 </body>

@@ -31,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $branch = $_POST['branch'] ?? null;
         $bank_account_no = $_POST['bank_account_no'] ?? null;
         $ifsc_code = $_POST['ifsc_code'] ?? null;
-        $vendor_id = $_POST['vendor_id'] ?? null; // Vendor ID
-        $vendor_name = $_POST['vendor_name'] ?? null; // Vendor Name
+        $vendor_name = $_POST['vendor_name'] ?? null;
         $vendor_contact = $_POST['vendor_contact'] ?? null;
         $beneficiary_name = $_POST['beneficiary_name'] ?? null;
         $police_verification = $_POST['police_verification'] ?? null;
@@ -57,20 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert into emp_info table
         $sql = "INSERT INTO emp_info (
-            name, dob, gender, phone, email, role, qualification, experience, doj, aadhar,
-            police_verification, police_verification_document, adhar_upload_doc, daily_rate8, daily_rate12,
-            daily_rate24, bank_name, bank_account_no, ifsc_code, branch, reference, vendor_name, vendor_id,
-            vendor_contact, beneficiary_name
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param(
-    "sssssssssssssssssssssssss",
-    $name, $dob, $gender, $phone, $email, $role, $qualification, $experience, $doj, $aadhar,
-    $police_verification, $police_verification_document, $adhar_upload_doc, $daily_rate8, $daily_rate12,
-    $daily_rate24, $bank_name, $bank_account_no, $ifsc_code, $branch, $reference, $vendor_name, $vendor_id,
-    $vendor_contact, $beneficiary_name
-);
+                    name, dob, gender, phone, email, role, qualification, experience, doj, aadhar,
+                    police_verification, police_verification_document, adhar_upload_doc, daily_rate8, daily_rate12,
+                    daily_rate24, bank_name, bank_account_no, ifsc_code, branch, reference, vendor_name, vendor_contact, beneficiary_name
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param(
+            "ssssssssssssssssssssssss",
+            $name, $dob, $gender, $phone, $email, $role, $qualification, $experience, $doj, $aadhar,
+            $police_verification, $police_verification_document, $adhar_upload_doc, $daily_rate8, $daily_rate12,
+            $daily_rate24, $bank_name, $bank_account_no, $ifsc_code, $branch, $reference, $vendor_name, $vendor_contact, $beneficiary_name
+        );
         $stmt->execute();
         $emp_id = $conn->insert_id; // Get the inserted employee ID
 

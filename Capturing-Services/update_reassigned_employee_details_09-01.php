@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Step 1: Fetch service details using $serviceId
         $serviceDetailsStmt = $conn->prepare("
             SELECT id, customer_name, customer_id, service_type, from_date, end_date, total_days, 
-                  total_price, assigned_employee, per_day_service_price, status 
+                   service_price, assigned_employee, per_day_service_price, status 
             FROM service_requests 
             WHERE id = ?
         ");
@@ -33,27 +33,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        
+        // Extract details
         $perDayServicePrice = $serviceDetails['per_day_service_price'];
         $oldAssignedEmployee = $serviceDetails['assigned_employee'];
 
-        
+        // Step 2: Calculate total days for the new employee based on selected dates
         $startDate = new DateTime($fromDate);
         $endDateObj = new DateTime($endDate);
         $totalDays = $startDate->diff($endDateObj)->days + 1; // Include both start and end dates
         $newAmount = $totalDays * $perDayServicePrice;
-        $oldEmployeeAmount = $serviceDetails['total_price'] - $newAmount;
 
+      
+        // Step 3: Update the old employee's record
         $updateOldEmployeeStmt = $conn->prepare("
             UPDATE Expenses 
-            SET amount = ?, status = 'Completed', updated_at = NOW(), 
-                description = CONCAT(description, ' - Adjusted due to employee replacement') 
+            SET status = 'Completed', updated_at = NOW(), description = CONCAT(description, ' - Adjusted due to employee replacement') 
             WHERE entity_id = ? AND status = 'Pending'
         ");
-        $updateOldEmployeeStmt->bind_param("ds", $oldEmployeeAmount, $oldEmployeeID);
+        $updateOldEmployeeStmt->bind_param("s", $oldEmployeeID);
         $updateOldEmployeeStmt->execute();
         $updateOldEmployeeStmt->close();
-        
 
         // Step 4: Assign the new employee in the service request
         $updateServiceStmt = $conn->prepare("
