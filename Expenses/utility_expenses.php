@@ -26,9 +26,16 @@ include('../navbar.php');
   
   <h3 class="mb-4">Utility Expenses Claim</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
+<<<<<<< HEAD
+  <div class="row form-section form-first-row">
+            <h2 class="section-title1">Utility Expenses</h2>
+            <div class="row">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+=======
     <div class="row form-section form-first-row">
     
     <div class="col-md-4">
+>>>>>>> e0710d4c9a48324fcabc62938758c98895c94624
   <div class="input-field-container">
     <label class="input-label">Select Vendor</label>
     <!-- Dropdown for selecting a vendor -->
@@ -79,7 +86,7 @@ function updateVendorFields() {
       
 
       <!-- Expense Date -->
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
         <div class="input-field-container">
           <label class="input-label">Expense Date</label>
           <input type="date" class="styled-input" name="expense_date" required />
@@ -89,7 +96,7 @@ function updateVendorFields() {
 
     <div class="row">
       <!-- Amount to be Paid -->
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Amount to be Paid</label>
           <input type="number" class="styled-input" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
@@ -99,7 +106,7 @@ function updateVendorFields() {
       
 
       <!-- Status -->
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Status</label>
           <select class="styled-input" name="status" required>
@@ -112,7 +119,7 @@ function updateVendorFields() {
         </div>
       </div>
        
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Description</label>
           <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea>
@@ -129,10 +136,10 @@ function updateVendorFields() {
 
     
 
-    <div class="row">
+    <div class="row emp-submit mt-2">
     
       <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
+        <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
       </div>
     </div>
   </form>
