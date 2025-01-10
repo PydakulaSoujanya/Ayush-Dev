@@ -26,9 +26,13 @@ include('../navbar.php');
   
   <h3 class="mb-4">Employee Advance Paid</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
+<<<<<<< HEAD
   <div class="row form-section form-first-row">
             <h2 class="section-title1">Paid Details</h2>
             <div class="row">
+=======
+    <div class="row form-section form-first-row">
+>>>>>>> e0710d4c9a48324fcabc62938758c98895c94624
     
     <!-- Employee Name -->
     <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
@@ -73,7 +77,7 @@ include('../navbar.php');
       </div>
     </div>
 
-    <div class="row">
+    <div class="row form-section form-first-row">
       <!-- Amount Paid -->
       <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
         <div class="input-field-container">
@@ -96,12 +100,23 @@ include('../navbar.php');
 
     <input type="hidden" name="advance_paid_type" value="Employee advance paid Claim">
     </div>
+<<<<<<< HEAD
     <div class="row emp-submit mt-2">
     <div class="col-md-12 text-center">
         <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
       </div>
     </div>
     </div>
+=======
+    <div class="row">
+    <div class="col-md-12 mt-4 text-center">
+  <div class="input-field-container">
+    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
+      Submit
+    </button>
+  </div>
+</div>
+>>>>>>> e0710d4c9a48324fcabc62938758c98895c94624
   </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

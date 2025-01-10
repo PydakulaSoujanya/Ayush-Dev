@@ -26,10 +26,16 @@ include('../navbar.php');
   
   <h3 class="mb-4">Utility Expenses Claim</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
+<<<<<<< HEAD
   <div class="row form-section form-first-row">
             <h2 class="section-title1">Utility Expenses</h2>
             <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+=======
+    <div class="row form-section form-first-row">
+    
+    <div class="col-md-4">
+>>>>>>> e0710d4c9a48324fcabc62938758c98895c94624
   <div class="input-field-container">
     <label class="input-label">Select Vendor</label>
     <!-- Dropdown for selecting a vendor -->

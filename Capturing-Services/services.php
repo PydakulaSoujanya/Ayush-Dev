@@ -641,7 +641,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<script>
+  <script>
  let previousValues = [];
 setInterval(() => {
   const inputs = document.querySelectorAll("input[name='service_price[]']");
@@ -711,7 +711,7 @@ setInterval(() => {
         fetch("add_customer.php", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `new_customer_name=${encodeURIComponent(customerName)}&new_customer_email=${encodeURIComponent(customerEmail)}&new_customer_phone=${encodeURIComponent(customerPhone)}`
+          body: new_customer_name=${encodeURIComponent(customerName)}&new_customer_email=${encodeURIComponent(customerEmail)}&new_customer_phone=${encodeURIComponent(customerPhone)}
         })
         .then(response => response.json())
         .then(data => {
@@ -766,7 +766,7 @@ function searchCustomers(search) {
     patientRelationField.value = "";
 
     if (search.trim() !== "") {
-        fetch(`search_customer.php?search=${search}`)
+        fetch(search_customer.php?search=${search})
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -942,13 +942,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Format time as HH:MM
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
-    const currentTime = `${hours}:${minutes}`;
+    const currentTime = ${hours}:${minutes};
 
     // Format date as YYYY-MM-DD
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const date = String(now.getDate()).padStart(2, "0");
-    const currentDate = `${year}-${month}-${date}`;
+    const currentDate = ${year}-${month}-${date};
 
     // Set the values of the input fields
     document.getElementById("enquiry-time").value = currentTime;
@@ -980,13 +980,13 @@ document.addEventListener("DOMContentLoaded", function () {
         // Format time as HH:MM
         const hours = String(now.getHours()).padStart(2, "0");
         const minutes = String(now.getMinutes()).padStart(2, "0");
-        const currentTime = `${hours}:${minutes}`;
+        const currentTime = ${hours}:${minutes};
 
         // Format date as YYYY-MM-DD
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, "0");
         const date = String(now.getDate()).padStart(2, "0");
-        const currentDate = `${year}-${month}-${date}`;
+        const currentDate = ${year}-${month}-${date};
 
         document.getElementById("enquiry-time").value = currentTime;
         document.getElementById("enquiry-date").value = currentDate;
@@ -1007,7 +1007,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (input.id) {
-                input.id = `${input.id}_${Date.now()}`;
+                input.id = ${input.id}_${Date.now()};
             }
         });
 
@@ -1162,7 +1162,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch("get_service_details.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `service_type=${encodeURIComponent(serviceType)}`
+                body: service_type=${encodeURIComponent(serviceType)}
             })
                 .then(response => response.json())
                 .then(data => {
@@ -1179,6 +1179,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </script>
-
 </body>
 </html>
