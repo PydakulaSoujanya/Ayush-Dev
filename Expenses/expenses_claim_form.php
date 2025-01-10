@@ -118,9 +118,7 @@ function updateEmployeeFields() {
           <input type="date" class="styled-input" name="expense_date" required />
         </div>
       </div>
-    </div>
-
-    <div class="row form-section form-second-row-full mt-3">
+  
       <!-- Amount Claimed -->
       <div class="col-md-4">
         <div class="input-field-container">
@@ -162,12 +160,12 @@ function updateEmployeeFields() {
 
     
 
-    <div class="row  mt-3">
+    <div class="row emp-submit mt-2">
     
-      <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary w-50" name="submit" value="Submit">Submit</button>
-      </div>
+    <div class="col-md-12 text-center">
+      <button type="submit" class="emp-submit btn" name="submit" value="Submit">Submit</button>
     </div>
+  </div>
   </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
