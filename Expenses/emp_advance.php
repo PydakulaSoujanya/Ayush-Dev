@@ -26,7 +26,7 @@ include('../navbar.php');
   
   <h3 class="mb-4">Employee Advance Paid</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row form-section form-first-row">
     
     <!-- Employee Name -->
     <div class="col-md-4">
@@ -71,7 +71,7 @@ include('../navbar.php');
       </div>
     </div>
 
-    <div class="row">
+    <div class="row form-section form-first-row">
       <!-- Amount Paid -->
       <div class="col-md-4">
         <div class="input-field-container">
@@ -95,10 +95,13 @@ include('../navbar.php');
     <input type="hidden" name="advance_paid_type" value="Employee advance paid Claim">
     </div>
     <div class="row">
-    <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-      </div>
-    </div>
+    <div class="col-md-12 mt-4 text-center">
+  <div class="input-field-container">
+    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
+      Submit
+    </button>
+  </div>
+</div>
   </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

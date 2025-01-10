@@ -26,7 +26,7 @@ include('../navbar.php');
   
   <h3 class="mb-4">Utility Expenses Claim</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row form-section form-first-row">
     
     <div class="col-md-4">
   <div class="input-field-container">
