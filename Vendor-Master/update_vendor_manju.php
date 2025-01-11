@@ -1,4 +1,4 @@
-<?php
+<div?php
 // Include the database configuration file
 include("../config.php");
 
@@ -114,18 +114,18 @@ if (isset($_GET['id'])) {
   <title>Update Vendor</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
-  
 
 </head>
 <body>
 <?php
   include '../navbar.php';
   ?>
-    <div class="container mt-7">
+  <div class="container mt-7">
   <div class="card custom-card">
     <div class="card-header custom-card-header">Update Vendor</div>
     <div class="card-body">
     <form action="update_vendor.php?id=<?php echo $id; ?>" method="POST">
+    < class="row form-section form-first-row">
             <div class="row">
         <div class="col-md-6 col-lg-3 custom-padding">
           <div class="form-group custom-form-group">
@@ -318,6 +318,7 @@ if (isset($_GET['id'])) {
     </div>
     </div>
     </div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

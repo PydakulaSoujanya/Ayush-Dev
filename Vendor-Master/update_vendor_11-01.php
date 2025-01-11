@@ -115,68 +115,108 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   
+  <!-- <style>
+    .input-field-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
 
+    .input-label {
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      background-color: white;
+      padding: 0 5px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #A26D2B;
+    }
+
+    .styled-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 12px;
+      outline: none;
+      box-sizing: border-box;
+      border: 1px solid #A26D2B;
+      border-radius: 5px;
+    }
+
+    .styled-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    h1, h2, h3, h4 {
+      color: #A26D2B;
+    }
+  </style> -->
 </head>
 <body>
 <?php
   include '../navbar.php';
   ?>
-    <div class="container mt-7">
-  <div class="card custom-card">
-    <div class="card-header custom-card-header">Update Vendor</div>
-    <div class="card-body">
+  <div class="container mt-7">
+    <h3 class="mb-4">Update Vendor</h3>
     <form action="update_vendor.php?id=<?php echo $id; ?>" method="POST">
+    <div class="row form-section form-first-row">
+            <h2 class="section-title1">Vendor Details</h2>
             <div class="row">
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Vendor Name</label>
-            <input type="text" id="vendor_name" name="vendor_name" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['vendor_name']); ?>" required />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Vendor Name</label>
+            <input type="text" id="vendor_name" name="vendor_name" class="styled-input" value="<?php echo htmlspecialchars($vendor['vendor_name']); ?>" required />
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">GSTIN</label>
-            <input type="text" class="form-control custom-input" id="gstin" name="gstin" value="<?php echo htmlspecialchars($vendor['gstin']); ?>" required />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">GSTIN</label>
+            <input type="text" class="styled-input" id="gstin" name="gstin" value="<?php echo htmlspecialchars($vendor['gstin']); ?>" required />
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 custom-padding">
-                    <div class="form-group custom-form-group">
-                        <label class="custom-label">Contact Person</label>
-                        <input type="text" name="contact_person" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['contact_person']); ?>" placeholder="Enter Contact Person" />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                    <div class="input-field-container">
+                        <label class="input-label">Contact Person</label>
+                        <input type="text" name="contact_person" class="styled-input" value="<?php echo htmlspecialchars($vendor['contact_person']); ?>" placeholder="Enter Contact Person" />
                     </div>
                 </div>
  
-        <div class="col-md-6 col-lg-3 custom-padding">
-        <div class="form-group custom-form-group">
-            <label class="custom-label">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['phone_number']); ?>" required />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Phone Number</label>
+            <input type="text" id="phone_number" name="phone_number" class="styled-input" value="<?php echo htmlspecialchars($vendor['phone_number']); ?>" required />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Email</label>
-            <input type="email" id="email" name="email" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['email']); ?>" required />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Email</label>
+            <input type="email" id="email" name="email" class="styled-input" value="<?php echo htmlspecialchars($vendor['email']); ?>" required />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-                    <div class="form-group custom-form-group">
-                        <label class="custom-label">Documents</label>
-                        <input type="file" name="supporting_documents" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['supporting_documents']); ?>"/>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+                    <div class="input-field-container">
+                        <label class="input-label">Documents</label>
+                        <input type="file" name="supporting_documents" class="styled-input" value="<?php echo htmlspecialchars($vendor['supporting_documents']); ?>"/>
                     </div>
                 </div>
-              
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Services Provided</label>
-            <input type="text" id="services_provided" name="services_provided" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['services_provided']); ?>" />
+                </div>
+                </div>
+     
+   <div class="row form-section form-second-row-full-vendor mt-3">
+   <h2 class="section-title2">Services Provided</h2>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Services Provided</label>
+            <input type="text" id="services_provided" name="services_provided" class="styled-input" value="<?php echo htmlspecialchars($vendor['services_provided']); ?>" />
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Vendor Type</label>
-            <select class="form-control custom-input" name="vendor_type" id="vendor_type">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Vendor Type</label>
+            <select class="styled-input" name="vendor_type" id="vendor_type">
               <option value="Individual" <?php echo ($vendor['vendor_type'] == 'Individual') ? 'selected' : ''; ?>>Individual</option>
               <option value="Company" <?php echo ($vendor['vendor_type'] == 'Company') ? 'selected' : ''; ?>>Company</option>
               <option value="Other" <?php echo ($vendor['vendor_type'] == 'Other') ? 'selected' : ''; ?>>Other</option>
@@ -185,24 +225,29 @@ if (isset($_GET['id'])) {
         </div>
 
 
-    <div class="col-md-6 col-lg-3 custom-padding">
-       <div class="form-group custom-form-group">
-    <label class="custom-label">Vendor Groups</label>
-    <select id="vendor_groups" name="vendor_groups" class="form-control custom-input">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+       <div class="input-field-container">
+    <label class="input-label">Vendor Groups</label>
+    <select id="vendor_groups" name="vendor_groups" class="styled-input">
       <option value="Nursing Services" <?php echo isset($vendor['vendor_groups']) && $vendor['vendor_groups'] == 'Nursing Services' ? 'selected' : ''; ?>>Nursing Services</option>
       <option value="Electricity Services" <?php echo isset($vendor['vendor_groups']) && $vendor['vendor_groups'] == 'Electricity Services' ? 'selected' : ''; ?>>Electricity Services</option>
       <option value="Others" <?php echo isset($vendor['vendor_groups']) && $vendor['vendor_groups'] == 'Others' ? 'selected' : ''; ?>>Others</option>
     </select>
   </div>
 </div>
+</div>
+</div>
 
-                <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Pincode</label>
+<div class="row form-section form-first-row mt-3">
+            <h2 class="section-title3">Address Details</h2>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Pincode</label>
             <input 
               type="text" 
               name="pincode" 
-              class="form-control custom-input" 
+              class="styled-input" 
               placeholder="6 digits [0-9] PIN code" 
               value="<?php echo htmlspecialchars($vendor['pincode']); ?>" 
               required 
@@ -210,49 +255,49 @@ if (isset($_GET['id'])) {
               maxlength="6" />
           </div>
         </div>
-      <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Flat, House No., Building, Company, Apartment</label>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Flat, House No., Building, Company, Apartment</label>
             <input 
               type="text" 
               name="address_line1" 
-              class="form-control custom-input" 
+              class="styled-input" 
               value="<?php echo htmlspecialchars($vendor['address_line1']); ?>" 
               placeholder="Enter Flat, House No., Building, etc." 
               required />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Area, Street, Sector, Village</label>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Area, Street, Sector, Village</label>
             <input 
               type="text" 
               name="address_line2" 
-              class="form-control custom-input" 
+              class="styled-input" 
               value="<?php echo htmlspecialchars($vendor['address_line2']); ?>" 
               placeholder="Enter Area, Street, Sector, Village" />
           </div>
         </div>
      
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Landmark</label>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Landmark</label>
             <input 
               type="text" 
               name="landmark" 
-              class="form-control custom-input" 
+              class="styled-input" 
               value="<?php echo htmlspecialchars($vendor['landmark']); ?>" 
               placeholder="E.g. near Apollo Hospital" />
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Town/City</label>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Town/City</label>
             <input 
               type="text" 
               name="city" 
-              class="form-control custom-input" 
+              class="styled-input" 
               placeholder="Enter Town/City" 
               value="<?php echo htmlspecialchars($vendor['city']); ?>" 
               required />
@@ -265,10 +310,10 @@ if (isset($_GET['id'])) {
     include('states_dropdown.php'); // Assuming this file defines an array $states with all state names
     $selectedState = $vendor['state']; // Fetch the current state from the vendor data
     ?>
-    <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-        <label class="custom-label">State</label>
-        <select name="state" class="form-control custom-input" required> <!-- Use "state" instead of "state[]" -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+    <div class="input-field-container">
+        <label class="input-label">State</label>
+        <select name="state" class="styled-input" required> <!-- Use "state" instead of "state[]" -->
             <?php foreach ($states as $state): ?>
                 <option value="<?= htmlspecialchars($state); ?>" <?= $state === $selectedState ? 'selected' : '' ?>>
                     <?= htmlspecialchars($state); ?>
@@ -277,47 +322,52 @@ if (isset($_GET['id'])) {
         </select>
     </div>
    </div>
+  </div>
+</div>
 
 
-
-
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Bank Name</label>
-            <input type="text" id="bank_name" name="bank_name" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['bank_name']); ?>" />
+<div class="row form-section form-fouth-row-bank-details">
+      <h3 class="section-title4">Bank Details</h3>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Bank Name</label>
+            <input type="text" id="bank_name" name="bank_name" class="styled-input" value="<?php echo htmlspecialchars($vendor['bank_name']); ?>" />
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Account Number</label>
-            <input type="text" class="form-control custom-input" id="account_number" name="account_number" value="<?php echo htmlspecialchars($vendor['account_number']); ?>" />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Account Number</label>
+            <input type="text" class="styled-input" id="account_number" name="account_number" value="<?php echo htmlspecialchars($vendor['account_number']); ?>" />
           </div>
         </div>
      
      
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">IFSC</label>
-            <input type="text" id="ifsc" name="ifsc" class="form-control custom-input" value="<?php echo htmlspecialchars($vendor['ifsc']); ?>" />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">IFSC</label>
+            <input type="text" id="ifsc" name="ifsc" class="styled-input" value="<?php echo htmlspecialchars($vendor['ifsc']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Branch</label>
-            <input type="text" id="branch" name="branch" class="form-control custom-input" placeholder="Enter Branch" value="<?php echo htmlspecialchars($vendor['branch']); ?>"  />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Branch</label>
+            <input type="text" id="branch" name="branch" class="styled-input" placeholder="Enter Branch" value="<?php echo htmlspecialchars($vendor['branch']); ?>"  />
           </div>
         </div>
         </div>
-      
-
-        <div class="submit-btn-container">
-      <button type="submit" class="btn btn-secondary submit-btn">Update Vendor</button>
       </div>
+
+      <div class="row form-submit emp-submit mt-2">
+            <div class="col-md-12 text-center">
+      <button type="submit" class="btn w-100">Update Vendor</button>
+      </div>
+      </div>
+ 
     </form>
-    </div>
-    </div>
-    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
