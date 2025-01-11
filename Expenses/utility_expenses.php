@@ -32,6 +32,29 @@ $result = $conn->query($sql);
   
 </head>
 
+<style>
+.suggestions-box {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+  </style>
 <body>
 <?php
 include('../navbar.php');
@@ -47,30 +70,30 @@ include('../navbar.php');
     <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
 
     <!-- <div class="row form-section form-first-row"> -->
-    
+
     <div class="col-md-4">
-  <div class="input-field-container">
-    <label class="input-label">Select Vendor</label>
-    <!-- Dropdown for selecting a vendor -->
-    <select class="styled-input" id="vendor_name_dropdown" name="vendor_name_dropdown" style="width: 100%;" onchange="updateVendorFields()" required>
-      <option value="" disabled selected>Select Vendor</option>
-      <?php
-      while ($row = mysqli_fetch_assoc($vendor_result)) {
-          // Embed both ID and Name in the option's data attributes
-          echo "<option value='{$row['id']}' data-name='{$row['vendor_name']}' data-phone='{$row['phone_number']}'>{$row['vendor_name']} ({$row['phone_number']})</option>";
-      }
-      ?>
-    </select>
+    <div class="input-field-container">
+        <label class="input-label">Select Vendor</label>
+        <!-- Search input -->
+        <input
+            type="text"
+            id="vendor_search"
+            name="vendor_search"
+            class="styled-input"
+            placeholder="Search by Name or Mobile Number"
+            onkeyup="searchVendor(this.value)"
+            autocomplete="off"
+            required
+        />
+        <!-- Suggestions box -->
+        <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
 
-    <!-- Text input field for Vendor ID -->
-     <input type="hidden" id="entity_id" name="entity_id" placeholder="Vendor ID" style="width: 100%; margin-top: 10px;" readonly required>
-
-    <!-- Text input field for Vendor Name -->
-    <input type="hidden" id="entity_name" name="entity_name" placeholder="Vendor Name" style="width: 100%; margin-top: 10px;" readonly required>
-
-    
-  </div>
+        <!-- Hidden fields for vendor ID and name -->
+        <input type="hidden" id="entity_id" name="entity_id" readonly required>
+        <input type="hidden" id="entity_name" name="entity_name" readonly required>
+    </div>
 </div>
+
 
 <!-- JavaScript to auto-fill both text inputs -->
 <script>
@@ -288,5 +311,41 @@ function updateVendorFields() {
   });
 </script>
 
+<script>
+
+function searchVendor(query) {
+    // Hide suggestions if the query is empty
+    if (!query.trim()) {
+        document.getElementById("employee_suggestions").style.display = "none";
+        return;
+    }
+
+    // Send AJAX request to the backend
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `search_vendor.php?query=${encodeURIComponent(query)}`, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const suggestionsBox = document.getElementById("employee_suggestions");
+            suggestionsBox.innerHTML = xhr.responseText;
+            suggestionsBox.style.display = "block";
+        }
+    };
+    xhr.send();
+}
+
+function selectVendor(vendorId, vendorName, vendorPhone) {
+    // Populate the main input with vendor name and phone number
+    const inputField = document.getElementById("vendor_search");
+    inputField.value = `${vendorName} - ${vendorPhone}`;
+
+    // Populate the hidden fields for vendor ID and name
+    document.getElementById("entity_id").value = vendorId;
+    document.getElementById("entity_name").value = vendorName;
+
+    // Hide the suggestions box
+    document.getElementById("employee_suggestions").style.display = "none";
+}
+
+  </script>
 </body>
 </html>
