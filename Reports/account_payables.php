@@ -74,52 +74,53 @@ $result->free();
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) > 0) {
           
-            $sno = 0;
-            $santhoshTotal = 0; // To store the total amount for "Santhosh Sir"
-            $santhoshRow = null; // To store other details of "Santhosh Sir"
-            
-            // Loop through the result set
-            while ($row = mysqli_fetch_assoc($result)) {
-                $sno++;
-            
-                // Check if the bank_account is "Santhosh Sir"
-                if ($row['bank_account_no'] === "Santhosh Sir") {
-                    // Accumulate the total amount for "Santhosh Sir"
-                    $santhoshTotal += $row['amount']; // Make sure 'amount' is the correct field name
-                    $santhoshRow = $row; // Store the row details for later use
-                    continue; // Skip rendering this row now, we'll render Santhosh Sir's row later
-                }
-            
-                // Render other rows normally
-                echo "<tr>
-                        <td>$sno</td>
-                        <td>{$row['entity_name']}</td>
-                        <td>{$row['description']}</td>
-                        <td>{$row['amount']}</td>
-                        <td>{$row['date_incurred']}</td>
-                        <td>{$row['status']}</td>
-                        <td>{$row['payment_status']}</td>
-                        <td>{$row['created_at']}</td>
-                        <td>{$row['updated_at']}</td>
-                    </tr>";
-            }
-            
-            // After the loop, render "Santhosh Sir" row if it exists
-            if ($santhoshRow) {
-                $sno++; // Increment the serial number for Santhosh Sir's row
-                echo "<tr>
-                        <td>$sno</td>
-                        <td>{$santhoshRow['bank_account_no']}</td>
-                        <td>{$santhoshRow['description']}</td>
-                        <td>$santhoshTotal</td>
-                        <td>{$santhoshRow['date_incurred']}</td>
-                        <td>{$santhoshRow['status']}</td>
-                        <td>{$santhoshRow['payment_status']}</td>
-                        <td>{$santhoshRow['created_at']}</td>
-                        <td>{$santhoshRow['updated_at']}</td>
-                    </tr>";
-            }
-            
+            $sno = 0; // Serial number counter
+$santhoshTotal = 0; // To store the total amount for "Santhosh Sir"
+$santhoshRow = null; // To store other details of "Santhosh Sir"
+
+// Loop through the result set
+while ($row = mysqli_fetch_assoc($result)) {
+    // Check if the bank_account is "Santhosh Sir"
+    if ($row['bank_account_no'] === "Santhosh Sir") {
+        // Accumulate the total amount for "Santhosh Sir"
+        $santhoshTotal += $row['amount']; // Make sure 'amount' is the correct field name
+        $santhoshRow = $row; // Store the row details for later use
+        continue; // Skip rendering this row now, we'll render Santhosh Sir's row later
+    }
+
+    // Increment the serial number for visible rows only
+    $sno++;
+
+    // Render other rows normally
+    echo "<tr>
+            <td>$sno</td>
+            <td>{$row['entity_name']}</td>
+            <td>{$row['description']}</td>
+            <td>{$row['amount']}</td>
+            <td>{$row['date_incurred']}</td>
+            <td>{$row['status']}</td>
+            <td>{$row['payment_status']}</td>
+            <td>{$row['created_at']}</td>
+            <td>{$row['updated_at']}</td>
+        </tr>";
+}
+
+// After the loop, render "Santhosh Sir" row if it exists
+if ($santhoshRow) {
+    $sno++; // Increment the serial number for Santhosh Sir's row
+    echo "<tr>
+            <td>$sno</td>
+            <td>{$santhoshRow['bank_account_no']}</td>
+            <td>{$santhoshRow['description']}</td>
+            <td>$santhoshTotal</td>
+            <td>{$santhoshRow['date_incurred']}</td>
+            <td>{$santhoshRow['status']}</td>
+            <td>{$santhoshRow['payment_status']}</td>
+            <td>{$santhoshRow['created_at']}</td>
+            <td>{$santhoshRow['updated_at']}</td>
+        </tr>";
+}
+
             
         } else {
             echo "<tr><td colspan='9' class='text-center'>No records found</td></tr>";
