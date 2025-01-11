@@ -7,13 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get JSON input
     $input = json_decode(file_get_contents('php://input'), true);
 
-    $role = isset($input['role']) ? $input['role'] : null;
-    $from_date = isset($input['from_date']) ? $input['from_date'] : null;
-    $end_date = isset($input['end_date']) ? $input['end_date'] : null;
-    $exclude_employee_id = isset($input['exclude_employee_id']) ? $input['exclude_employee_id'] : null;
    
-   
-    
+
+    $role = "care_taker";
+    $from_date = "2025-01-01";
+    $end_date = "2025-01-31";
+    $exclude_employee_id = 31;
+
+    // SQL query to fetch eligible employees
     $query = "
     SELECT e.id, e.name 
     FROM emp_info e 

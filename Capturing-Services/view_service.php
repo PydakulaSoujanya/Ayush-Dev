@@ -180,13 +180,13 @@ $invoiceSql = "
     $status="Pending";
 
     $expenseStmt = $conn->prepare("
-    INSERT INTO Expenses (expense_type, entity_id, service_id,entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
-    VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    INSERT INTO Expenses (expense_type, entity_id, entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
     $expenseStmt->bind_param(
-      "ssssssdsss", 
-      $expense_type, $empId,$serviceId, $empName, $status, $payment_status, $description, $rate, $expense_date, $additional_details
+      "sssssdsss", 
+      $expense_type, $empId, $empName, $status, $payment_status, $description, $total_amount, $expense_date, $additional_details
   );
   
     if ($expenseStmt->execute()) {
@@ -429,84 +429,98 @@ $pdf_path_stmt->close();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+ 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Include Font Awesome -->
     <link rel="stylesheet" href="../assets/css/style.css">
 
   <title>Services</title>
   <style>
-  
-        /* Add color to icons */
-        .fa-user {
-            color: #007bff; /* Blue color for the user icon */
-        }
-        .fa-phone {
-            color: #28a745; /* Green color for the phone icon */
-        }
+    .dataTable_wrapper {
+      padding: 20px;
+    }
 
+    .dataTable_search input {
+      max-width: 200px;
+    }
 
-        /* Desktop view (1025px and above) */
-@media (min-width: 1025px) and (max-width: 1920px) {
-   .customer_info_th{
-    width:124px;
-   }   
-   .details_th{
-    width: 150px;
-   }
-   .payment_details_th{
-    width:144px;
-   }
-   .total_price_th{
-    width:100px;
-   }
-   .total_days_th{
-    width:215px;
-   }
- 
-}
+    .dataTable_headerRow th,
+    .dataTable_row td {
+      border: 1px solid #dee2e6; /* Add borders for columns */
+    }
 
+    .dataTable_headerRow {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .dataTable_row:hover {
+      background-color: #f1f1f1;
+    }
+
+    .dataTable_card {
+      border: 1px solid #ced4da; /* Add card border */
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dataTable_card .card-header {
+      background-color:  #A26D2B;
+      color: white;
+      font-weight: bold;
+    }
+    .action-icons i {
+      color: black;
+      cursor: pointer;
+      margin-right: 10px;
+    }
   </style>
-
-
 </head>
 <body>
  <?php
   include '../navbar.php';
   ?>   
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   
-  <div class="container  mt-6">
+  <div class="container  mt-7">
     <div class="dataTable_card card">
       <!-- Card Header -->
-      <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 table-title">Capturing Services Info</h5>
-      <a href="services.php" class="add_button"><strong class="add_button_plus">+</strong>Add Capture Service</a>
-    </div>
+      <div class="card-header"> Capturing Services Table</div>
 
+      <!-- Card Body -->
+      <div class="card-body">
+        <!-- Search Input -->
+        <div class="dataTable_search mb-3 d-flex justify-content-between">
+        <form class="d-flex w-75">
+    <input type="text" class="form-control" id="globalSearch" placeholder="Search..." oninput="performSearch()">
+</form>
+
+    <a href="services.php" class="btn btn-success">+ Capture Service</a>
+</div>
 
 
         <!-- Table -->
-        <div class="table-responsive mt-3 p-4">
-        <table id="serviceRequestsTable" class="display table table-striped" style="width:100%">
+        <div class="table-responsive">
+        <table class="table table-striped">
     <thead>
-        <tr></tr>
-            <th class="s_th">S.no</th>
-            <th class="customer_info_th">Customer Info</th>
-            <th class="details_th">Details Date</th>
-            <th class="total_days_th">Total Days & Service </th> 
-            <th class="payment_details_th">Payment Details</th>
-            <th class="total_price_th">Total Price</th>
+        <tr class="dataTable_headerRow">
+            <th>S.no</th>
+            <th>Customer Info</th>
+            <th>Details</th>
+            <th>Total Days & Service Type</th> 
+            <th>Payment Details</th>
+            <th>Total Price</th>
             <th>Status</th>
             <th>Invoice ID</th>
-            
-            <th>Assign Employee</th>
             <th>Action</th>
+            <th>Assign Employee</th>
         </tr>
     </thead>
     <tbody>
 <?php
-$start = 0;
-$sql1 = "SELECT * FROM service_requests ORDER BY created_at DESC";
+$sql1 = "SELECT * FROM service_requests 
+        ";
         $result1 = mysqli_query($conn, $sql1);
 
 
@@ -562,13 +576,12 @@ if ($invoiceResult->num_rows > 0) {
         $status = 'Partially Paid';
     }
 }
-        echo "<tr>
+        echo "<tr class='dataTable_row'>
                 <td>{$serial}</td>
                 <td>
-                            <i class='fas fa-user' title='Name' style='margin-right: 5px;'></i>" . htmlspecialchars($row['customer_name']) . "<br>
-                            <i class='fas fa-phone' title='Phone' style='margin-right: 5px;'></i>" . htmlspecialchars($row['contact_no']) . "
-                        </td>
-                
+                  <strong>Name:</strong> " . htmlspecialchars($row['customer_name']) . "<br>
+                  <strong>Phone:</strong> " . htmlspecialchars($row['contact_no']) . "
+                </td>
                 <td>
                   <strong>Start Date:</strong> " . htmlspecialchars($row['from_date']) . "<br>
                   <strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "
@@ -715,10 +728,64 @@ echo "</tr>";
 ?>
     </tbody>
 </table>
+<div class="modal fade" id="viewInvoiceModal" tabindex="-1" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewInvoiceModalLabel">Invoice Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="invoiceDetails">
+                <!-- Invoice details will be dynamically inserted here -->
+                <form id="invoiceDetailsForm">
+                    <div class="mb-3">
+                        <label for="invoice_id" class="form-label">Invoice ID</label>
+                        <input type="text" class="form-control" id="invoice_id" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customer_name" class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="customer_name" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile_number" class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="mobile_number" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customer_email" class="form-label">Customer Email</label>
+                        <input type="email" class="form-control" id="customer_email" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total_amount" class="form-label">Total Amount</label>
+                        <input type="text" class="form-control" id="total_amount" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="due_date" class="form-label">Due Date</label>
+                        <input type="text" class="form-control" id="due_date" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="created_at" class="form-label">Created At</label>
+                        <input type="text" class="form-control" id="created_at" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updated_at" class="form-label">Updated At</label>
+                        <input type="text" class="form-control" id="updated_at" readonly>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-              
+<!-- Add these in your HTML -->
 
-<script>
+
+        </div>
+
+        <script>
     document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('reassignEmployeePopupModal');
 
@@ -743,7 +810,7 @@ modal.querySelector('#modalFromDate').value = fromDate;
 modal.querySelector('#modalEndDate').value = endDate;
 
 
-        
+        // Fetch new employees from the server
         fetch('exclude_assigned_employee.php', {
             method: 'POST',
             headers: {
@@ -792,10 +859,9 @@ modal.querySelector('#modalEndDate').value = endDate;
                 <form id="reassignEmployeeForm" method="POST" action="reassign_employee_handler.php">
                     <!-- Hidden field to hold the current employee ID -->
                     <input type="text" id="modalEmployeeId" name="employee_id" hidden/>
-                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2"/>
+                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2" hidden/>
 <input type="text" id="modalFromDate" name="from_date" readonly class="form-control mb-2" />
 <input type="text" id="modalEndDate" name="end_date" readonly class="form-control mb-2" />
-
 
 
                     <!-- Display currently assigned employee -->
@@ -807,39 +873,16 @@ modal.querySelector('#modalEndDate').value = endDate;
                         <textarea id="reason" name="reason" class="form-control" rows="3" placeholder="Enter the reason for changing the employee" required></textarea>
                     </div>
                     <div class="form-group mb-3">
-    <label for="from_date">From Date</label>
-    <input type="date" id="from_date" name="from_date" class="form-control" required>
-</div>
+                        <label for="from_date">From Date</label>
+                        <input type="date" id="from_date" name="from_date" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control" required>
+                    </div>
 
 
-<!-- End Date Picker -->
-<div class="form-group mb-3">
-    <label for="end_date">End Date</label>
-    <input type="date" id="end_date" name="end_date" class="form-control" required>
-</div>
-
-<script>
-  const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0]; 
-document.getElementById('from_date').min = formattedDate;
-
-    
-    function convertToDateInputFormat(dateString) {
-        const [day, month, year] = dateString.split('-');
-        return `${year}-${month}-${day}`; // Rearrange to YYYY-MM-DD
-    }
-
-    // Get references to the inputs
-    const modalEndDateInput = document.getElementById('modalEndDate');
-    const endDateInput = document.getElementById('end_date');
-
-    // Set the max attribute for the date input
-    const maxDate = convertToDateInputFormat(modalEndDateInput.value);
-    endDateInput.max = maxDate; // Disable future dates beyond the max date
-    document.getElementById('from_date').max = maxDate;
-</script>
-
-                  
+                    <!-- Dropdown for selecting new employee -->
                     <div class="form-group mb-3">
                         <label for="newEmployee">Select New Employee</label>
                         <select id="newEmployee" name="newEmployee" class="form-control" required>
@@ -899,6 +942,7 @@ formData.append('end_date', document.getElementById('end_date').value);  // Add 
 
 
 
+// Now you can send 'formData' to the server via AJAX or a form submission
 
 
         fetch('update_reassigned_employee_details.php', {
@@ -912,7 +956,7 @@ formData.append('end_date', document.getElementById('end_date').value);  // Add 
                 const modal = document.getElementById('reassignEmployeePopupModal');
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
                 bootstrapModal.hide(); // Hide modal after successful submission
-                window.location.href = 'pdf.php';
+                window.location.href = 'view_services.php';
             } else {
                 alert(data.message);
 
@@ -1156,30 +1200,6 @@ formData.append('end_date', document.getElementById('end_date').value);  // Add 
       })
       .catch(error => console.error('Error fetching data:', error));
   }
-</script>
-
-
-<!-- Add these in the head or before the closing body tag -->
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    $('#serviceRequestsTable').DataTable({
-        paging: true, // Enable pagination
-        searching: true, // Enable search bar
-        ordering: true, // Enable column sorting
-        lengthMenu: [5, 10, 20, 50], // Define pagination options
-        pageLength: 5, // Default page length
-        language: {
-            search: "Search:", // Custom search bar placeholder text
-        },
-        columnDefs: [
-            { orderable: false, targets: [8, 9] } // Disable sorting for "Assign Employee" & "Action" columns
-        ]
-    });
-});
 </script>
 
 </body>

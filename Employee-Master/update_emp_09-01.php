@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $daily_rate8 = $_POST['daily_rate8'];
     $daily_rate12 = $_POST['daily_rate12'];
     $daily_rate24 = $_POST['daily_rate24'];
-    $vendor_name = $_POST['vendor_name'];
     $beneficiary_name = $_POST['beneficiary_name'];
     $bank_name = $_POST['bank_name'];
     $bank_account_no = $_POST['bank_account_no'];
@@ -58,15 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                       role = ?, qualification = ?, experience = ?, doj = ?, 
                       aadhar = ?, police_verification = ?,  
                       daily_rate8 = ?, daily_rate12 = ?, daily_rate24 = ?, 
-                      vendor_name = ?, beneficiary_name = ?, bank_name = ?, bank_account_no = ?, ifsc_code = ? 
+                      beneficiary_name = ?, bank_name = ?, bank_account_no = ?, ifsc_code = ? 
                   WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param(
-            'sssssssssssssssssssi',
+            'sssssssssssssssssii',
             $name, $dob, $gender, $phone, $email,
             $role, $qualification, $experience, $doj,
             $aadhar, $police_verification,
-            $daily_rate8, $daily_rate12, $daily_rate24, $vendor_name,
+            $daily_rate8, $daily_rate12, $daily_rate24, 
             $beneficiary_name, $bank_name, $bank_account_no, $ifsc_code,
             $employee_id
         );

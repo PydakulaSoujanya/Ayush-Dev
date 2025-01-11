@@ -20,33 +20,7 @@ $result = $conn->query($sql);
    <link rel="stylesheet" href="../assets/css/style.css">
   
 </head>
-<style>
-  .suggestions-box {
-  position: absolute;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-.suggestion-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.suggestion-item:last-child {
-  border-bottom: none;
-}
-
-.suggestion-item:hover {
-  background: #f1f1f1;
-  cursor: pointer;
-}
-</style>
 <body>
 <?php
 include('../navbar.php');
@@ -55,40 +29,30 @@ include('../navbar.php');
   
   <h3 class="mb-4">Employee Expenses Claim</h3>
   <form action="employee_claims_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row form-section form-first-row">
+    <div class="row">
     
     <!-- Employee Name -->
-    <!-- Employee Search -->
     <div class="col-md-4">
   <div class="input-field-container">
-    <label class="input-label">Search Employee</label>
-    <input
-      type="text"
-      id="employee_search"
-      name="employee_search"
-      class="styled-input"
-      placeholder="Search by Name or Mobile Number"
-      onkeyup="searchEmployee(this.value)"
-      autocomplete="off"
-      required
-    />
-    <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
- 
-
-    <!-- Hidden fields for selected employee details -->
-    <!-- <input type="text" id="entity_id" name="entity_id" placeholder="Employee ID" readonly required>
-    <input type="text" id="entity_name" name="entity_name" placeholder="Employee Name" readonly required>
-  </div>
-</div> -->
-<!-- <input type="hidden" id="bank_account" name="bank_account" value="Santhosh Sir" style="width: 100%; margin-top: 10px;" readonly required> -->
+    <label class="input-label">Select Employee</label>
+   <!-- Dropdown for selecting an employee -->
+<select class="styled-input" id="employee_name_dropdown" name="employee_name_dropdown" style="width: 100%;" onchange="updateEmployeeFields()" required>
+  <option value="" disabled selected>Select Employee</option>
+  <?php
+  while ($row = mysqli_fetch_assoc($employee_result)) {
+      // Embed both ID and Name in the option's data attributes
+      echo "<option value='{$row['id']}' data-name='{$row['name']}'>{$row['id']} {$row['name']} ({$row['phone']})</option>";
+  }      
+  ?>
+</select>
+<!-- <input type="text" id="bank_account" name="bank_account" value="Santhosh Sir" style="width: 100%; margin-top: 10px;" readonly required> -->
 
 
+    
+<input type="text" id="entity_id" name="entity_id" placeholder="Employee ID" style="width: 100%; margin-top: 10px;" hidden required>
 
-<!-- Text input field for Employee ID -->
-<input type="hidden" id="entity_id" name="entity_id" placeholder="Employee ID" style="width: 100%; margin-top: 10px;" readonly required>
 
-<!-- Text input field for Employee Name -->
-<input type="hidden" id="entity_name" name="entity_name" placeholder="Employee Name" style="width: 100%; margin-top: 10px;" readonly required>
+<input type="text" id="entity_name" name="entity_name" placeholder="Employee Name" style="width: 100%; margin-top: 10px;" hidden required>
 
 <!-- JavaScript to auto-fill both text inputs -->
 <script>
@@ -118,17 +82,20 @@ function updateEmployeeFields() {
 
       <!-- Expense Date -->
       <div class="col-md-4">
-  <div class="input-field-container">
-    <label class="input-label">Expense Date</label>
-    <input type="date" class="styled-input" name="expense_date" id="expense_date" required />
-  </div>
-</div>
+        <div class="input-field-container">
+          <label class="input-label">Expense Date</label>
+          <input type="date" class="styled-input" name="expense_date" required />
+        </div>
+      </div>
 
-      <div class="col-md-4">
+    </div>
+<div class="row">
+
+<div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Paying Account</label>
     <!-- <label class="input-label">Select Account</label> -->
-    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%;" required>
+    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%; margin-top: 10px;" required>
     <option value="" disabled selected>Select Account</option>
     <?php
     if ($result->num_rows > 0) {
@@ -153,8 +120,10 @@ function updateEmployeeFields() {
           <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
         </div>
       </div>
+    </div>
 
-  
+
+    <div class="row">
       <!-- Amount Claimed -->
       <div class="col-md-4">
         <div class="input-field-container">
@@ -167,12 +136,17 @@ function updateEmployeeFields() {
 
       <!-- Status -->
       <div class="col-md-4">
-  <div class="input-field-container">
-    <label class="input-label">Status</label>
-    <input type="text" class="styled-input" name="status" value="Paid" readonly required>
-  </div>
-</div>
-
+        <div class="input-field-container">
+          <label class="input-label">Status</label>
+          <select class="styled-input" name="status" required>
+            <option value="" disabled selected>Select Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+           
+          </select>
+        </div>
+      </div>
        
 
 
@@ -185,12 +159,11 @@ function updateEmployeeFields() {
 
     
 
-    <div class="row emp-submit mt-2">
-    
-    <div class="col-md-12 text-center">
-      <button type="submit" class="emp-submit btn" name="submit" value="Submit">Submit</button>
-    </div>
-  </div>
+    <div class="row form-submit emp-submit mt-2">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn w-100">Submit</button>
+            </div>
+        </div>
   </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -203,7 +176,7 @@ function updateEmployeeFields() {
     $('input[name="approved_date"]').closest('.col-md-4').hide();
     $('input[name="payment_date"]').closest('.col-md-4').hide();
 
-    // Monitor changes to the status dropdown
+    // Monitor changes to the `status` dropdown
     $('select[name="status"]').on('change', function () {
       const selectedStatus = $(this).val();
 
@@ -235,7 +208,7 @@ function updateEmployeeFields() {
     });
   });
 </script>
-<!-- <script>
+<script>
   $(document).ready(function () {
     $('#employee_name').select2({
       placeholder: "Select Employee",
@@ -260,7 +233,7 @@ function updateEmployeeFields() {
       },
     });
   });
-</script> -->
+</script>
 <script>
   $(document).ready(function () {
   // Monitor changes to the Payment Mode dropdown
@@ -287,67 +260,6 @@ function updateEmployeeFields() {
   // Trigger change on page load to handle pre-selected value
   $('#payment_mode').trigger('change');
 });
-
-
-function searchEmployee(searchTerm) {
-  const employee_search = document.getElementById('employee_search');
-  const suggestionsBox = document.getElementById('employee_suggestions');
-  const entityIdField = document.getElementById('entity_id');
-  const entityNameField = document.getElementById('entity_name');
-
-  // Clear previous suggestions
-  suggestionsBox.innerHTML = '';
-  suggestionsBox.style.display = 'none';
-
-  // Reset hidden fields
-  entityIdField.value = '';
-  entityNameField.value = '';
-
-  if (searchTerm.trim() === '') return; // Exit if the search term is empty
-
-  // Fetch matching employees from the backend
-  fetch(`fetch_employee.php?search=${encodeURIComponent(searchTerm)}`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success && data.data.length > 0) {
-        data.data.forEach((employee) => {
-          const suggestionItem = document.createElement('div');
-          suggestionItem.className = 'suggestion-item';
-          suggestionItem.textContent = `${employee.name} (${employee.phone})`;
-
-          // Set click handler to populate fields
-          suggestionItem.addEventListener('click', () => {
-            entityIdField.value = employee.id;
-            employee_search.value = `${employee.name}-${employee.phone}`;
-            entityNameField.value = employee.name;
-            suggestionsBox.style.display = 'none';
-          });
-
-          suggestionsBox.appendChild(suggestionItem);
-        });
-        suggestionsBox.style.display = 'block';
-      } else {
-        // Display "No results found" if no matches
-        const noResults = document.createElement('div');
-        noResults.className = 'suggestion-item';
-        noResults.textContent = 'No results found';
-        suggestionsBox.appendChild(noResults);
-        suggestionsBox.style.display = 'block';
-      }
-    })
-    .catch((error) => {
-      console.error('Fetch error:', error);
-    });
-}
-
-</script>
-
-<script>
-  // Set the current date as default
-  document.addEventListener("DOMContentLoaded", function () {
-    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
-    document.getElementById("expense_date").value = today;
-  });
 </script>
 
 </body>
