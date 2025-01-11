@@ -21,6 +21,34 @@ $result = $conn->query($sql);
   
 </head>
 
+<style>
+  .suggestions-box {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 95%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: #f1f1f1;
+  cursor: pointer;
+}
+</style>
+
 <body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -28,152 +56,106 @@ $result = $conn->query($sql);
 include('../navbar.php');
 ?>
 <div class="container mt-7">
-<div class="card custom-card">
-      <div class="card-header custom-card-header">Employee Expenses Claim</div>
-      <div class="card-body">
- 
-  <form action="employee_claims_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row mt-3">
-    
-    <!-- Employee Name -->
-    <!-- Employee Search -->
-    <div class="col-md-4 col-lg-4">
-  <div class="form-group">
-    <label class="input-label">Search Employee</label>
-    <input
-      type="text"
-      id="employee_search"
-      name="employee_search"
-      class="form-control"
-      placeholder="Search by Name or Mobile Number"
-      onkeyup="searchEmployee(this.value)"
-      autocomplete="off"
-      required
-    />
+  <div class="card custom-card">
+    <div class="card-header custom-card-header">Employee Expenses Claim</div>
+    <div class="card-body">
+      <form action="employee_claims_db.php" method="POST" enctype="multipart/form-data">
+        <div class="row mt-3">
+          <!-- Employee Name -->
+          <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label class="input-label">Search Employee</label>
+              <input
+                type="text"
+                id="employee_search"
+                name="employee_search"
+                class="form-control"
+                placeholder="Search by Name or Mobile Number"
+                onkeyup="searchEmployee(this.value)"
+                autocomplete="off"
+                required
+              />
+              <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
+              <!-- Hidden fields for selected employee details -->
+              <input type="hidden" id="entity_id" name="entity_id" placeholder="Employee ID" readonly required />
+              <input type="hidden" id="entity_name" name="entity_name" placeholder="Employee Name" readonly required />
+            </div>
+          </div>
 
-    <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
- 
+          <!-- Expense Date -->
+          <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label class="input-label">Expense Date</label>
+              <input type="date" class="form-control" name="expense_date" id="expense_date" required />
+            </div>
+          </div>
 
-    <!-- Hidden fields for selected employee details -->
-    <!-- <input type="text" id="entity_id" name="entity_id" placeholder="Employee ID" readonly required>
-    <input type="text" id="entity_name" name="entity_name" placeholder="Employee Name" readonly required>
+          <!-- Paying Account -->
+          <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label class="input-label">Paying Account</label>
+              <select class="form-control" id="bank_account" name="bank_account" required>
+                <option value="" disabled selected>Select Account</option>
+                <?php
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    echo "<option value='" . htmlspecialchars($row['account_name']) . "'>" . htmlspecialchars($row['account_name']) . "</option>";
+                  }
+                } else {
+                  echo "<option value='' disabled>No accounts available</option>";
+                }
+                ?>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <!-- Description -->
+          <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label class="input-label">Description</label>
+              <input class="form-control" name="description" placeholder="Describe the expense" required />
+            </div>
+          </div>
+
+          <!-- Amount Claimed -->
+          <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label class="input-label">Amount Claimed</label>
+              <input type="number" class="form-control" name="amount_claimed" placeholder="Enter Amount Claimed" required />
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label class="input-label">Status</label>
+              <input type="text" class="form-control" name="status" value="Paid" readonly required />
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
+        </div>
+        <input type="hidden" name="expense_type" value="Employee Expense Claim" />
+      </form>
+    </div>
   </div>
-</div> -->
-<!-- <input type="hidden" id="bank_account" name="bank_account" value="Santhosh Sir" style="width: 100%; margin-top: 10px;" readonly required> -->
+</div>
 
-
-
-<!-- Text input field for Employee ID -->
-<input type="hidden" id="entity_id" name="entity_id" placeholder="Employee ID" style="width: 100%; margin-top: 10px;" readonly required>
-
-<!-- Text input field for Employee Name -->
-<input type="hidden" id="entity_name" name="entity_name" placeholder="Employee Name" style="width: 100%; margin-top: 10px;" readonly required>
-
-<!-- JavaScript to auto-fill both text inputs -->
 <script>
-function updateEmployeeFields() {
-  // Get the dropdown element
-  const dropdown = document.getElementById("employee_name_dropdown");
-  
-  // Get the selected option
-  const selectedOption = dropdown.options[dropdown.selectedIndex];
-  
-  // Get the employee ID and name from the selected option
-  const employeeId = selectedOption.value; // ID is the option value
-  const employeeName = selectedOption.getAttribute("data-name"); // Name is in a data attribute
-  
-  // Set the values in the respective text input fields
-  document.getElementById("entity_id").value = employeeId;
-  document.getElementById("entity_name").value = employeeName;
-}
+  function updateEmployeeFields() {
+    const dropdown = document.getElementById("employee_name_dropdown");
+    const selectedOption = dropdown.options[dropdown.selectedIndex];
+    const employeeId = selectedOption.value;
+    const employeeName = selectedOption.getAttribute("data-name");
+    document.getElementById("entity_id").value = employeeId;
+    document.getElementById("entity_name").value = employeeName;
+  }
 </script>
 
-  </div>
-</div>
-
-
-
-      
-
-      <!-- Expense Date -->
-      <div class="col-md-4 col-lg-4">
-  <div class="form-group">
-    <label class="input-label">Expense Date</label>
-    <input type="date" class="form-control" name="expense_date" id="expense_date" required />
-  </div>
-</div>
-
-      <div class="col-md-4 col-lg-4">
-        <div class="form-group">
-          <label class="input-label">Paying Account</label>
-    <!-- <label class="input-label">Select Account</label> -->
-    <select class="form-control" id="bank_account" name="bank_account" style="width: 100%;" required>
-    <option value="" disabled selected>Select Account</option>
-    <?php
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        while ($row = $result->fetch_assoc()) {
-            echo "<option value='" . htmlspecialchars($row['account_name']) . "'>" . htmlspecialchars($row['account_name']) . "</option>";
-        }
-    } else {
-        echo "<option value='' disabled>No accounts available</option>";
-    }
-    ?>
-</select>
-
-</div>
-      </div>
-    <div class="row mt-3">
-    <div class="col-md-4 col-lg-4">
-        <div class="form-group">
-          <label class="input-label">Description</label>
-          <input class="form-control" name="description" placeholder="Describe the expense" required></input>
-
-          <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
-        </div>
-      </div>
-
-  
-      <!-- Amount Claimed -->
-      <div class="col-md-4 col-lg-4">
-        <div class="form-group">
-          <label class="input-label">Amount Claimed</label>
-          <input type="number" class="form-control" name="amount_claimed" placeholder="Enter Amount Claimed" required />
-        </div>
-      </div>
-
-      
-
-      <!-- Status -->
-      <div class="col-md-4 col-lg-4">
-  <div class="form-group">
-    <label class="input-label">Status</label>
-    <input type="text" class="form-control" name="status" value="Paid" readonly required>
-  </div>
-</div>
-</div>
-
-       
-<div class="text-center mt-4">
-            <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
-          </div>
-  </div>
-
-    <input type="hidden" name="expense_type" value="Employee Expense Claim">
-  
-
- 
-
-    </div>
-</div>
-</div>
-    
-
-    
-    
-   
-  </form>
-</div>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

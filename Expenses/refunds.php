@@ -27,6 +27,34 @@ if (!$customer_result) {
    
 </head>
 
+<style>
+  .suggestions-box {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 95%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: #f1f1f1;
+  cursor: pointer;
+}
+</style>
+
 <body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -55,9 +83,9 @@ include('../navbar.php');
         <?php } ?>
     </select>
     
-    <input type="text" id="entity_id" name="entity_id" placeholder="Customer ID" style="width: 100%; margin-top: 10px;" required>
+    <input type="hidden" id="entity_id" name="entity_id" placeholder="Customer ID" style="width: 100%; margin-top: 10px;" required>
     
-    <input type="text" id="entity_name" name="entity_name" placeholder="Customer Name" style="width: 100%; margin-top: 10px;" required>
+    <input type="hidden" id="entity_name" name="entity_name" placeholder="Customer Name" style="width: 100%; margin-top: 10px;" required>
 </div>
 
 <script>
@@ -94,7 +122,7 @@ function updateCustomerFields() {
 
     <div class="row">
       <!-- Amount to be Paid -->
-      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
         <div class="form-group">
           <label class="input-label">Amount to be Paid</label>
           <input type="number" class="form-control" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
@@ -104,7 +132,7 @@ function updateCustomerFields() {
       
 
       <!-- Status -->
-      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
         <div class="form-group">
           <label class="input-label">Status</label>
           <select class="form-control" name="status" required>
@@ -117,13 +145,15 @@ function updateCustomerFields() {
         </div>
       </div>
        
-<div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-3">
         <div class="form-group">
           <label class="input-label">Description</label>
           <textarea class="form-control" name="description" placeholder="Describe the expense" required></textarea>
         </div>
       </div>
-    </div>
 
     <input type="hidden" name="expense_type" value="Refunds">
   
