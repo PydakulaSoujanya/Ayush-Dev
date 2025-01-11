@@ -39,7 +39,7 @@ body {
 }
 
 .card-title {
-    background-color: #A26D2B;
+    background-color: #6c757d;
     color: var(--title-text-color);
     padding: 10px;
     font-size: 18px;
@@ -95,9 +95,9 @@ canvas {
 }
 
 .chart-filters button.active {
-    background-color: #A26D2B;
+    background-color: #6c757d;
     color: #fff;
-    border: 1px solid #A26D2B;
+    border: 1px solid #6c757d;
 }
 
 @media (max-width: 768px) {
