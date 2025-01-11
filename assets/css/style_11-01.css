@@ -182,57 +182,50 @@ body {
 
 /* ====FORM STYLES STARTS =====*/
 
-.custom-card {
-    box-shadow: 0 10px 15px rgba(0, 1, 4, 0.7);
-    margin-bottom: 20px;
-    border-radius: 10px;
-  }
+.input-field-container {
+    position: relative;
+    margin-bottom: 15px;
+}
 
-  .custom-card-header {
-    background-color: #6c757d !important;
-    font-size: 1.5rem;
+.input-label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: white;
+    padding: 0 5px;
+    font-size: 14px;
     font-weight: bold;
-    text-align: left;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    color: white !important;
-  }
+    /* Makes the label bold */
+    color: #A26D2B;
+}
 
-  .custom-btn {
-    background-color: #007bff;
-    color: white;
-  }
+.styled-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    outline: none;
+    box-sizing: border-box;
+    border: 1px solid #A26D2B;
+    border-radius: 5px;
+    /* Adds rounded corners to input fields */
+}
 
-  .custom-btn:hover {
-    background-color: #0056b3;
-  }
+.styled-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
-  .custom-form-group {
-    margin-bottom: 0.5rem;
-  }
+h1,
+h2,
+h3,
+h4 {
+    color: #A26D2B;
+}
 
-  .custom-label {
-    color: grey;
-    font-weight: normal;
-  }
+.hidden {
+    display: none;
+}
 
-  .custom-input {
-    margin-bottom: 0.5rem;
-    padding: 0.375rem 0.75rem;
-  }
-
-  .custom-padding {
-    padding-bottom: 0.5rem;
-  }
-
-  .submit-btn-container {
-    text-align: center;
-    margin-top: 1rem;
-  }
-
-  .submit-btn {
-    width: 150px;
-  }
 /* ====FORM STYLES ENDS =====*/
 
 /* =========LOADER STARTS =======*/
