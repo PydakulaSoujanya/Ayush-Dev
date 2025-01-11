@@ -14,7 +14,7 @@
 <div class="container mt-7">
   <div class="dataTable_card card">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 table-title">Vendor Table</h5>
+      <h5 class="mb-0 table-title">Vendor Info</h5>
       <a href="javascript:void(0);" class="add_button" onclick="addVendor()">
         <strong class="add_button_plus">+</strong> Add Vendor
       </a>

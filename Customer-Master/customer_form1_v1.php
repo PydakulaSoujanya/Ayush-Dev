@@ -9,48 +9,21 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<style>
-@media (min-width: 1025px) and (max-width: 1920px) {
-  .section-title2 {
-    position: absolute;
-    top: 44%;
-    left: 125px;
-    background-color: white;
-    /* padding: 4px 5px; */
-    font-size: 17px;
-    color: #a26d2b;
-    width: -29% !important;
-  }
-  .section-title3 {
-      position: absolute;
-      top: 83%;
-      left: 125px;
-      background-color: white;
-      padding: 4px 5px;
-      font-size: 17px;
-      /* font-weight: bold; */
-      color: #a26d2b;
-      width: -29% !important;
-  }
-}
 
-
-</style>
 <body>
 
 <?php include('../navbar.php'); ?>
 
-<div class="container mt-9">
-  <h3 class="mb-4">Customer Details Form</h3>
-  
+<div class="container mt-7">
+    <div class="card custom-card">
+  <div class="card-header custom-card-header">Add New Customer Details</div>
+  <div class="card-body">
   <form action="customer_db.php" method="POST" id="customer_form" enctype="multipart/form-data">
-  <div class="row form-section form-first-row">
-  <h2 class="section-title1">Basic Details</h2>
   <div class="row">
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-        <div class="input-field-container">
-          <label class="input-label">Are you a patient?</label>
-          <select class="styled-input" id="patientStatus" name="patient_status" required>
+    <div class="col-md-6 col-lg-3 custom-padding">
+     <div class="form-group custom-form-group">
+          <label class="custom-label">Are you a patient?</label>
+          <select class="form-control custom-input" id="patientStatus" name="patient_status" required>
             <option value="" disabled selected>Select an option</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -58,17 +31,17 @@
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3 hidden" id="patientNameField">
-        <div class="input-field-container">
-          <label class="input-label">Patient Name</label>
-          <input type="text" class="styled-input" name="patient_name" placeholder="Enter patient name" required />
+      <div class="col-md-6 col-lg-3 custom-padding hidden" id="patientNameField">
+        <div class="form-group custom-form-group">
+          <label class="custom-label">Patient Name</label>
+          <input type="text" class="form-control custom-input" name="patient_name" placeholder="Enter patient name" required />
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3 hidden" id="relationshipField">
-        <div class="input-field-container">
-          <label class="input-label">Relationship with Patient</label>
-          <select class="styled-input" name="relationship">
+      <div class="col-md-6 col-lg-3 custom-padding hidden" id="relationshipField">
+        <div class="form-group custom-form-group">
+          <label class="custom-label">Relationship with Patient</label>
+          <select class="form-control custom-input" name="relationship">
             <option value="" disabled selected>Select relationship</option>
             <option value="parent">Parent</option>
             <option value="sibling">Sibling</option>
@@ -81,31 +54,26 @@
           </select>
         </div>
       </div>
-    </div>
-</div>
+  
 
-<div class="row form-section form-first-row mt-3">
-<!-- <div class="row form-second-row-full mt-3"> -->
-  <h2 class="section-title2">Customer Details</h2>
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Customer Name</label>
-        <input type="text" class="styled-input" name="customer_name" placeholder="Enter your name" required />
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Customer Name</label>
+        <input type="text" class="form-control custom-input" name="customer_name" placeholder="Enter your name" required />
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Contact Number</label>
-        <input type="text" class="styled-input" name="emergency_contact_number" placeholder="Enter emergency contact number" required />
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Contact Number</label>
+        <input type="text" class="form-control custom-input" name="emergency_contact_number" placeholder="Enter emergency contact number" required />
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Blood Group</label>
-        <select class="styled-input" name="blood_group" required>
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Blood Group</label>
+        <select class="form-control custom-input" name="blood_group" required>
           <option value="" disabled selected>Select blood group</option>
           <option value="A+">A+</option>
           <option value="A-">A-</option>
@@ -118,34 +86,33 @@
         </select>
       </div>
     </div>
-  </div>
+ 
 
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Known Medical Conditions</label>
-        <input type="text" class="styled-input" name="medical_conditions" placeholder="Enter known medical conditions" required />
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Known Medical Conditions</label>
+        <input type="text" class="form-control custom-input" name="medical_conditions" placeholder="Enter known medical conditions" required />
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Email</label>
-        <input type="email" class="styled-input" name="email" placeholder="Enter your email" required />
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Email</label>
+        <input type="email" class="form-control custom-input" name="email" placeholder="Enter your email" required />
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Patient Age</label>
-        <input type="number" class="styled-input" name="patient_age" placeholder="Enter patient age" />
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Patient Age</label>
+        <input type="number" class="form-control custom-input" name="patient_age" placeholder="Enter patient age" />
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Gender</label>
-        <select class="styled-input" name="gender">
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Gender</label>
+        <select class="form-control custom-input" name="gender">
           <option value="" disabled selected>Select gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -154,10 +121,10 @@
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Mobility Status</label>
-        <select class="styled-input" name="mobility_status" required>
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Mobility Status</label>
+        <select class="form-control custom-input" name="mobility_status" required>
           <option value="" disabled selected>Select Mobility Status</option>
           <option value="Walking">Walking</option>
           <option value="Wheelchair">Wheelchair</option>
@@ -166,74 +133,75 @@
       </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-      <div class="input-field-container">
-        <label class="input-label">Discharge Summary Sheet</label>
-        <input type="file" class="styled-input" name="discharge" accept=".pdf,.doc,.docx,.txt" />
+    <div class="col-md-6 col-lg-3 custom-padding">
+      <div class="form-group custom-form-group">
+        <label class="custom-label">Discharge Summary Sheet</label>
+        <input type="file" class="form-control custom-input" name="discharge" accept=".pdf,.doc,.docx,.txt" />
       </div>
     </div>
-  </div>
-</div>
+  <!-- </div>
+</div> -->
 <!-- 
     <div class="col-md-12 mt-4">
       <div class="card" style="border: 1px solid #8B4513; border-radius: 8px;">
         <div class="card-body"> -->
-          <div id="address-container">
-            <div class="address-entry" id="address-1">
+          <!-- <div id="address-container"> -->
+            <!-- <div class="address-entry" id="address-1">
             <div class="row form-section form-third-row mt-3">
             <h2 class="section-title3">Address Details</h2>
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-                  <div class="input-field-container">
-                    <label class="input-label">Pincode</label>
-                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" required pattern="\d{6}" maxlength="6" />
+            <div class="row"> -->
+                <div class="col-md-6 col-lg-3 custom-padding">
+                  <div class="form-group custom-form-group">
+                    <label class="custom-label">Pincode</label>
+                    <input type="text" name="pincode[]" class="form-control custom-input" placeholder="6 digits [0-9] PIN code" required pattern="\d{6}" maxlength="6" />
                   </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-                  <div class="input-field-container">
-                    <label class="input-label">Flat, House No., Building, Apartment</label>
-                    <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc." required />
+                <div class="col-md-6 col-lg-3 custom-padding">
+                  <div class="form-group custom-form-group">
+                    <label class="custom-label">Flat, House No., Building, Apartment</label>
+                    <input type="text" name="address_line1[]" class="form-control custom-input" placeholder="Enter Flat, House No., Building, etc." required />
                   </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-                  <div class="input-field-container">
-                    <label class="input-label">Area, Street, Sector, Village</label>
-                    <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" />
+                <div class="col-md-6 col-lg-3 custom-padding">
+                  <div class="form-group custom-form-group">
+                    <label class="custom-label">Area, Street, Sector, Village</label>
+                    <input type="text" name="address_line2[]" class="form-control custom-input" placeholder="Enter Area, Street, Sector, Village" />
                   </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-                  <div class="input-field-container">
-                    <label class="input-label">Landmark</label>
-                    <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" />
+                <div class="col-md-6 col-lg-3 custom-padding">
+                  <div class="form-group custom-form-group">
+                    <label class="custom-label">Landmark</label>
+                    <input type="text" name="landmark[]" class="form-control custom-input" placeholder="E.g. near Apollo Hospital" />
                   </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-                  <div class="input-field-container">
-                    <label class="input-label">Town/City</label>
-                    <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" required />
+                <div class="col-md-6 col-lg-3 custom-padding">
+                  <div class="form-group custom-form-group">
+                    <label class="custom-label">Town/City</label>
+                    <input type="text" name="city[]" class="form-control custom-input" placeholder="Enter Town/City" required />
                   </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                <div class="col-md-6 col-lg-3 custom-padding">
                   <?php include('states_dropdown.php'); ?>
                 </div>
                 <div class="col-md-12">
                   <i class="fas fa-plus-square text-success add-more" title="Add More"></i>
                   <i class="fas fa-trash-alt text-danger delete-icon" title="Delete"></i>
                 </div>
-              </div>
-            </div>
+                </div>
+              <!-- </div> -->
+            <!-- </div>
           </div>
         </div>
       </div>
     </div>
-</div>
-<div class="col-md-12 mt-4 text-center">
-  <div class="input-field-container">
-    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
+</div> -->
+
+<div class="submit-btn-container">
+    <button type="submit" class="btn btn-secondary submit-btn" name="submit" value="Submit" >
       Submit
     </button>
   </div>
-</div>
+
 
 
   </form>
@@ -276,33 +244,33 @@
             <div class="row form-section form-third-row mt-3">
    
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Pincode</label>
-            <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" required pattern="\\d{6}" maxlength="6" />
+          <div class="form-group custom-form-group">
+            <label class="custom-label">Pincode</label>
+            <input type="text" name="pincode[]" class="form-control custom-input" placeholder="6 digits [0-9] PIN code" required pattern="\\d{6}" maxlength="6" />
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Flat, House No., Building, Apartment</label>
-            <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc." required />
+          <div class="form-group custom-form-group">
+            <label class="custom-label">Flat, House No., Building, Apartment</label>
+            <input type="text" name="address_line1[]" class="form-control custom-input" placeholder="Enter Flat, House No., Building, etc." required />
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Area, Street, Sector, Village</label>
-            <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" />
+          <div class="form-group custom-form-group">
+            <label class="custom-label">Area, Street, Sector, Village</label>
+            <input type="text" name="address_line2[]" class="form-control custom-input" placeholder="Enter Area, Street, Sector, Village" />
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Landmark</label>
-            <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" />
+          <div class="form-group custom-form-group">
+            <label class="custom-label">Landmark</label>
+            <input type="text" name="landmark[]" class="form-control custom-input" placeholder="E.g. near Apollo Hospital" />
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Town/City</label>
-            <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" required />
+          <div class="form-group custom-form-group">
+            <label class="custom-label">Town/City</label>
+            <input type="text" name="city[]" class="form-control custom-input" placeholder="Enter Town/City" required />
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">

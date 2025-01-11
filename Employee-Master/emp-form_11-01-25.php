@@ -29,32 +29,36 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
 </style>
 <body>
 <?php include('../navbar.php'); ?>
-
-<div class="container mt-7">
-    <div class="card custom-card">
-    <div class="card-header custom-card-header">Add New Employee</div>
-    <div class="card-body">
+<section class="form-center">
+  <div class="container mt-6">
+    <h3 class="mb-4">Employee Form</h3>
     <form method="POST" id="employee_registartion" enctype="multipart/form-data" action="empdb.php">
     <!-- Row 1 -->
   <div class="row">
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Name</label>
-        <input type="text" name="name" class="form-control custom-input" placeholder="Enter your name"  />
+  <div class="row" style="margin: 0;">
+    <div class="col-12 col-lg-9 form-first-row">
+  <!-- Fields Container -->
+  <h2 class="basic-title">Basic Details</h2>
+    <div class="row">
+      <!-- Name Field -->
+       
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3 ">
+      <div class="input-field-container">
+        <label class="input-label">Name</label>
+        <input type="text" name="name" class="styled-input" placeholder="Enter your name"  />
       </div>
     </div>
 
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-      <label class="custom-label">DOB</label>
-            <input type="date" name="dob" class="form-control custom-input date-input"  />
+    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+      <div class="input-field-container">
+      <label class="input-label">DOB</label>
+            <input type="date" name="dob" class="styled-input date-input"  />
       </div>
     </div>
-
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Gender</label>
-        <select name="gender" class="form-control custom-input" >
+    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+      <div class="input-field-container">
+        <label class="input-label">Gender</label>
+        <select name="gender" class="styled-input" >
           <option value="" disabled selected>Select Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -62,22 +66,22 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Phone Number</label>
-        <input type="tel" name="phone" class="form-control custom-input" placeholder="Enter phone number" />
+    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+      <div class="input-field-container">
+        <label class="input-label">Phone Number</label>
+        <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" />
       </div>
     </div>
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Email</label>
-        <input type="email" name="email" class="form-control custom-input" placeholder="Enter email"  />
+    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+      <div class="input-field-container">
+        <label class="input-label">Email</label>
+        <input type="email" name="email" class="styled-input" placeholder="Enter email"  />
       </div>
     </div>
-    <div class="col-md-6 col-lg-3 custom-padding">
-  <div class="form-group custom-form-group">
-    <label class="custom-label">Role</label>
-    <select name="role" class="form-control custom-input" >
+    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+  <div class="input-field-container">
+    <label class="input-label">Role</label>
+    <select name="role" class="styled-input" >
       <option value="" disabled selected>Select Role</option>
       <option value="care_taker">Care Taker</option>
       <option value="nanny">Nanny</option>
@@ -86,13 +90,11 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     </select>
    
   </div>
-  </div>
-
-
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Qualification</label>
-        <select name="qualification" class="form-control custom-input" >
+</div>
+    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
+      <div class="input-field-container">
+        <label class="input-label">Qualification</label>
+        <select name="qualification" class="styled-input" >
           <option value="" disabled selected>Select Qualification</option>
           <option value="10th">10th</option>
           <option value="intermediate">Intermediate</option>
@@ -102,10 +104,10 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
         </select>
       </div>
     </div>
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Experience</label>
-        <select name="experience" class="form-control custom-input" >
+    <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+      <div class="input-field-container">
+        <label class="input-label">Experience</label>
+        <select name="experience" class="styled-input" >
           <option value="" disabled selected>Select Experience</option>
           <option value="0-1">0 to 1 year</option>
           <option value="2-3">2 to 3 years</option>
@@ -117,27 +119,30 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     </div>
 
 
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-        <label class="custom-label">DOJ</label>
-        <input type="date" name="doj" class="form-control custom-input date-input" id="doj"  />
+  <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+    <div class="input-field-container">
+        <label class="input-label">DOJ</label>
+        <input type="date" name="doj" class="styled-input date-input" id="doj"  />
     </div>
 </div>
 
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-        <label class="custom-label">Aadhar Number</label>
-        <input type="text" name="aadhar" class="form-control custom-input" placeholder="Enter Aadhar Number"   />
+    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
+      <div class="input-field-container">
+        <label class="input-label">Aadhar Number</label>
+        <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number"   />
       </div>
     </div>
-    
-  <div class="col-md-6 col-lg-3 custom-padding" >
-    
-        <div class="form-group custom-form-group">
-    <label class="custom-label">Police Verification</label>
+    </div>
+    </div>
+  <div class="col-12 col-lg-2 form-first-sub-row" >
+    <!-- Daily Rate Fields -->
+    <div class="row">
+      <div class="col-12 mt-4">
+        <div class="input-field-container">
+    <label class="input-label">Police Verification</label>
     <select 
       name="police_verification" 
-      class="form-control custom-input" 
+      class="styled-input" 
       id="policeVerificationSelect" 
       onchange="toggleDocumentUploadField()">
       <option value="">Select Status</option>
@@ -148,43 +153,57 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
 </div>
 
-<div class="col-md-6 col-lg-3 custom-padding" id="documentUploadField" style="display: none;">
-  <div class="form-group custom-form-group">
-    <label class="custom-label" id="documentLabel">Upload Document</label>
+<div class="col-12" id="documentUploadField" style="display: none;">
+  <div class="input-field-container">
+    <label class="input-label" id="documentLabel">Upload Document</label>
     <input 
       type="file" 
       name="police_verification_document" 
-      class="form-control custom-input" 
+      class="styled-input" 
       accept=".pdf,.jpg,.png,.doc,.docx" />
   </div>
 </div>
+</div>
+  </div>
+</div>
 
-    <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Daily Rate (8 hours)</label>
-      <input type="number" name="daily_rate8" class="form-control custom-input" placeholder="Enter Daily Rate" />
+<div class="row form-second-row-full">
+  <!-- Daily Rates Section -->
+  <h2 class="daily-title">Daily Rates</h2>
+  <div class="row">
+    <!-- Daily Rate (8 hours) -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+    <div class="input-field-container">
+      <label class="input-label">Daily Rate (8 hours)</label>
+      <input type="number" name="daily_rate8" class="styled-input" placeholder="Enter Daily Rate" />
     </div>
   </div>
 
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Daily Rate (12 hours)</label>
-      <input type="number" name="daily_rate12" class="form-control custom-input" placeholder="Enter Daily Rate" />
+  <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+    <div class="input-field-container">
+      <label class="input-label">Daily Rate (12 hours)</label>
+      <input type="number" name="daily_rate12" class="styled-input" placeholder="Enter Daily Rate" />
     </div>
   </div>
 
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Daily Rate (24 hours)</label>
-      <input type="number" name="daily_rate24" class="form-control custom-input" placeholder="Enter Daily Rate" />
+  <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+    <div class="input-field-container">
+      <label class="input-label">Daily Rate (24 hours)</label>
+      <input type="number" name="daily_rate24" class="styled-input" placeholder="Enter Daily Rate" />
     </div>
   </div>
-  
+  </div>
+  </div>
+
+  <div class="row form-second-row-bank-details">
+  <!-- Bank Details Section -->
+  <h2 class="bank-title">Bank Details</h2>
+  <div class="row">
     <!-- Reference -->
-    <div class="col-md-6 col-lg-3 custom-padding">
-      <div class="form-group custom-form-group">
-      <label class="custom-label">Reference</label>
-      <select name="reference" id="reference" class="form-control custom-input">
+    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+      <div class="input-field-container">
+      <label class="input-label">Reference</label>
+      <select name="reference" id="reference" class="styled-input">
         <option value="" disabled selected>Select Reference</option>
         <option value="ayush">Ayush</option>
         <option value="vendors">Vendors</option>
@@ -192,11 +211,11 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     </div>
   </div>
 <!-- Hidden Fields for Vendor Name and Contact -->
-<div class="col-md-6 col-lg-3 custom-padding" id="vendorFields" style="display: none;">
-  <div class="form-group custom-form-group">
-    <label class="custom-label">Vendor Name</label>
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorFields" style="display: none;">
+  <div class="input-field-container">
+    <label class="input-label">Vendor Name</label>
     <div class="d-flex align-items-center">
-      <select name="vendor_name" id="vendor_name" class="form-control custom-input me-2">
+      <select name="vendor_name" id="vendor_name" class="styled-input form-control me-2">
         <option value="" disabled selected>Select Vendor</option>
       </select>
       <i 
@@ -209,103 +228,105 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
   </div>
 </div>
 
-<div class="col-md-6 col-lg-3 custom-padding" id="vendorContactField" style="display: none;">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Vendor Contact Number</label>
-      <input type="text" id="vendor_contact" name="vendor_contact" class="form-control custom-input" placeholder="Enter Vendor Contact Number"  readonly />
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorContactField" style="display: none;">
+    <div class="input-field-container">
+      <label class="input-label">Vendor Contact Number</label>
+      <input type="text" id="vendor_contact" name="vendor_contact" class="styled-input" placeholder="Enter Vendor Contact Number"  readonly />
     </div>
   </div>
       
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Beneficiary Name</label>
-      <input type="text" id="beneficiary_name" name="beneficiary_name" class="form-control custom-input" placeholder="Enter Beneficiary Name"/>
+  <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+    <div class="input-field-container">
+      <label class="input-label">Beneficiary Name</label>
+      <input type="text" id="beneficiary_name" name="beneficiary_name" class="styled-input" placeholder="Enter Beneficiary Name"/>
     </div>
   </div>
 
 
 
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Bank Name</label>
-      <input type="text" id="bank_name" name="bank_name" class="form-control custom-input" placeholder="Enter Bank Name"  />
+  <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+    <div class="input-field-container">
+      <label class="input-label">Bank Name</label>
+      <input type="text" id="bank_name" name="bank_name" class="styled-input" placeholder="Enter Bank Name"  />
     </div>
   </div>
 
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Branch</label>
-      <input type="text" id="branch" name="branch" class="form-control custom-input" placeholder="Enter Branch Name"  />
-</div>
-</div>
- 
-
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">Bank Account Number</label>
-      <input type="text" id="bank_account_no" name="bank_account_no" class="form-control custom-input" placeholder="Enter Account Number"  />
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+    <div class="input-field-container">
+      <label class="input-label">Branch</label>
+      <input type="text" id="branch" name="branch" class="styled-input" placeholder="Enter Branch Name"  />
     </div>
   </div>
 
-  <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-      <label class="custom-label">IFSC Code</label>
-      <input type="text" id="ifsc_code" name="ifsc_code" class="form-control custom-input" placeholder="Enter IFSC Code"  />
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+    <div class="input-field-container">
+      <label class="input-label">Bank Account Number</label>
+      <input type="text" id="bank_account_no" name="bank_account_no" class="styled-input" placeholder="Enter Account Number"  />
     </div>
   </div>
 
-
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+    <div class="input-field-container">
+      <label class="input-label">IFSC Code</label>
+      <input type="text" id="ifsc_code" name="ifsc_code" class="styled-input" placeholder="Enter IFSC Code"  />
+    </div>
+  </div>
+  </div>
+  </div>
   
-  
+    <div class="row">
+    <!-- Card inside col-md-6 -->
+    <div class="col-md-7 col-12 mt-3 form-third-row">
       <div id="address-container">
+                <h2 class="address-title">Address</h2>
                     <div class="address-entry" id="address-1">
                         <div class="row">
                             <!-- Flat, House No., Building, Apartment -->
-                            <div class="col-md-6 col-lg-3 custom-padding">
-                                <div class="form-group custom-form-group">
-                                    <label class="custom-label">Flat, House No., Building, Apartment</label>
-                                    <input type="text" name="address_line1[]" class="form-control custom-input" placeholder="Enter Flat, House No., Building, etc."  />
+                            <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
+                                <div class="input-field-container">
+                                    <label class="input-label">Flat, House No., Building, Apartment</label>
+                                    <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc."  />
                                 </div>
                             </div>
 
                             <!-- Area, Street, Sector, Village -->
-                            <div class="col-md-6 col-lg-3 custom-padding">
-                                <div class="form-group custom-form-group">
-                                    <label class="custom-label">Area, Street, Sector, Village</label>
-                                    <input type="text" name="address_line2[]" class="form-control custom-input" placeholder="Enter Area, Street, Sector, Village" />
+                            <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
+                                <div class="input-field-container">
+                                    <label class="input-label">Area, Street, Sector, Village</label>
+                                    <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" />
                                 </div>
                             </div>
 
-                            <div class="col-md-6 col-lg-3 custom-padding">
-                                <div class="form-group custom-form-group">
-                                    <label class="custom-label">Pincode</label>
-                                    <input type="text" name="pincode[]" class="form-control custom-input" placeholder="6 digits [0-9] PIN code" maxlength="6" />
+                            <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
+                                <div class="input-field-container">
+                                    <label class="input-label">Pincode</label>
+                                    <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" maxlength="6" />
                                 </div>
                             </div>
 
                             <!-- Landmark -->
-                            <div class="col-md-6 col-lg-3 custom-padding">
-                                <div class="form-group custom-form-group">
-                                    <label class="custom-label">Landmark</label>
-                                    <input type="text" name="landmark[]" class="form-control custom-input" placeholder="E.g. near Apollo Hospital" />
+                            <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
+                                <div class="input-field-container">
+                                    <label class="input-label">Landmark</label>
+                                    <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" />
                                 </div>
                             </div>
 
                             <!-- Town/City -->
-                            <div class="col-md-6 col-lg-3 custom-padding">
-                                <div class="form-group custom-form-group">
-                                    <label class="custom-label">Town/City</label>
-                                    <input type="text" name="city[]" class="form-control custom-input" placeholder="Enter Town/City" />
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
+                                <div class="input-field-container">
+                                    <label class="input-label">Town/City</label>
+                                    <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" />
                                 </div>
                             </div>
 
                             <!-- State Dropdown -->
-        <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
+    <div class="input-field-container">
       <label class="input-label">State</label>
       <select 
         name="state" 
-        class="form-control custom-input" 
+        class="styled-input" 
         >
         <option value="" disabled selected>Choose a state</option>
         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -348,136 +369,87 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
     </div>
   </div>
 
-  
-
 
                             <!-- Add and Delete Icons -->
                             <div class="col-md-12">
                                 <i class="fas fa-plus-square text-success add-more" style="font-size: 1.5rem; cursor: pointer; margin-top: 1px;" title="Add More"></i>
                                 <i class="fas fa-trash-alt text-danger delete-icon" style="font-size: 1.3rem; cursor: pointer; margin-top: 10px;" title="Delete"></i>
                             </div>
-                            </div>
-    
-                            <div id="document-container">
-    <div class="row document-entry">
-        <!-- Document Name Field -->
-        <div class="col-md-3 custom-padding">
-            <div class="form-group custom-form-group">
-                <label class="input-label">Document Name</label>
-                <input 
-                    type="text" 
-                    name="other_doc_name[]" 
-                    class="form-control custom-input" 
-                    placeholder="Enter Document Name" 
-                    title="Enter the document name" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        <!-- </div>
+    </div> -->
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mt-3 form-third-sub-row">
+    <h2 class="upload-title">Upload documents</h2>
+    <div class="input-field-container">
+    <label class="input-label">Other Documents</label>
+    <div id="document-card-container" class="mt-3">
+      <!-- Initial Card for Document -->
+      <!-- <div class="card document-card mb-3">
+        <div class="card-body"> -->
+          <div class="d-flex align-items-center justify-content-between">
+            <!-- Document Name Field -->
+            <div class="me-2  w-100">
+              <label class="input-label">Document Name</label>
+              <input 
+                type="text" 
+                name="other_doc_name[]" 
+                class="styled-input form-control" 
+                placeholder="Enter Document Name" 
+                 
+                title="Enter the document name" />
+            </div>
 
-        <!-- Document File Field -->
-        <div class="col-md-3 custom-padding">
-            <div class="form-group custom-form-group">
-                <label class="input-label">Other Document</label>
-                <input 
-                    type="file" 
-                    name="other_doc[]" 
-                    class="form-control custom-input" 
-                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
-                    title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />
+            <!-- Document File Field -->
+            <div class="me-2  w-100 ">
+              <label class="input-label">Other Document</label>
+              <input 
+                type="file" 
+                name="other_doc[]" 
+                class="styled-input form-control" 
+                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
+                 
+                title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />
             </div>
-        </div>
+
+            <!-- Add More Icon -->
+            <i class="fas fa-plus-square text-success me-2 add-more-documents" style="font-size: 1.5rem; cursor: pointer;" title="Add More"></i>
+              <i class="fas fa-trash-alt text-danger remove-field" style="font-size: 1rem; cursor: pointer; display: none;" title="Remove"></i>
+          </div>
+          <div class="col-12 col-sm-6 col-md-12 col-lg-8 mt-4">
+  <div class="input-field-container">
+    <label class="input-label">Aadhar Upload Document</label>
+    <input 
+      type="file" 
+      name="adhar_upload_doc" 
+      class="styled-input" 
+      accept=".pdf,.jpg,.jpeg,.png" 
        
-
-        <!-- Add More and Remove Icons -->
-        <div class="col-md-3 custom-padding d-flex align-items-center">
-            <i class="fas fa-plus-square text-success me-3 add-more-documents" 
-               style="font-size: 1.5rem; cursor: pointer;" 
-               title="Add More"></i>
-            <i class="fas fa-trash-alt text-danger remove-field" 
-               style="font-size: 1rem; cursor: pointer;" 
-               title="Remove"></i>
-        </div>
-        
-    </div>
-
-    <!-- Aadhaar Upload Field (Only Once) -->
-    
-       
-    </div>
-    <div class="col-md-3 col-lg-3 custom-padding">
-            <div class="form-group custom-form-group">
-                <label class="input-label">Aadhar Upload Document</label>
-                <input 
-                    type="file" 
-                    name="adhar_upload_doc" 
-                    class="form-control custom-input" 
-                    accept=".pdf,.jpg,.jpeg,.png" 
-                    title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
-            </div>
-        </div>
-
-
-    </div>
-    </div>
+      title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
+  </div>
 </div>
-
-   <div class="submit-btn-container">
-      <button type="submit" class="btn btn-secondary submit-btn">Submit</button>
+        </div>
+      </div>
     </div>
-  
-</form>
-   </div>
+    </div>
+
+
+  <div class="row emp-submit">
+    <div class="col-md-12 text-center">
+      <button type="submit" class="btn w-100">Submit</button>
     </div>
   </div>
-
+</form>
+</div>
+</section>
     <?php include 'vendormodal.php'; ?>
 
 
     
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-  <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Add More Documents
-    document.querySelectorAll('.add-more-documents').forEach(function (button) {
-        button.addEventListener('click', function () {
-            const documentContainer = document.getElementById('document-container');
-            const documentEntry = documentContainer.querySelector('.document-entry');
-            const newDocumentEntry = documentEntry.cloneNode(true);
-
-            // Clear input values in the cloned entry
-            newDocumentEntry.querySelectorAll('input').forEach(function (input) {
-                input.value = '';
-            });
-
-            // Show the remove button in the new entry
-            const removeButton = newDocumentEntry.querySelector('.remove-field');
-            if (removeButton) {
-                removeButton.style.display = 'inline';
-            }
-
-            // Append the cloned entry
-            documentContainer.appendChild(newDocumentEntry);
-
-            // Add event listener for remove button in the new entry
-            const newRemoveButton = newDocumentEntry.querySelector('.remove-field');
-            if (newRemoveButton) {
-                newRemoveButton.addEventListener('click', function () {
-                    newDocumentEntry.remove();
-                });
-            }
-        });
-    });
-
-    // Remove Document Entry
-    document.querySelectorAll('.remove-field').forEach(function (button) {
-        button.addEventListener('click', function () {
-            this.closest('.document-entry').remove();
-        });
-    });
-});
-</script>
-
 
 <script>
 
@@ -662,7 +634,7 @@ function fetchVendorData() {
                 <input 
                   type="text" 
                   name="other_doc_name[]" 
-                  class="form-control custom-input form-control" 
+                  class="styled-input form-control" 
                   placeholder="Enter Document Name" 
                    
                   title="Enter the document name" />
@@ -672,7 +644,7 @@ function fetchVendorData() {
                 <input 
                   type="file" 
                   name="other_doc[]" 
-                  class="form-control custom-input form-control" 
+                  class="styled-input form-control" 
                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
                    
                   title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />

@@ -5,7 +5,9 @@ $alert_type = isset($_SESSION['alert_type']) ? $_SESSION['alert_type'] : null;
 
 // Clear session variables after displaying the alert
 unset($_SESSION['alert_message'], $_SESSION['alert_type']);
+?>
 
+<?php
 include('../config.php');
 
 $employee = [];
@@ -24,10 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
         $result = $stmt->get_result();
         $employee = $result->fetch_assoc();
         if (!$employee) {
-            die("Employee not found.");
+            echo "Employee not found.";
+            exit;
         }
     } else {
-        die("Error fetching employee data: " . $conn->error);
+        echo "Error fetching employee data.";
+        exit;
     }
     $stmt->close();
 
@@ -42,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
             $addresses[] = $row;
         }
     } else {
-        die("Error fetching addresses: " . $conn->error);
+        echo "Error fetching addresses.";
+        exit;
     }
     $stmt->close();
 }
@@ -77,9 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
     // File Upload Fields
     $target_dir = "../uploads/";
-
-    // Police Verification Document
-    $police_verification_document = $employee['police_verification_document'] ?? '';
+    $police_verification_document = $employee['police_verification_document'];
     if (!empty($_FILES['police_verification_document']['name'])) {
         $newDocumentName = "police_verification_" . time() . "_" . basename($_FILES['police_verification_document']['name']);
         $documentPath = $target_dir . $newDocumentName;
@@ -91,8 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         }
     }
 
-    // Aadhar Upload Document
-    $adhar_upload_doc = $employee['adhar_upload_doc'] ?? '';
+    $adhar_upload_doc = $employee['adhar_upload_doc'];
     if (!empty($_FILES['adhar_upload_doc']['name'])) {
         $newAadharDocumentName = "aadhar_" . time() . "_" . basename($_FILES['adhar_upload_doc']['name']);
         $aadharDocumentPath = $target_dir . $newAadharDocumentName;
@@ -128,15 +130,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     );
 
     if ($stmt->execute()) {
-        // Handle addresses and other updates (similar to the original code)
-        // Additional code for addresses and documents omitted for brevity...
+        // Update emp_addresses table
+        $sql = "DELETE FROM emp_addresses WHERE emp_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $employee_id);
+        $stmt->execute();
+
+        if (!empty($_POST['address_line1'])) {
+            $address_line1 = $_POST['address_line1'];
+            $address_line2 = $_POST['address_line2'];
+            $landmarks = $_POST['landmark'];
+            $cities = $_POST['city'];
+            $states = $_POST['state'];
+            $pincodes = $_POST['pincode'];
+
+            $sql = "INSERT INTO emp_addresses (emp_id, address_line1, address_line2, landmark, city, state, pincode) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            foreach ($address_line1 as $index => $line1) {
+                $line2 = $address_line2[$index];
+                $landmark = $landmarks[$index];
+                $city = $cities[$index];
+                $state = $states[$index];
+                $pincode = $pincodes[$index];
+
+                $stmt->bind_param(
+                    "issssss",
+                    $employee_id, $line1, $line2, $landmark, $city, $state, $pincode
+                );
+                $stmt->execute();
+            }
+        }
+
+        // Update emp_documents table
+        if (!empty($_FILES['other_doc']['name'][0])) {
+            $sql = "DELETE FROM emp_documents WHERE emp_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $employee_id);
+            $stmt->execute();
+
+            foreach ($_FILES['other_doc']['name'] as $key => $fileName) {
+                if (!empty($fileName)) {
+                    $fileTmp = $_FILES['other_doc']['tmp_name'][$key];
+                    $documentName = $_POST['other_doc_name'][$key] ?? "Document";
+                    $newDocName = "other_doc_" . time() . "_" . basename($fileName);
+                    $filePath = $target_dir . $newDocName;
+
+                    if (move_uploaded_file($fileTmp, $filePath)) {
+                        $sql = "INSERT INTO emp_documents (emp_id, file_path, document_name) VALUES (?, ?, ?)";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("iss", $employee_id, $filePath, $documentName);
+                        $stmt->execute();
+                    }
+                }
+            }
+        }
 
         $_SESSION['alert_message'] = "Employee updated successfully.";
         $_SESSION['alert_type'] = "success";
         header("Location: employee_list.php");
         exit;
     } else {
-        die("Error updating employee: " . $conn->error);
+        echo "Error updating employee.";
     }
     $stmt->close();
 }
@@ -160,38 +216,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
 
 </head>
-
+<style>
+  .file-link {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+  .bank-title {
+        position: absolute;
+        top: 787px;
+        left: 52px;
+  }
+  .daily-title {
+        position: absolute;
+        top: 658px;
+         left: 52px;
+  }
+}
+@media (max-width: 767px) {
+  .bank-title {
+    position: absolute;
+        top: 172%;
+        left: 29px;
+  }
+  .daily-title {
+    position: absolute;
+        top: 136%;
+        left: 36px;
+    
+  }
+}
+</style>
 <body>
   <?php include('../navbar.php'); ?>
-  <div class="container mt-7">
-  <div class="card custom-card">
-    <div class="card-header custom-card-header">Employee Form</div>
-    <div class="card-body">
+  <section class="form-center">
+  <div class="container mt-6">
+    <h3 class="mb-4">Employee Form</h3>
+ 
     <form action="update_emp.php" method="POST" enctype="multipart/form-data">
       <!-- Hidden ID Field -->
       <input type="hidden" name="id" value="<?= htmlspecialchars($employee['id']); ?>">
-  
+      <div class="row">
   <div class="row" style="margin: 0;">
-        <div class="col-md-6 col-lg-3 custom-padding">
-        <div class="form-group custom-form-group">
-            <label class="custom-label">Name</label>
-            <input type="text" name="name" class="form-control custom-input" placeholder="Enter your name" value="<?= htmlspecialchars($employee['name']); ?>" />
+    <div class="col-12 col-lg-9 form-first-row">
+  <!-- Fields Container -->
+  <h2 class="basic-title">Basic Details</h2>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Name</label>
+            <input type="text" name="name" class="styled-input" placeholder="Enter your name" value="<?= htmlspecialchars($employee['name']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">DOB</label>
-            <input type="date" name="dob" class="form-control custom-input date-input" value="<?= htmlspecialchars($employee['dob']); ?>" />
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">DOB</label>
+            <input type="date" name="dob" class="styled-input date-input" value="<?= htmlspecialchars($employee['dob']); ?>" />
             <!-- <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" > -->
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Gender</label>
-            <select name="gender" class="form-control custom-input">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Gender</label>
+            <select name="gender" class="styled-input">
               <option value="Male" <?= $employee['gender'] == 'Male' ? 'selected' : ''; ?>>Male</option>
               <option value="Female" <?= $employee['gender'] == 'Female' ? 'selected' : ''; ?>>Female</option>
               <option value="Other" <?= $employee['gender'] == 'Other' ? 'selected' : ''; ?>>Other</option>
@@ -199,26 +293,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Phone Number</label>
-            <input type="tel" name="phone" class="form-control custom-input" placeholder="Enter phone number" pattern="[0-9]{10}" value="<?= htmlspecialchars($employee['phone']); ?>" />
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Phone Number</label>
+            <input type="tel" name="phone" class="styled-input" placeholder="Enter phone number" pattern="[0-9]{10}" value="<?= htmlspecialchars($employee['phone']); ?>" />
           </div>
         </div>
       <!-- </div> -->
 
       <!-- <div class="row"> -->
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Email</label>
-            <input type="email" name="email" class="form-control custom-input" placeholder="Enter email" value="<?= htmlspecialchars($employee['email']); ?>" />
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Email</label>
+            <input type="email" name="email" class="styled-input" placeholder="Enter email" value="<?= htmlspecialchars($employee['email']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Role</label>
-            <select name="role" class="form-control custom-input">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+          <div class="input-field-container">
+            <label class="input-label">Role</label>
+            <select name="role" class="styled-input">
               <option value="care_taker" <?= $employee['role'] == 'care_taker' ? 'selected' : ''; ?>>Care Taker</option>
               <option value="nanny" <?= $employee['role'] == 'nanny' ? 'selected' : ''; ?>>Nanny</option>
               <option value="fully_trained_nurse" <?= $employee['role'] == 'fully_trained_nurse' ? 'selected' : ''; ?>>Fully Trained Nurse</option>
@@ -228,10 +322,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         </div>
 
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Qualification</label>
-            <select name="qualification" class="form-control custom-input">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
+          <div class="input-field-container">
+            <label class="input-label">Qualification</label>
+            <select name="qualification" class="styled-input">
               <option value="10th" <?= $employee['qualification'] == '10th' ? 'selected' : ''; ?>>10th</option>
               <option value="intermediate" <?= $employee['qualification'] == 'intermediate' ? 'selected' : ''; ?>>Intermediate</option>
               <option value="degree" <?= $employee['qualification'] == 'degree' ? 'selected' : ''; ?>>Degree</option>
@@ -241,10 +335,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Experience</label>
-            <select name="experience" class="form-control custom-input">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+          <div class="input-field-container">
+            <label class="input-label">Experience</label>
+            <select name="experience" class="styled-input">
               <option value="0-1" <?= $employee['experience'] == '0-1' ? 'selected' : ''; ?>>0 to 1 year</option>
               <option value="2-3" <?= $employee['experience'] == '2-3' ? 'selected' : ''; ?>>2 to 3 years</option>
               <option value="4-5" <?= $employee['experience'] == '4-5' ? 'selected' : ''; ?>>4 to 5 years</option>
@@ -253,28 +347,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
           </div>
         </div>
-     
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">DOJ</label>
-            <input type="date" name="doj" class="form-control custom-input date-input" id="doj" value="<?= htmlspecialchars($employee['doj']); ?>" />
+      <!-- </div> -->
+
+      <!-- Row 3 -->
+      <!-- <div class="row"> -->
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-2">
+          <div class="input-field-container">
+            <label class="input-label">DOJ</label>
+            <input type="date" name="doj" class="styled-input date-input" id="doj" value="<?= htmlspecialchars($employee['doj']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Aadhar Number</label>
-            <input type="text" name="aadhar" class="form-control custom-input" placeholder="Enter Aadhar Number" pattern="[0-9]{12}" value="<?= htmlspecialchars($employee['aadhar']); ?>" />
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-2">
+          <div class="input-field-container">
+            <label class="input-label">Aadhar Number</label>
+            <input type="text" name="aadhar" class="styled-input" placeholder="Enter Aadhar Number" pattern="[0-9]{12}" value="<?= htmlspecialchars($employee['aadhar']); ?>" />
           </div>
         </div>
-       
+        </div>
+    </div>
 
-    <div class="col-md-6 col-lg-3 custom-padding" >
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Police Verification</label>
+    <div class="col-12 col-lg-2 form-first-sub-row" >
+        <!-- Police Verification Field -->
+        <div class="row">
+        <div class="col-12 mt-4">
+          <div class="input-field-container">
+            <label class="input-label">Police Verification</label>
             <select
               name="police_verification"
-              class="form-control custom-input"
+              class="styled-input"
               id="policeVerificationSelect"
               onchange="toggleDocumentUploadField()">
               <option value="">Select Status</option>
@@ -284,13 +385,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             </select>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 custom-padding" id="documentUploadField">
-  <div class="form-group custom-form-group">
-    <label class="custom-label" id="documentLabel">Verified Doc</label>
+        <div class="col-12" id="documentUploadField">
+  <div class="input-field-container">
+    <label class="input-label" id="documentLabel">Verified Doc</label>
     <input
       type="file"
       name="police_verification_document"
-      class="form-control custom-input"
+      class="styled-input"
       accept=".pdf,.jpg,.png,.doc,.docx" />
     <?php if (!empty($employee['police_verification_document'])): ?>
       <a href="../uploads/<?= htmlspecialchars($employee['police_verification_document']); ?>"
@@ -302,33 +403,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
   </div>
 </div>
 
- 
+        </div>
+  </div>
+</div>
 
-
-<div class="col-md-6 col-lg-3 custom-padding">
-            <div class="form-group custom-form-group">
-              <label class="custom-label">Daily Rate (8 hours)</label>
-              <input type="number" name="daily_rate8" class="form-control custom-input" value="<?= htmlspecialchars($employee['daily_rate8']); ?>" />
+<div class="row form-second-row-full">
+  <!-- Daily Rates Section -->
+  <h2 class="daily-title">Daily Rates</h2>
+  <div class="row">
+<div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+            <div class="input-field-container">
+              <label class="input-label">Daily Rate (8 hours)</label>
+              <input type="number" name="daily_rate8" class="styled-input" value="<?= htmlspecialchars($employee['daily_rate8']); ?>" />
             </div>
           </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+            <div class="input-field-container">
+              <label class="input-label">Daily Rate (12 hours)</label>
+              <input type="number" name="daily_rate12" class="styled-input" value="<?= htmlspecialchars($employee['daily_rate12']); ?>" />
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-4">
+            <div class="input-field-container">
+              <label class="input-label">Daily Rate (24 hours)</label>
+              <input type="number" name="daily_rate24" class="styled-input" value="<?= htmlspecialchars($employee['daily_rate24']); ?>" />
+            </div>
+          </div>
+          </div>
+          </div>
 
-          <div class="col-md-6 col-lg-3 custom-padding">
-            <div class="form-group custom-form-group">
-              <label class="custom-label">Daily Rate (12 hours)</label>
-              <input type="number" name="daily_rate12" class="form-control custom-input" value="<?= htmlspecialchars($employee['daily_rate12']); ?>" />
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 custom-padding">
-            <div class="form-group custom-form-group">
-              <label class="custom-label">Daily Rate (24 hours)</label>
-              <input type="number" name="daily_rate24" class="form-control custom-input" value="<?= htmlspecialchars($employee['daily_rate24']); ?>" />
-            </div>
-          </div>
-         
-          <div class="col-md-6 col-lg-3 custom-padding">
-    <div class="form-group custom-form-group">
-        <label class="custom-label">Reference</label>
-        <select name="reference" id="reference" class="form-control custom-input">
+
+          <div class="row form-second-row-bank-details">
+  <!-- Bank Details Section -->
+  <h2 class="bank-title">Bank Details</h2>
+  <div class="row">
+          <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+    <div class="input-field-container">
+        <label class="input-label">Reference</label>
+        <select name="reference" id="reference" class="styled-input">
             <option value="" disabled <?= empty($employee['reference']) ? 'selected' : '' ?>>Select Reference</option>
             <option value="ayush" <?= $employee['reference'] === 'ayush' ? 'selected' : '' ?>>Ayush</option>
             <option value="vendors" <?= $employee['reference'] === 'vendors' ? 'selected' : '' ?>>Vendors</option>
@@ -337,11 +449,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 </div>
 
 
-<div class="col-md-6 col-lg-3 custom-padding" id="vendorFields" style="<?= $employee['reference'] === 'vendors' ? '' : 'display: none;' ?>">
-    <div class="form-group custom-form-group">
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorFields" style="<?= $employee['reference'] === 'vendors' ? '' : 'display: none;' ?>">
+    <div class="input-field-container">
         <div class="d-flex align-items-center">
-            <label class="custom-label me-2 mb-0">Vendor Name</label>
-            <select name="vendor_name" id="vendor_name" class="form-control custom-input form-control me-2">
+            <label class="input-label me-2 mb-0">Vendor Name</label>
+            <select name="vendor_name" id="vendor_name" class="styled-input form-control me-2">
                 <option value="" disabled <?= empty($vendor_name) ? 'selected' : '' ?>>Select Vendor</option>
                 <option value="Vendor1" <?= $vendor_name === 'Vendor1' ? 'selected' : '' ?>>Vendor1</option>
                 <option value="Vendor2" <?= $vendor_name === 'Vendor2' ? 'selected' : '' ?>>Vendor2</option>
@@ -355,104 +467,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         </div>
     </div>
 </div> 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Beneficiary Name</label>
-            <input type="text" id="beneficiary_name" name="beneficiary_name" class="form-control custom-input" placeholder="Enter Beneficiary Name" value="<?= htmlspecialchars($employee['beneficiary_name']); ?>" />
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Beneficiary Name</label>
+            <input type="text" id="beneficiary_name" name="beneficiary_name" class="styled-input" placeholder="Enter Beneficiary Name" value="<?= htmlspecialchars($employee['beneficiary_name']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Bank Name</label>
-            <input type="text" id="bank_name" name="bank_name" class="form-control custom-input" placeholder="Enter Bank Name" value="<?= htmlspecialchars($employee['bank_name']); ?>" />
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Bank Name</label>
+            <input type="text" id="bank_name" name="bank_name" class="styled-input" placeholder="Enter Bank Name" value="<?= htmlspecialchars($employee['bank_name']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Branch</label>
-            <input type="text" id="branch" name="branch" class="form-control custom-input" placeholder="Enter Branch Name" value="<?= htmlspecialchars($employee['branch']); ?>" />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Branch</label>
+            <input type="text" id="branch" name="branch" class="styled-input" placeholder="Enter Branch Name" value="<?= htmlspecialchars($employee['branch']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">Bank Account Number</label>
-            <input type="text" id="bank_account_no" name="bank_account_no" class="form-control custom-input" placeholder="Enter Account Number" value="<?= htmlspecialchars($employee['bank_account_no']); ?>" />
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Bank Account Number</label>
+            <input type="text" id="bank_account_no" name="bank_account_no" class="styled-input" placeholder="Enter Account Number" value="<?= htmlspecialchars($employee['bank_account_no']); ?>" />
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3 custom-padding">
-          <div class="form-group custom-form-group">
-            <label class="custom-label">IFSC Code</label>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">IFSC Code</label>
 
-            <input type="text" id="ifsc_code" name="ifsc_code" class="form-control custom-input" placeholder="Enter IFSC Code" value="<?php echo htmlspecialchars($employee['ifsc_code']); ?>" />
+            <input type="text" id="ifsc_code" name="ifsc_code" class="styled-input" placeholder="Enter IFSC Code" value="<?php echo htmlspecialchars($employee['ifsc_code']); ?>" />
 
           </div>
         </div>
-       
+        </div>
+        </div>
 
-   
+        <div class="row">
     <!-- Card inside col-md-6 -->
-
+    <div class="col-md-7 col-12 mt-3 form-third-row">
                   <div id="address-container">
                 
                     <?php foreach ($addresses as $index => $address): ?>
                       <!-- Address Entry -->
-                     
+                      <h2 class="address-title">Address</h2>
                       <div class="address-entry" id="address-<?= $index + 1 ?>">
                         <div class="row">
                           <input type="hidden" name="address_id[]" value="<?= htmlspecialchars($address['id']); ?>" />
                          
-                          <div class="col-md-6 col-lg-3 custom-padding">
-                            <div class="form-group custom-form-group">
-                              <label class="custom-label">Flat, House No., Building, Apartment</label>
-                              <input type="text" name="address_line1[]" class="form-control custom-input" placeholder="Enter Flat, House No., Building, etc." value="<?= htmlspecialchars($address['address_line1']); ?>" />
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
+                            <div class="input-field-container">
+                              <label class="input-label">Flat, House No., Building, Apartment</label>
+                              <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc." value="<?= htmlspecialchars($address['address_line1']); ?>" />
                             </div>
                           </div>
                          
                          
 
-                          <div class="col-md-6 col-lg-3 custom-padding">
-                            <div class="form-group custom-form-group">
-                              <label class="custom-label">Area, Street, Sector, Village</label>
-                              <input type="text" name="address_line2[]" class="form-control custom-input" placeholder="Enter Area, Street, Sector, Village" value="<?= htmlspecialchars($address['address_line2']); ?>" />
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-6 mt-3">
+                            <div class="input-field-container">
+                              <label class="input-label">Area, Street, Sector, Village</label>
+                              <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" value="<?= htmlspecialchars($address['address_line2']); ?>" />
                             </div>
                           </div>
 
-                          <div class="col-md-6 col-lg-3 custom-padding">
-                            <div class="form-group custom-form-group">
-                              <label class="custom-label">Pincode</label>
-                              <input type="text" name="pincode[]" class="form-control custom-input" placeholder="6 digits [0-9] PIN code" pattern="\d{6}" maxlength="6" value="<?= htmlspecialchars($address['pincode']); ?>" />
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
+                            <div class="input-field-container">
+                              <label class="input-label">Pincode</label>
+                              <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" pattern="\d{6}" maxlength="6" value="<?= htmlspecialchars($address['pincode']); ?>" />
                             </div>
                           </div>     
 
                       
 
-                          <div class="col-md-6 col-lg-3 custom-padding">
-                            <div class="form-group custom-form-group">
-                              <label class="custom-label">Landmark</label>
-                              <input type="text" name="landmark[]" class="form-control custom-input" placeholder="E.g. near Apollo Hospital" value="<?= htmlspecialchars($address['landmark']); ?>" />
+                          <div class="col-12 col-sm-6 col-md-12 col-lg-3 mt-2">
+                            <div class="input-field-container">
+                              <label class="input-label">Landmark</label>
+                              <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" value="<?= htmlspecialchars($address['landmark']); ?>" />
                             </div>
                           </div>
 
                           <!-- Town/City -->
-                          <div class="col-md-6 col-lg-3 custom-padding">
-                            <div class="form-group custom-form-group">
-                              <label class="custom-label">Town/City</label>
-                              <input type="text" name="city[]" class="form-control custom-input" placeholder="Enter Town/City" value="<?= htmlspecialchars($address['city']); ?>" />
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
+                            <div class="input-field-container">
+                              <label class="input-label">Town/City</label>
+                              <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" value="<?= htmlspecialchars($address['city']); ?>" />
                             </div>
                           </div>
-
-                          <div class="col-md-6 col-lg-3 custom-padding">
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
                             <?php
                             include('states_dropdown.php');
                             $selectedState = $address['state'];
                             ?>
-                            <div class="form-group custom-form-group">
-                              <label class="custom-label">State</label>
-                              <select name="state[]" class="form-control custom-input" required>
+                            <div class="input-field-container">
+                              <label class="input-label">State</label>
+                              <select name="state[]" class="styled-input" required>
                                 <?php foreach ($states as $state): ?>
                                   <option value="<?= htmlspecialchars($state); ?>" <?= $state === $selectedState ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($state); ?>
@@ -467,20 +579,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                           <i class="fas fa-trash-alt text-danger delete-icon" style="font-size: 1.3rem; cursor: pointer;" title="Delete"></i>
                         </div>
                       </div>
-
                     <?php endforeach; ?>
-
-                    
                   </div>
                 </div>
               </div>
           
-              <div id="document-container">
-    <div class="row document-entry">
-        <!-- Document Name Field -->
-        <div class="col-md-3 custom-padding">
-            <div class="form-group custom-form-group">
-        <label class="custom-label">Documents Name</label>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-4 mt-3 form-third-sub-row">
+    <h2 class="upload-title">Upload documents</h2>
+    <div class="input-field-container">
+        <label class="input-label">Other Documents</label>
         <div id="document-card-container" class="mt-3">
             <?php
             $emp_id = $employee['id']; // Get employee ID from session or wherever it's stored
@@ -494,21 +601,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             ?>
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="me-2 w-100">
-                        <label class="custom-label"><?= htmlspecialchars($document['document_name']); ?></label>
+                        <label class="input-label"><?= htmlspecialchars($document['document_name']); ?></label>
                         <input
                             type="text"
                             name="other_doc_name[]"
-                            class="form-control custom-input form-control"
+                            class="styled-input form-control"
                             value="<?= htmlspecialchars($document['document_name']); ?>"
                             placeholder="Enter Document Name" />
                     </div>
 
                     <div class="me-2 w-100">
-                        <label class="custom-label">Other Document</label>
+                        <label class="input-label">Other Document</label>
                         <input
                             type="file"
                             name="other_doc[]"
-                            class="form-control custom-input form-control"
+                            class="styled-input form-control"
                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
                             title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />
                         <?php if (!empty($document['file_path'])): ?>
@@ -521,8 +628,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-12 col-lg-8 mt-4">
-                    <div class="form-group custom-form-group">
-                        <label class="custom-label">
+                    <div class="input-field-container">
+                        <label class="input-label">
                             Aadhar Upload Document
                             <?php 
                             if (!empty($employee['adhar_upload_doc'])): 
@@ -536,7 +643,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                         <input
                             type="file"
                             name="adhar_upload_doc"
-                            class="form-control custom-input"
+                            class="styled-input"
                             accept=".pdf,.jpg,.jpeg,.png"
                             title="Please upload a valid Aadhar document (PDF, JPG, JPEG, or PNG)" />
                     </div>
@@ -556,7 +663,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
               <div class="row emp-submit">
   <div class="col-md-12 text-center">
     <button type="submit" class="btn w-100">Update</button>
-
+    <!-- <button 
+      type="button" 
+      class="btn btn-danger" 
+      onclick="window.location.href='table.php';">
+      Close
+    </button> -->
   </div>
 </div>
     </form>
@@ -802,21 +914,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
           <div class="card-body">
             <div class="row align-items-center">
               <div class="col-md-6">
-                <label class="custom-label">Document Name</label>
+                <label class="input-label">Document Name</label>
                 <input 
                   type="text" 
                   name="other_doc_name[]" 
-                  class="form-control custom-input form-control" 
+                  class="styled-input form-control" 
                   placeholder="Enter Document Name" 
                    
                   title="Enter the document name" />
               </div>
               <div class="col-md-6">
-                <label class="custom-label">Upload Document</label>
+                <label class="input-label">Upload Document</label>
                 <input 
                   type="file" 
                   name="other_doc[]" 
-                  class="form-control custom-input form-control" 
+                  class="styled-input form-control" 
                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
                    
                   title="Upload a document (PDF, JPG, PNG, DOC, DOCX)" />
