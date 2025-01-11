@@ -162,9 +162,7 @@ function updateCustomerFields() {
 
     </div>
 
-    
-
-    <!-- <div class="row emp-submit mt-2"> -->
+  
     
     <div class="text-center mt-4">
             <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
