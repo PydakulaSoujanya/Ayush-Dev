@@ -30,29 +30,35 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dywxE7Dbauy0ZdO9IMIAgFbKk8c0Lx0nvW0Uj+ks9qqRhj2uP/zLwsiXccCD9dQrcxJjpHZB5Q72n11KH4cOZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <link rel="stylesheet" href="../assets/css/style.css">
   
+   
+  
 </head>
 
 <body>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <?php
 include('../navbar.php');
 ?>
 <div class="container mt-7">
   
-  <h3 class="mb-4">Utility Expenses Claim</h3>
+<div class="card custom-card">
+<div class="card-header custom-card-header">Utility Expenses Claim</div>
+<div class="card-body">
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
 
-  <div class="row form-section form-first-row">
-            <h2 class="section-title1">Utility Expenses</h2>
+  <div class="row ">
+          
             <div class="row mt-3">
     <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
 
     <!-- <div class="row form-section form-first-row"> -->
     
     <div class="col-md-4">
-  <div class="input-field-container">
+  <div class="form-group">
     <label class="input-label">Select Vendor</label>
     <!-- Dropdown for selecting a vendor -->
-    <select class="styled-input" id="vendor_name_dropdown" name="vendor_name_dropdown" style="width: 100%;" onchange="updateVendorFields()" required>
+    <select class="form-control" id="vendor_name_dropdown" name="vendor_name_dropdown" style="width: 100%;" onchange="updateVendorFields()" required>
       <option value="" disabled selected>Select Vendor</option>
       <?php
       while ($row = mysqli_fetch_assoc($vendor_result)) {
@@ -101,17 +107,17 @@ function updateVendorFields() {
       <!-- Expense Date -->
       <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
           <div class="col-md-4">
-        <div class="input-field-container">
+        <div class="form-group">
           <label class="input-label">Expense Date</label>
-          <input type="date" class="styled-input" name="expense_date" id="expense_date" required />
+          <input type="date" class="form-control" name="expense_date" id="expense_date" required />
         </div>
       </div>
 
        <div class="col-md-4">
-        <div class="input-field-container">
-          <label class="input-label">Paying Account</label>
+        <div class="form-group">
+          <label class="input-lable">Paying Account</label>
     <!-- <label class="input-label">Select Account</label> -->
-    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%;" required>
+    <select class="form-control" id="bank_account" name="bank_account" style="width: 100%;" required>
     <option value="" disabled selected>Select Account</option>
     <?php
     if ($result->num_rows > 0) {
@@ -134,9 +140,9 @@ function updateVendorFields() {
       <!-- Amount to be Paid -->
       <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
           <div class="col-md-4">
-        <div class="input-field-container">
+        <div class="form-group">
           <label class="input-label">Amount to be Paid</label>
-          <input type="number" class="styled-input" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
+          <input type="number" class="form-control" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
         </div>
       </div>
 
@@ -145,9 +151,9 @@ function updateVendorFields() {
       <!-- Status -->
       <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
           <div class="col-md-4">
-        <div class="input-field-container">
+        <div class="form-group">
           <label class="input-label">Status</label>
-          <select class="styled-input" name="status" required>
+          <select class="form-control" name="status" required>
             <option value="" disabled selected>Select Status</option>
             <option value="Pending">Pending</option>
             <option value="Paid">Paid </option>
@@ -158,10 +164,10 @@ function updateVendorFields() {
        
 <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
     <div class="col-md-4">
-        <div class="input-field-container">
+        <div class="form-group">
           <label class="input-label">Description</label>
           <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
-              <input class="styled-input" name="description" placeholder="Describe the expense" required></input>
+              <input class="form-control" name="description" placeholder="Describe the expense" required></input>
 
         </div>
       </div>
@@ -176,14 +182,17 @@ function updateVendorFields() {
 
     
 
-    <div class="row emp-submit mt-2">
+    <!-- <div class="row emp-submit mt-2"> -->
     
-      <div class="col-md-12 text-center">
-        <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
-      </div>
+    <div class="text-center mt-4">
+            <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
+          </div>
+
     </div>
   </form>
 </div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>

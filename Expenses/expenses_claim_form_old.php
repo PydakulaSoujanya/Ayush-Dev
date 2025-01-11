@@ -20,37 +20,58 @@ $result = $conn->query($sql);
    <link rel="stylesheet" href="../assets/css/style.css">
   
 </head>
+<style>
+  .suggestions-box {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.suggestion-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: #f1f1f1;
+  cursor: pointer;
+}
+</style>
 <body>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <?php
 include('../navbar.php');
 ?>
 <div class="container mt-7">
-<div class="card custom-card">
-      <div class="card-header custom-card-header">Employee Expenses Claim</div>
-      <div class="card-body">
- 
+  
+  <h3 class="mb-4">Employee Expenses Claim</h3>
   <form action="employee_claims_db.php" method="POST" enctype="multipart/form-data">
-    <div class="row mt-3">
+    <div class="row form-section form-first-row">
     
     <!-- Employee Name -->
     <!-- Employee Search -->
-    <div class="col-md-4 col-lg-4">
-  <div class="form-group">
+    <div class="col-md-4">
+  <div class="input-field-container">
     <label class="input-label">Search Employee</label>
     <input
       type="text"
       id="employee_search"
       name="employee_search"
-      class="form-control"
+      class="styled-input"
       placeholder="Search by Name or Mobile Number"
       onkeyup="searchEmployee(this.value)"
       autocomplete="off"
       required
     />
-
     <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
  
 
@@ -96,18 +117,18 @@ function updateEmployeeFields() {
       
 
       <!-- Expense Date -->
-      <div class="col-md-4 col-lg-4">
-  <div class="form-group">
+      <div class="col-md-4">
+  <div class="input-field-container">
     <label class="input-label">Expense Date</label>
-    <input type="date" class="form-control" name="expense_date" id="expense_date" required />
+    <input type="date" class="styled-input" name="expense_date" id="expense_date" required />
   </div>
 </div>
 
-      <div class="col-md-4 col-lg-4">
-        <div class="form-group">
+      <div class="col-md-4">
+        <div class="input-field-container">
           <label class="input-label">Paying Account</label>
     <!-- <label class="input-label">Select Account</label> -->
-    <select class="form-control" id="bank_account" name="bank_account" style="width: 100%;" required>
+    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%;" required>
     <option value="" disabled selected>Select Account</option>
     <?php
     if ($result->num_rows > 0) {
@@ -123,11 +144,11 @@ function updateEmployeeFields() {
 
 </div>
       </div>
-    <div class="row mt-3">
-    <div class="col-md-4 col-lg-4">
-        <div class="form-group">
+    
+    <div class="col-md-4">
+        <div class="input-field-container">
           <label class="input-label">Description</label>
-          <input class="form-control" name="description" placeholder="Describe the expense" required></input>
+          <input class="styled-input" name="description" placeholder="Describe the expense" required></input>
 
           <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
         </div>
@@ -135,29 +156,25 @@ function updateEmployeeFields() {
 
   
       <!-- Amount Claimed -->
-      <div class="col-md-4 col-lg-4">
-        <div class="form-group">
+      <div class="col-md-4">
+        <div class="input-field-container">
           <label class="input-label">Amount Claimed</label>
-          <input type="number" class="form-control" name="amount_claimed" placeholder="Enter Amount Claimed" required />
+          <input type="number" class="styled-input" name="amount_claimed" placeholder="Enter Amount Claimed" required />
         </div>
       </div>
 
       
 
       <!-- Status -->
-      <div class="col-md-4 col-lg-4">
-  <div class="form-group">
+      <div class="col-md-4">
+  <div class="input-field-container">
     <label class="input-label">Status</label>
-    <input type="text" class="form-control" name="status" value="Paid" readonly required>
+    <input type="text" class="styled-input" name="status" value="Paid" readonly required>
   </div>
-</div>
 </div>
 
        
-<div class="text-center mt-4">
-            <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
-          </div>
-  </div>
+
 
     <input type="hidden" name="expense_type" value="Employee Expense Claim">
   
@@ -165,17 +182,17 @@ function updateEmployeeFields() {
  
 
     </div>
-</div>
-</div>
-    
 
     
-    
-   
+
+    <div class="row emp-submit mt-2">
+    <div class="col-md-12 text-center">
+        <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
+      </div>
+    </div>
+    </div>
   </form>
 </div>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
