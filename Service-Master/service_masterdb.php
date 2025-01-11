@@ -1,27 +1,40 @@
 <?php
-include '../config.php'; // Include database connection
+include '../config.php';  // Include your database configuration file
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $serviceName = $_POST['service_name'];
-    $status = $_POST['status'];
-    $dailyRate8 = $_POST['daily_rate_8_hours'];
-    $dailyRate12 = $_POST['daily_rate_12_hours'];
-    $dailyRate24 = $_POST['daily_rate_24_hours'];
-    $description = $_POST['description'];
+// Check if the form is submitted via POST method
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Insert into the database
-    $sql = "INSERT INTO `service_master` (`service_name`, `status`, `daily_rate_8_hours`, `daily_rate_12_hours`, `daily_rate_24_hours`, `description`) 
-            VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("ssiiis", $serviceName, $status, $dailyRate8, $dailyRate12, $dailyRate24, $description);
-        $stmt->execute();
-        header("Location: service_form.php?status=success"); // Redirect after successful submission
-        exit();
-    } else {
-        die("Error: " . $conn->error);
+    // Get form data
+    $service_name = $_POST['service_name'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $daily_rate_8_hours = $_POST['daily_rate_8_hours'] ?? '';
+    $daily_rate_12_hours = $_POST['daily_rate_12_hours'] ?? '';
+    $daily_rate_24_hours = $_POST['daily_rate_24_hours'] ?? '';
+    $description = $_POST['description'] ?? '';
+
+    // Form validation: Ensure no fields are empty
+    if (empty($service_name) || empty($status) || empty($daily_rate_8_hours) || empty($daily_rate_12_hours) || empty($daily_rate_24_hours)) {
+        echo "<script>alert('Please fill all the required fields.'); window.history.back();</script>";
+        exit;
     }
+
+    // Debugging: Check POST data
+    // var_dump($_POST); // Uncomment to debug POST data
+    // exit; // Uncomment to stop execution here if you want to inspect the POST data
+
+    // SQL query to insert data into the database
+    $sql = "INSERT INTO service_master (service_name, status, daily_rate_8_hours, daily_rate_12_hours, daily_rate_24_hours, description)
+            VALUES ('$service_name', '$status', '$daily_rate_8_hours', '$daily_rate_12_hours', '$daily_rate_24_hours', '$description')";
+
+    // Check if the query is successful
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>alert('New record created successfully'); window.location.href = 'view_servicemaster.php';</script>";
+    } else {
+        // If there's an error in the query
+        echo "<script>alert('Error: " . $conn->error . "'); window.history.back();</script>";
+    }
+
 } else {
-    die("Invalid request.");
+    echo "<script>alert('Invalid request method'); window.history.back();</script>";
 }
 ?>

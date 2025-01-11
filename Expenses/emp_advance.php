@@ -45,6 +45,30 @@ $result = $conn->query($sql);
   
 </head>
 
+<style>
+.suggestions-box {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+  </style>
+  
 <body>
 <?php
 include('../navbar.php');
@@ -226,7 +250,37 @@ function updateEmployeeFields() {
   });
 
 
+<<<<<<< HEAD
+  $(document).ready(function () {
+    $('#employee_name').select2({
+      placeholder: "Select Employee",
+      allowClear: true,
+      ajax: {
+        url: 'fetch_employees.php',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            search: params.term, // The search term
+          };
+        },
+        processResults: function (data) {
+          return {
+            results: data.map(function (item) {
+              return { id: item.name, text: item.name + ' (' + item.phone + ')' };
+            }),
+          };
+        },
+        cache: true,
+      },
+    });
+  });
+
+
+  function searchEmployee(searchTerm) {
+=======
 function searchEmployee(searchTerm) {
+>>>>>>> 983dd984c0bc76aad4c2f9ea1dc606de1b52f812
   const employee_search = document.getElementById('employee_search');
   const suggestionsBox = document.getElementById('employee_suggestions');
   const entityIdField = document.getElementById('entity_id');

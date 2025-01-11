@@ -26,6 +26,29 @@ if (!$customer_result) {
   
 </head>
 
+<style>
+.suggestions-box {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+  </style>
 <body>
 <?php
 include('../navbar.php');
@@ -37,23 +60,25 @@ include('../navbar.php');
   <div class="row form-section form-first-row">
             <h2 class="section-title1">Customer Refunds</h2>
             <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
     <div class="input-field-container">
     <label class="input-label">Select Customer</label>
-   
-    <select class="styled-input" id="customerSelect" onchange="updateCustomerFields()">
-        <option value="">Select Customer</option>
-        <?php while ($row = mysqli_fetch_assoc($customer_result)) { ?>
-            <option value="<?php echo $row['id']; ?>" data-name="<?php echo $row['customer_name']; ?>" data-phone="<?php echo $row['contact_no']; ?>">
-                <?php echo $row['customer_name']; ?> - <?php echo $row['contact_no']; ?>
-            </option>
-        <?php } ?>
-    </select>
-    
-    <input type="text" id="entity_id" name="entity_id" placeholder="Customer ID" style="width: 100%; margin-top: 10px;" required>
-    
-    <input type="text" id="entity_name" name="entity_name" placeholder="Customer Name" style="width: 100%; margin-top: 10px;" required>
+    <input
+        type="text"
+        id="customer_search"
+        name="customer_search"
+        class="styled-input"
+        placeholder="Search by Name or Mobile Number"
+        onkeyup="searchEmployee(this.value)"
+        autocomplete="off"
+        required
+    />
+    <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
 </div>
+
+<!-- Hidden fields to hold the selected customer's ID and Name -->
+<input type="hidden" id="entity_id" name="entity_id" placeholder="Customer ID" style="width: 100%; margin-top: 10px;" readonly required>
+<input type="hidden" id="entity_name" name="entity_name" placeholder="Customer Name" style="width: 100%; margin-top: 10px;" readonly required>
 
 <script>
 function updateCustomerFields() {
@@ -76,28 +101,27 @@ function updateCustomerFields() {
 
 </div>
 
-    
-
       <!-- Expense Date -->
-      <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Expense Date</label>
           <input type="date" class="styled-input" name="expense_date" required />
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <!-- Amount to be Paid -->
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Amount to be Paid</label>
           <input type="number" class="styled-input" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
         </div>
       </div>
+    </div>
+
+   
+      <!-- Amount to be Paid -->
+    
 
       
-
+      <div class="row">
       <!-- Status -->
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
@@ -112,7 +136,7 @@ function updateCustomerFields() {
         </div>
       </div>
        
-<div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
         <div class="input-field-container">
           <label class="input-label">Description</label>
           <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea>
@@ -141,9 +165,52 @@ function updateCustomerFields() {
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 
+<script>
+function searchEmployee(query) {
+    if (query.length > 2) { // Start searching after 3 characters
+        $.ajax({
+            url: 'search_customer.php',
+            type: 'GET',
+            data: { query: query },
+            success: function(data) {
+                const suggestionsBox = document.getElementById('employee_suggestions');
+                const results = JSON.parse(data);
 
+                if (results.length > 0) {
+                    let suggestionsHTML = '';
+                    results.forEach(customer => {
+                        suggestionsHTML += `
+                            <div 
+                                class="suggestion-item" 
+                                onclick="selectCustomer(${customer.id}, '${customer.patient_name}', '${customer.emergency_contact_number}')"
+                            >
+                                ${customer.patient_name} (${customer.id}) - ${customer.emergency_contact_number}
+                            </div>`;
+                    });
+                    suggestionsBox.innerHTML = suggestionsHTML;
+                    suggestionsBox.style.display = 'block';
+                } else {
+                    suggestionsBox.innerHTML = '<div class="suggestion-item">No results found</div>';
+                    suggestionsBox.style.display = 'block';
+                }
+            },
+            error: function() {
+                console.error('Error fetching customer data');
+            }
+        });
+    } else {
+        document.getElementById('employee_suggestions').style.display = 'none';
+    }
+}
 
-
+function selectCustomer(id, name, phone) {
+    // Update the fields with selected customer data
+    document.getElementById('entity_id').value = id;
+    document.getElementById('entity_name').value = name;
+    document.getElementById('customer_search').value = `${name} - ${phone}`; // Optional: show in search input
+    document.getElementById('employee_suggestions').style.display = 'none';
+}
+</script>
 
 
 </body>
