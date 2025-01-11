@@ -138,8 +138,8 @@
                 <div class="navbar-dropdown-content" id="expenses">
                     <a href="javascript:void(0);" onclick="toggleDropdown('direct-expenses')">Direct Expenses</a>
                     <div class="submenu" id="direct-expenses" style="margin-left: 15px;">
-                        <a href="../Expenses/employee_payouts_table.php">Employee Payouts</a>
-                        <a href="../Expenses/vendor_expenditure_table.php">Vendor Payouts</a>
+                        <a href="../Expenses/newEP.php">Employee Payouts</a>
+                        <!-- <a href="../Expenses/vendor_expenditure_table.php">Vendor Payouts</a> -->
                     </div>
                     <a href="javascript:void(0);" onclick="toggleDropdown('indirect-expenses')">Indirect Expenses</a>
                     <div class="submenu" id="indirect-expenses" style="margin-left: 15px;">

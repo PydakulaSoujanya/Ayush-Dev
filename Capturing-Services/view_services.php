@@ -573,6 +573,8 @@ if ($invoiceResult->num_rows > 0) {
                   <strong>Start Date:</strong> " . htmlspecialchars($row['from_date']) . "<br>
                   <strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "
                 </td>
+
+                
                 <!-- Merged Total Days and Service Type column -->
                 <td>
                   <strong>Total Days:</strong> {$row['total_days']}<br>

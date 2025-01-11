@@ -26,14 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $daily_rate8 = $_POST['daily_rate8'] ?? null;
         $daily_rate12 = $_POST['daily_rate12'] ?? null;
         $daily_rate24 = $_POST['daily_rate24'] ?? null;
-        $reference = $_POST['reference'] ?? null;
+        $reference = $_POST['reference'] ?? 'Ayush';
         $bank_name = $_POST['bank_name'] ?? null;
         $branch = $_POST['branch'] ?? null;
         $bank_account_no = $_POST['bank_account_no'] ?? null;
         $ifsc_code = $_POST['ifsc_code'] ?? null;
         $vendor_id = $_POST['vendor_id'] ?? null; // Vendor ID
-        $vendor_name = $_POST['vendor_name'] ?? null; // Vendor Name
-        $vendor_contact = $_POST['vendor_contact'] ?? null;
+$vendor_name = $_POST['vendor_name'] ?? 'Ayush'; // Default to 'Ayush' if vendor_name is not set
+
         $beneficiary_name = $_POST['beneficiary_name'] ?? null;
         $police_verification = $_POST['police_verification'] ?? null;
 

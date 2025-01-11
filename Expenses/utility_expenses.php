@@ -3,8 +3,19 @@
 include('../config.php'); // Ensure this includes the database connection logic
 
 
-$vendor_query = "SELECT `id`, `vendor_name`, `phone_number`, `email`, `vendor_type` FROM `vendors`";
-$vendor_result = mysqli_query($conn, $vendor_query);
+// $vendor_query = "SELECT `id`, `vendor_name`, `phone_number`, `email`, `vendor_type` FROM `vendors`";
+// $vendor_result = mysqli_query($conn, $vendor_query);
+
+
+// Assuming $conn is your database connection
+$query = "SELECT id, vendor_name, phone_number FROM vendors WHERE vendor_groups = 'Others'";
+$vendor_result = mysqli_query($conn, $query);
+
+if (!$vendor_result) {
+    die('Query failed: ' . mysqli_error($conn));
+}
+
+
 
 $sql = "SELECT account_name FROM account_config"; // Adjust the table and column names
 $result = $conn->query($sql);

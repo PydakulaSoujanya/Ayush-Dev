@@ -501,6 +501,7 @@ function fetchVendorData() {
   if (this.value === 'vendors') {
     vendorFields.style.display = 'block';
     vendorContactField.style.display = 'block';
+    fetchVendorData();
   } else {
     vendorFields.style.display = 'none';
     vendorContactField.style.display = 'none';
