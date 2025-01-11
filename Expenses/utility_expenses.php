@@ -30,7 +30,7 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dywxE7Dbauy0ZdO9IMIAgFbKk8c0Lx0nvW0Uj+ks9qqRhj2uP/zLwsiXccCD9dQrcxJjpHZB5Q72n11KH4cOZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <link rel="stylesheet" href="../assets/css/style.css">
   
-   
+
   
 </head>
 
@@ -44,6 +44,7 @@ include('../navbar.php');
   
 <div class="card custom-card">
 <div class="card-header custom-card-header">Utility Expenses Claim</div>
+
 <div class="card-body">
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
 
@@ -55,28 +56,37 @@ include('../navbar.php');
     <!-- <div class="row form-section form-first-row"> -->
     
     <div class="col-md-4">
-  <div class="form-group">
-    <label class="input-label">Select Vendor</label>
-    <!-- Dropdown for selecting a vendor -->
-    <select class="form-control" id="vendor_name_dropdown" name="vendor_name_dropdown" style="width: 100%;" onchange="updateVendorFields()" required>
-      <option value="" disabled selected>Select Vendor</option>
-      <?php
-      while ($row = mysqli_fetch_assoc($vendor_result)) {
-          // Embed both ID and Name in the option's data attributes
-          echo "<option value='{$row['id']}' data-name='{$row['vendor_name']}' data-phone='{$row['phone_number']}'>{$row['vendor_name']} ({$row['phone_number']})</option>";
-      }
-      ?>
-    </select>
 
-    <!-- Text input field for Vendor ID -->
-     <input type="hidden" id="entity_id" name="entity_id" placeholder="Vendor ID" style="width: 100%; margin-top: 10px;" readonly required>
+<div class="form-group">
+  <!-- <label class="input-label">Select Vendor</label> -->
+  <!-- Dropdown for selecting a vendor -->
+ 
 
-    <!-- Text input field for Vendor Name -->
-    <input type="hidden" id="entity_name" name="entity_name" placeholder="Vendor Name" style="width: 100%; margin-top: 10px;" readonly required>
+  <div class="input-field-container">
+      <label class="input-label">Select Vendor</label>
+      <!-- Search input -->
+      <input
+          type="text"
+          id="vendor_search"
+          name="vendor_search"
+          class="form-control"
+          placeholder="Search by Name or Mobile Number"
+          onkeyup="searchVendor(this.value)"
+          autocomplete="off"
+          required
+      />
+      <!-- Suggestions box -->
+      <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
 
-    
+
+      <!-- Hidden fields for vendor ID and name -->
+      <input type="hidden" id="entity_id" name="entity_id" readonly required>
+      <input type="hidden" id="entity_name" name="entity_name" readonly required>
   </div>
 </div>
+</div>
+
+
 
 <!-- JavaScript to auto-fill both text inputs -->
 <script>
@@ -296,6 +306,45 @@ function updateVendorFields() {
     document.getElementById("expense_date").value = today;
   });
 </script>
+
+
+<script>
+
+function searchVendor(query) {
+    // Hide suggestions if the query is empty
+    if (!query.trim()) {
+        document.getElementById("employee_suggestions").style.display = "none";
+        return;
+    }
+
+    // Send AJAX request to the backend
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `search_vendor.php?query=${encodeURIComponent(query)}`, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const suggestionsBox = document.getElementById("employee_suggestions");
+            suggestionsBox.innerHTML = xhr.responseText;
+            suggestionsBox.style.display = "block";
+        }
+    };
+    xhr.send();
+}
+
+function selectVendor(vendorId, vendorName, vendorPhone) {
+    // Populate the main input with vendor name and phone number
+    const inputField = document.getElementById("vendor_search");
+    inputField.value = `${vendorName} - ${vendorPhone}`;
+
+    // Populate the hidden fields for vendor ID and name
+    document.getElementById("entity_id").value = vendorId;
+    document.getElementById("entity_name").value = vendorName;
+
+    // Hide the suggestions box
+    document.getElementById("employee_suggestions").style.display = "none";
+}
+
+  </script>
+
 
 </body>
 </html>
