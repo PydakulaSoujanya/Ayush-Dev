@@ -51,68 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   </style>
 </head>
 
-<style>
-    .card {
-      box-shadow: 0 10px 15px rgba(0, 1, 4, 0.7);
-      margin-bottom: 20px;
-      border-radius: 10px;
-    }
-    .card-header {
-      background-color: #6c757d !important;
-      font-size: 1.5rem;
-      font-weight: bold;
-      text-align: left;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      color: white !important;
-    }
-    .btn {
-      background-color: #007bff;
-      color: white;
-    }
-    .btn:hover {
-      background-color: #0056b3;
-    }
-    .form-group {
-      margin-bottom: 0.5rem;
-    }
-    label {
-      position: absolute;
-      top: -10px;
-      left: 10px;
-      background-color: white;
-      padding: 0 5px;
-      font-size: 14px;
-      font-weight: 500;
-      color: grey;
-    }
-    .form-control {
-      margin-bottom: 0.5rem;
-      padding: 0.375rem 0.75rem;
-    }
-
-    /* Standardize placeholder styles */
-    ::placeholder,
-    select.form-control option[disabled][selected] {
-      font-size: 14px;
-      color: grey;
-    }
-
-    :-ms-input-placeholder { /* IE10-11 */
-      font-size: 14px;
-      color: grey;
-    }
-
-    ::-ms-input-placeholder { /* Edge */
-      font-size: 14px;
-      color: grey;
-    }
-
-    .row .col-md-6,
-    .row .col-lg-3 {
-      padding-bottom: 30px;
-    }
-  </style>
 
 
 <body>
@@ -122,8 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   include '../navbar.php';
   ?>
  <div class="container mt-7">
- <div class="card">
-      <div class="card-header">Capturing Service Request</div>
+ <div class="card custom-card">
+      <div class="card-header custom-card-header">Capturing Service Request</div>
       <div class="card-body">
   <!-- <h3 class="mb-4">Capturing Service Request Form</h3>
   <div class="form-section"> -->
