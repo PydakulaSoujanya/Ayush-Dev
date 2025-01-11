@@ -60,12 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <h3 class="mb-4">Capturing Service Request Form</h3>
   <div class="form-section">
     <form action="services_db.php" method="POST">
+    <div class="row form-section form-first-row">
+    <h2 class="section-title1">Basic Details</h2>
     <input type="hidden" id="customer_id" name="customer_id" >
-      <div class="row form-section form-first-row">
-      <h2 class="section-title1">Capturing Service</h2>
-
+      <div class="row">
         <!-- Customer Name -->
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
   <div class="input-field-container">
     <label class="input-label">Customer Name</label>
     <div style="display: flex; align-items: center;">
@@ -93,15 +93,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 </div>
 
 <!-- Phone Number -->
-<div class="col-md-6">
+<div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
   <div class="input-field-container">
     <label class="input-label">Phone Number</label>
     <input type="text" id="emergency_contact_number" class="styled-input" name="emergency_contact_number" placeholder="Phone Number" readonly />
   </div>
 </div>
+</div>
 
         <!-- Patient Name -->
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6">
           <div class="input-field-container">
             <label class="input-label">Patient Name</label>
             <input type="text" class="styled-input" name="patient_name" id="patient_name" placeholder="Patient Name" readonly />
@@ -109,15 +110,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
 
         <!-- Relationship -->
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6">
           <div class="input-field-container">
             <label class="input-label">Patient Relation With Customer</label>
             <input type="text" class="styled-input" name="relationship" id="relationship" placeholder="Patient Relation With Customer" readonly />
           </div>
         </div>
-
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+          <div class="input-field-container">
+            <label class="input-label">Email</label>
+            <input type="text" class="styled-input" name="email" id="email" placeholder="Email" readonly />
+          </div>
+        </div>
         <!-- Enquiry Time -->
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Enquiry Time</label>
             <input type="time" name="enquiry_time" class="styled-input" id="enquiry-time" />
@@ -125,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
 
         <!-- Enquiry Date -->
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Enquiry Date</label>
             <input type="date" class="styled-input" name="enquiry_date" id="enquiry-date" />
@@ -134,21 +140,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       </div>
 
       <!-- Dynamic Fields for Service Details -->
+      <div class="row form-section form-first-row">
+      <h2 class="section-title1">Basic Details</h2>
       <div id="field-container">
-    <div class="row form-section form-first-row mt-3">
-        <div class="col-md-6">
+    <div class="row field-set bordered-field">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Start Date</label>
                 <input type="date" class="styled-input" name="from_date[]" id="fromDate" />
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
             <div class="input-field-container">
                 <label class="input-label">End Date</label>
                 <input type="date" class="styled-input" name="end_date[]" id="endDate" />
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Service Type</label>
                 <select class="styled-input" name="service_type[]" id="service_type">
@@ -160,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Service Duration (in Hours)</label>
                 <select class="styled-input" name="service_duration[]" id="service_duration">
@@ -171,31 +179,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
                 </select>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Total Days</label>
                 <input type="number" class="styled-input" name="total_days[]" id="total_days" placeholder="Total Days" readonly />
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Per Day Service Price</label>
                 <input type="text" class="styled-input" name="per_day_service_price[]" placeholder="Service Price" id="per_day_service_price" readonly />
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Total Service Price</label>
                 <input type="text" class="styled-input" name="service_price[]" id="service_price" placeholder="Service Price" readonly />
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Discount Price</label>
                 <input type="text" class="styled-input" name="discount_price[]" id="discount_price" placeholder="Discount Price" />
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
             <div class="input-field-container">
                 <label class="input-label">Total Service Price (After Discount)</label>
                 <input type="text" class="styled-input total_service_price" id="total_service_price" name="total_service_price[]" placeholder="Total Price" readonly />
@@ -207,9 +215,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
     </div>
 </div>
-
+</div>
 <!-- Highlighted Total Price Section -->
-<div class="col-md-6">
+<div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
   <div class="input-field-container">
     <label class="input-label">Total Price</label>
     <input
@@ -228,7 +236,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 
       <!-- Additional Inputs -->
       <div class="row form-section form-first-row">
-        <div class="col-md-6">
+      <h2 class="section-title1">Basic Details</h2>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Enquiry Source</label>
             <select class="styled-input" name="enquiry_source">
@@ -240,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             </select>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Priority Level</label>
             <select class="styled-input" name="priority_level">
@@ -251,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             </select>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Status</label>
             <select class="styled-input" name="status">
@@ -262,28 +272,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             </select>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Request Details</label>
             <input type="text" class="styled-input" name="request_details" placeholder="Enter Request Details" />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Resolution Notes</label>
             <textarea class="styled-input" rows="1" name="resolution_notes" placeholder="Enter Resolution Notes"></textarea>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
           <div class="input-field-container">
             <label class="input-label">Comments</label>
             <textarea class="styled-input" rows="1" name="comments" placeholder="Enter Comments"></textarea>
           </div>
         </div>
       </div>
-
+</div>
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary  w-50 mt-3">Submit</button>
+      <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
   </div>
 </div>
@@ -301,6 +311,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <div class="modal-body">
         <form action="add_customer.php" method="POST" enctype="multipart/form-data">
           <!-- First Row -->
+          <div class="row form-section form-first-row">
+          <!-- <h2 class="section-title1">Customer Details</h2> -->
           <div class="row">
             <!-- Are you a patient? -->
             <div class="col-md-6">
@@ -566,6 +578,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
     </div>
   </div>
 </div>
+</div>
 
           <!-- Seventh Row -->
           <!-- <div class="row">
@@ -579,17 +592,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
           </div> -->
 
           <!-- Submit Button -->
-       
-          <!-- <div class="col-md-12 mt-4 text-center"> -->
-          <div class="col-md-12 mt-4 text-center">
-  <div class="input-field-container">
-    <button type="submit" class="btn btn-primary" name="submit" value="Submit" style="background-color: #A26D2B; border-color: #A26D2B; color: #fff;">
-      Submit
-    </button>
-  </div>
-</div>
-</div>
-</div>
+          <div class="row emp-submit mt-2">
+            <div class="col-md-12 text-center">
+              <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
+            </div>
           </div>
         </form>
       </div>
@@ -641,7 +647,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <script>
+<script>
  let previousValues = [];
 setInterval(() => {
   const inputs = document.querySelectorAll("input[name='service_price[]']");
@@ -675,7 +681,7 @@ setInterval(() => {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
-      $(document).ready(function () {
+    $(document).ready(function () {
     // Function to add new field set
     $('#add-field-set').on('click', function () {
       
@@ -711,7 +717,7 @@ setInterval(() => {
         fetch("add_customer.php", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new_customer_name=${encodeURIComponent(customerName)}&new_customer_email=${encodeURIComponent(customerEmail)}&new_customer_phone=${encodeURIComponent(customerPhone)}
+          body: `new_customer_name=${encodeURIComponent(customerName)}&new_customer_email=${encodeURIComponent(customerEmail)}&new_customer_phone=${encodeURIComponent(customerPhone)}`
         })
         .then(response => response.json())
         .then(data => {
@@ -757,6 +763,7 @@ function searchCustomers(search) {
     const inputFieldContactNo = document.getElementById("emergency_contact_number");
     const patientNameField = document.getElementById("patient_name");
     const patientRelationField = document.getElementById("relationship");
+    const patientEmailField = document.getElementById("email");
     const customerId = document.getElementById("customer_id");
 
     // Clear previous suggestions but retain input values
@@ -764,9 +771,10 @@ function searchCustomers(search) {
     inputFieldContactNo.value = "";
     patientNameField.value = "";
     patientRelationField.value = "";
+    patientEmailField.value = "";
 
     if (search.trim() !== "") {
-        fetch(search_customer.php?search=${search})
+        fetch(`search_customer.php?search=${search}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -778,26 +786,28 @@ function searchCustomers(search) {
 
                         // Create the HTML for each customer
                         listItem.innerHTML = `
-                            <div>
-                               <strong>${customer.id}</strong>- <strong>${customer.customer_name}</strong> - ${customer.emergency_contact_number}
-                                <ul style="margin-top: 5px; padding-left: 20px;">
-                                    <li>
-                                        <input 
-                                            type="checkbox" 
-                                            id="patient_${index}" 
-                                            data-customer-name="${customer.customer_name}" 
-                                            data-customer-id="${customer.id}"
-                                            data-contact-number="${customer.emergency_contact_number}" 
-                                            data-patient-name="${customer.patient_name || ""}" 
-                                            data-patient-relation="${customer.relationship || ""}" 
-                                            onchange="selectPatient(this)" 
-                                        />
-                                        <label for="patient_${index}">
-                                            ${customer.patient_name || "Unknown"} (${customer.relationship || "Unknown"})
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>`;
+    <div>
+       <strong>${customer.id}</strong> - <strong>${customer.customer_name}</strong> - ${customer.emergency_contact_number}
+        <ul style="margin-top: 5px; padding-left: 20px;">
+            <li>
+                <input 
+                    type="checkbox" 
+                    id="patient_${index}" 
+                    data-customer-name="${customer.customer_name}" 
+                    data-customer-id="${customer.id}"
+                    data-contact-number="${customer.emergency_contact_number}" 
+                    data-patient-name="${customer.patient_name || ""}" 
+                    data-patient-relation="${customer.relationship || ""}" 
+                    data-patient-email="${customer.email || ""}" 
+                    onchange="selectPatient(this)" 
+                />
+                <label for="patient_${index}">
+                    ${customer.patient_name || "Unknown"} (${customer.relationship || "Unknown"})
+                </label>
+            </li>
+        </ul>
+    </div>`;
+
 
                         customerList.appendChild(listItem);
                     });
@@ -810,41 +820,70 @@ function searchCustomers(search) {
             });
     }
 }
-
 function selectPatient(checkbox) {
     const inputFieldCustomerName = document.getElementById("customer-name");
     const inputFieldContactNo = document.getElementById("emergency_contact_number");
     const patientNameField = document.getElementById("patient_name");
     const patientRelationField = document.getElementById("relationship");
+    const patientEmailField = document.getElementById("email"); // Ensure this field is included
     const customerList = document.getElementById("customerList");
     const customerId = document.getElementById("customer_id");
-
-    if (checkbox.checked) {
+// function selectPatient(checkbox) {
+//     const inputFieldCustomerName = document.getElementById("customer-name");
+//     const inputFieldContactNo = document.getElementById("emergency_contact_number");
+//     const patientNameField = document.getElementById("patient_name");
+//     const patientRelationField = document.getElementById("relationship");
+//     const customerList = document.getElementById("customerList");
+//     const customerId = document.getElementById("customer_id");
+if (checkbox.checked) {
         // Populate all fields with data from the checkbox
         inputFieldCustomerName.value = checkbox.dataset.customerName || "Unknown";
         inputFieldContactNo.value = checkbox.dataset.contactNumber || "Unknown";
         patientNameField.value = checkbox.dataset.patientName || "Unknown";
         patientRelationField.value = checkbox.dataset.patientRelation || "Unknown";
-        customerId.value = checkbox.dataset.customerId ;
+        patientEmailField.value = checkbox.dataset.patientEmail || "Unknown"; // Populate the email field
+        customerId.value = checkbox.dataset.customerId;
+    // if (checkbox.checked) {
+        
+    //     inputFieldCustomerName.value = checkbox.dataset.customerName || "Unknown";
+    //     inputFieldContactNo.value = checkbox.dataset.contactNumber || "Unknown";
+    //     patientNameField.value = checkbox.dataset.patientName || "Unknown";
+    //     patientRelationField.value = checkbox.dataset.patientRelation || "Unknown";
+    //     customerId.value = checkbox.dataset.customerId ;
 
         // Hide the suggestion list after selecting
         customerList.innerHTML = "";
-
-        // Uncheck other checkboxes if one is selected
         const allCheckboxes = document.querySelectorAll('#customerList input[type="checkbox"]');
         allCheckboxes.forEach((cb) => {
             if (cb !== checkbox) {
                 cb.checked = false;
             }
         });
-    } else {
+        // Uncheck other checkboxes if one is selected
+        // const allCheckboxes = document.querySelectorAll('#customerList input[type="checkbox"]');
+        // allCheckboxes.forEach((cb) => {
+        //     if (cb !== checkbox) {
+        //         cb.checked = false;
+        //     }
+        // });
+      } else {
         // Clear all fields if the checkbox is unchecked
         inputFieldCustomerName.value = "";
         inputFieldContactNo.value = "";
         patientNameField.value = "";
         patientRelationField.value = "";
+        patientEmailField.value = ""; // Clear email field
+        customerId.value = "";
     }
 }
+//     } else {
+//         // Clear all fields if the checkbox is unchecked
+//         inputFieldCustomerName.value = "";
+//         inputFieldContactNo.value = "";
+//         patientNameField.value = "";
+//         patientRelationField.value = "";
+//     }
+// }
 
 function updateTotalPrice() {
   let totalPrice = 0;
@@ -942,13 +981,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Format time as HH:MM
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
-    const currentTime = ${hours}:${minutes};
+    const currentTime = `${hours}:${minutes}`;
 
     // Format date as YYYY-MM-DD
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const date = String(now.getDate()).padStart(2, "0");
-    const currentDate = ${year}-${month}-${date};
+    const currentDate = `${year}-${month}-${date}`;
 
     // Set the values of the input fields
     document.getElementById("enquiry-time").value = currentTime;
@@ -980,13 +1019,13 @@ document.addEventListener("DOMContentLoaded", function () {
         // Format time as HH:MM
         const hours = String(now.getHours()).padStart(2, "0");
         const minutes = String(now.getMinutes()).padStart(2, "0");
-        const currentTime = ${hours}:${minutes};
+        const currentTime = `${hours}:${minutes}`;
 
         // Format date as YYYY-MM-DD
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, "0");
         const date = String(now.getDate()).padStart(2, "0");
-        const currentDate = ${year}-${month}-${date};
+        const currentDate = `${year}-${month}-${date}`;
 
         document.getElementById("enquiry-time").value = currentTime;
         document.getElementById("enquiry-date").value = currentDate;
@@ -1007,7 +1046,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (input.id) {
-                input.id = ${input.id}_${Date.now()};
+                input.id = `${input.id}_${Date.now()}`;
             }
         });
 
@@ -1162,7 +1201,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch("get_service_details.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: service_type=${encodeURIComponent(serviceType)}
+                body: `service_type=${encodeURIComponent(serviceType)}`
             })
                 .then(response => response.json())
                 .then(data => {
@@ -1179,5 +1218,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </script>
+
 </body>
 </html>

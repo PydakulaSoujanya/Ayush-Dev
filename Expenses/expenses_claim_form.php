@@ -161,11 +161,11 @@ function updateEmployeeFields() {
     
 
     <div class="row emp-submit mt-2">
-    
     <div class="col-md-12 text-center">
-      <button type="submit" class="emp-submit btn" name="submit" value="Submit">Submit</button>
+        <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
+      </div>
     </div>
-  </div>
+    </div>
   </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

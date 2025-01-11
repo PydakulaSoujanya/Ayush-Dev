@@ -13,9 +13,12 @@ if (isset($_GET['search'])) {
     $search = mysqli_real_escape_string($conn, $_GET['search']); // Escaping search input to prevent SQL injection
 
     // SQL query using escaped search term
-    $sql = "SELECT id,customer_name, emergency_contact_number, patient_name, relationship
-            FROM customer_master_new
-            WHERE emergency_contact_number LIKE '%$search%' OR customer_name LIKE '%$search%'";
+    // $sql = "SELECT id, customer_name, emergency_contact_number, patient_name, relationship, email
+    //         FROM customer_master
+    //         WHERE emergency_contact_number LIKE '%$search%' OR customer_name LIKE '%$search%'";
+$sql = "SELECT id, customer_name, emergency_contact_number, patient_name, relationship, email
+FROM customer_master_new
+WHERE emergency_contact_number LIKE '%$search%' OR customer_name LIKE '%$search%'";
 
     // Execute the query
     $queryResult = mysqli_query($conn, $sql);
