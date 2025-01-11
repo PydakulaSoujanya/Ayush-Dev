@@ -663,12 +663,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
               <div class="row emp-submit">
   <div class="col-md-12 text-center">
     <button type="submit" class="btn w-100">Update</button>
-    <button 
+    <!-- <button 
       type="button" 
       class="btn btn-danger" 
       onclick="window.location.href='table.php';">
       Close
-    </button>
+    </button> -->
   </div>
 </div>
     </form>

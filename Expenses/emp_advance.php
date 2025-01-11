@@ -18,6 +18,30 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dywxE7Dbauy0ZdO9IMIAgFbKk8c0Lx0nvW0Uj+ks9qqRhj2uP/zLwsiXccCD9dQrcxJjpHZB5Q72n11KH4cOZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <link rel="stylesheet" href="../assets/css/style.css">
+
+   <style>
+.suggestions-box {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+  </style>
   
 </head>
 
@@ -226,6 +250,7 @@ function updateEmployeeFields() {
   });
 
 
+<<<<<<< HEAD
   $(document).ready(function () {
     $('#employee_name').select2({
       placeholder: "Select Employee",
@@ -253,6 +278,9 @@ function updateEmployeeFields() {
 
 
   function searchEmployee(searchTerm) {
+=======
+function searchEmployee(searchTerm) {
+>>>>>>> 983dd984c0bc76aad4c2f9ea1dc606de1b52f812
   const employee_search = document.getElementById('employee_search');
   const suggestionsBox = document.getElementById('employee_suggestions');
   const entityIdField = document.getElementById('entity_id');

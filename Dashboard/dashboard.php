@@ -219,25 +219,33 @@ $conn->close();
     <div class="card-body"><?php echo $vendors_count; ?></div>
     </a>
 </div>
-            <div class="card">
-            <a href="../Vendor-Master/vendors.php" style="text-decoration: none; color: inherit;">
-    <div class="card-title" >Vendors</div>
-    <div class="card-body"><?php echo str_pad($vendor_count, 2, '0', STR_PAD_LEFT); ?></div>
+<div class="card">
+    <a href="../Vendor-Master/vendors.php" style="text-decoration: none; color: inherit;">
+        <div class="card-title">Vendors</div>
+        <div class="card-body">
+            <?php echo ($vendor_count >= 10) ? str_pad($vendor_count, 2, '0', STR_PAD_LEFT) : $vendor_count; ?>
+        </div>
     </a>
 </div>
             
 <div class="card">
-<a href="../Customer-Master/patients_table.php" style="text-decoration: none; color: inherit;">
-    <div class="card-title" >Patients</div>
-    <div class="card-body"><?php echo str_pad($patient_count, 2, '0', STR_PAD_LEFT); ?></div>
+    <a href="../Customer-Master/patients_table.php" style="text-decoration: none; color: inherit;">
+        <div class="card-title">Patients</div>
+        <div class="card-body">
+            <?php echo ($patient_count >= 10) ? str_pad($patient_count, 2, '0', STR_PAD_LEFT) : $patient_count; ?>
+        </div>
     </a>
 </div>
-            <div class="card">
-            <a href="../Employee-Master/fully_trained_nurse_emp.php" style="text-decoration: none; color: inherit;">
-    <div class="card-title">Fully Trained Nurses</div>
-    <div class="card-body"><?php echo str_pad($nurse_count, 2, '0', STR_PAD_LEFT); ?></div>
+
+<div class="card">
+    <a href="../Employee-Master/fully_trained_nurse_emp.php" style="text-decoration: none; color: inherit;">
+        <div class="card-title">Fully Trained Nurses</div>
+        <div class="card-body">
+            <?php echo ($nurse_count >= 10) ? str_pad($nurse_count, 2, '0', STR_PAD_LEFT) : $nurse_count; ?>
+        </div>
     </a>
 </div>
+
             <div class="card">
             <a href="../Employee-Master/semi_trained_nurse_emp.php" style="text-decoration: none; color: inherit;">
             <div class="card-title">Semi Trained Nurses</div>

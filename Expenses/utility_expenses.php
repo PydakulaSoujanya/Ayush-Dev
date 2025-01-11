@@ -3,8 +3,22 @@
 include('../config.php'); // Ensure this includes the database connection logic
 
 
-$vendor_query = "SELECT `id`, `vendor_name`, `phone_number`, `email`, `vendor_type` FROM `vendors`";
-$vendor_result = mysqli_query($conn, $vendor_query);
+// $vendor_query = "SELECT `id`, `vendor_name`, `phone_number`, `email`, `vendor_type` FROM `vendors`";
+// $vendor_result = mysqli_query($conn, $vendor_query);
+
+
+// Assuming $conn is your database connection
+$query = "SELECT id, vendor_name, phone_number FROM vendors WHERE vendor_groups = 'Others'";
+$vendor_result = mysqli_query($conn, $query);
+
+if (!$vendor_result) {
+    die('Query failed: ' . mysqli_error($conn));
+}
+
+
+
+$sql = "SELECT account_name FROM account_config"; // Adjust the table and column names
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,16 +40,15 @@ include('../navbar.php');
   
   <h3 class="mb-4">Utility Expenses Claim</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
-<<<<<<< HEAD
+
   <div class="row form-section form-first-row">
             <h2 class="section-title1">Utility Expenses</h2>
-            <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
-=======
-    <div class="row form-section form-first-row">
+            <div class="row mt-3">
+    <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
+
+    <!-- <div class="row form-section form-first-row"> -->
     
     <div class="col-md-4">
->>>>>>> e0710d4c9a48324fcabc62938758c98895c94624
   <div class="input-field-container">
     <label class="input-label">Select Vendor</label>
     <!-- Dropdown for selecting a vendor -->
@@ -50,10 +63,10 @@ include('../navbar.php');
     </select>
 
     <!-- Text input field for Vendor ID -->
-    <input type="text" id="entity_id" name="entity_id" placeholder="Vendor ID" style="width: 100%; margin-top: 10px;" readonly required>
+     <input type="hidden" id="entity_id" name="entity_id" placeholder="Vendor ID" style="width: 100%; margin-top: 10px;" readonly required>
 
     <!-- Text input field for Vendor Name -->
-    <input type="text" id="entity_name" name="entity_name" placeholder="Vendor Name" style="width: 100%; margin-top: 10px;" readonly required>
+    <input type="hidden" id="entity_name" name="entity_name" placeholder="Vendor Name" style="width: 100%; margin-top: 10px;" readonly required>
 
     
   </div>
@@ -86,17 +99,41 @@ function updateVendorFields() {
       
 
       <!-- Expense Date -->
-      <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+      <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
+          <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Expense Date</label>
-          <input type="date" class="styled-input" name="expense_date" required />
+          <input type="date" class="styled-input" name="expense_date" id="expense_date" required />
         </div>
+      </div>
+
+       <div class="col-md-4">
+        <div class="input-field-container">
+          <label class="input-label">Paying Account</label>
+    <!-- <label class="input-label">Select Account</label> -->
+    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%;" required>
+    <option value="" disabled selected>Select Account</option>
+    <?php
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            echo "<option value='" . htmlspecialchars($row['account_name']) . "'>" . htmlspecialchars($row['account_name']) . "</option>";
+        }
+    } else {
+        echo "<option value='' disabled>No accounts available</option>";
+    }
+    ?>
+</select>
+
+</div>
       </div>
     </div>
 
-    <div class="row">
+                <div class="row mt-3">
+
       <!-- Amount to be Paid -->
-      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+      <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
+          <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Amount to be Paid</label>
           <input type="number" class="styled-input" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
@@ -106,23 +143,26 @@ function updateVendorFields() {
       
 
       <!-- Status -->
-      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+      <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
+          <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Status</label>
           <select class="styled-input" name="status" required>
             <option value="" disabled selected>Select Status</option>
             <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
-           
+            <option value="Paid">Paid </option>
+
           </select>
         </div>
       </div>
        
-<div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+<!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
+    <div class="col-md-4">
         <div class="input-field-container">
           <label class="input-label">Description</label>
-          <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea>
+          <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
+              <input class="styled-input" name="description" placeholder="Describe the expense" required></input>
+
         </div>
       </div>
     </div>
@@ -238,6 +278,14 @@ function updateVendorFields() {
   // Trigger change on page load to handle pre-selected value
   $('#payment_mode').trigger('change');
 });
+</script>
+
+<script>
+  // Set the current date as default
+  document.addEventListener("DOMContentLoaded", function () {
+    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    document.getElementById("expense_date").value = today;
+  });
 </script>
 
 </body>

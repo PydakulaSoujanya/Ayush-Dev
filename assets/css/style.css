@@ -164,7 +164,7 @@ body {
 }
 
 .dataTable_card .card-header {
-    background-color: #A26D2B;
+    background-color: #6c757d !important;
     color: white;
     font-weight: bold;
 }
@@ -182,50 +182,57 @@ body {
 
 /* ====FORM STYLES STARTS =====*/
 
-.input-field-container {
-    position: relative;
-    margin-bottom: 15px;
-}
+.custom-card {
+    box-shadow: 0 10px 15px rgba(0, 1, 4, 0.7);
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
 
-.input-label {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    background-color: white;
-    padding: 0 5px;
-    font-size: 14px;
+  .custom-card-header {
+    background-color: #6c757d !important;
+    font-size: 1.5rem;
     font-weight: bold;
-    /* Makes the label bold */
-    color: #A26D2B;
-}
+    text-align: left;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white !important;
+  }
 
-.styled-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 12px;
-    outline: none;
-    box-sizing: border-box;
-    border: 1px solid #A26D2B;
-    border-radius: 5px;
-    /* Adds rounded corners to input fields */
-}
+  .custom-btn {
+    background-color: #007bff;
+    color: white;
+  }
 
-.styled-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
+  .custom-btn:hover {
+    background-color: #0056b3;
+  }
 
-h1,
-h2,
-h3,
-h4 {
-    color: #A26D2B;
-}
+  .custom-form-group {
+    margin-bottom: 0.5rem;
+  }
 
-.hidden {
-    display: none;
-}
+  .custom-label {
+    color: grey;
+    font-weight: normal;
+  }
 
+  .custom-input {
+    margin-bottom: 0.5rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .custom-padding {
+    padding-bottom: 0.5rem;
+  }
+
+  .submit-btn-container {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .submit-btn {
+    width: 150px;
+  }
 /* ====FORM STYLES ENDS =====*/
 
 /* =========LOADER STARTS =======*/
@@ -280,16 +287,16 @@ h4 {
         height: 40px;
     }
     .add_button {
-        width: 18%;
-        padding: 8px 12px;
-        font-size: 15px;
-        color: black;
-        background: white;
-        border-radius: 7px;
-        font-weight: bold;
-        border: none;
-        text-decoration: none;
-        padding-bottom: 6px;
+      width: 13%;
+      padding: 8px 12px;
+      font-size: 17px;
+      color: black;
+      background: white;
+      border-radius: 33px;
+      font-weight: bold;
+      border: none;
+      text-decoration: none;
+      padding-bottom: 7px;
     }
     .add_button_plus{
         
@@ -1326,14 +1333,20 @@ h4 {
 
     .emp-submit .btn {
       display: inline-block !important;
-      width: 18% !important;
+      width: 20% !important;
       padding: 10px 20px;
-      margin-top: 5px;
-      background-color:#A26D2B;
-      color:white;
-      
+      margin-top: 20px;
+      background-color: #A26D2B;
+      color: white;
+  }
   
-      }
+  .emp-submit .btn:hover {
+      background-color: #A26D2B !important; /* Keep the same background color */
+      color: white; /* Keep the same text color */
+      cursor: default; /* Optional: Prevent pointer change */
+      text-decoration: none; /* Optional: Remove underline if links are styled as buttons */
+  }
+  
       .form-center{
         margin-left: 110px;
        }

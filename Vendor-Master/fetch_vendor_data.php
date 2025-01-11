@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include('../config.php');
 header('Content-Type: application/json'); // Ensure JSON response
 
 if (isset($_GET['reference']) && $_GET['reference'] === 'vendors') {

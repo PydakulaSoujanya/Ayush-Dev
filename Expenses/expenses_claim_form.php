@@ -5,6 +5,9 @@ include('../config.php'); // Ensure this includes the database connection logic
 // Fetch employee data for the dropdown
 $employee_query = "SELECT id, name, phone FROM emp_info";
 $employee_result = mysqli_query($conn, $employee_query);
+
+$sql = "SELECT account_name FROM account_config"; // Adjust the table and column names
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +54,7 @@ include('../navbar.php');
 <div class="container mt-7">
   
   <h3 class="mb-4">Employee Expenses Claim</h3>
-  <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
+  <form action="employee_claims_db.php" method="POST" enctype="multipart/form-data">
     <div class="row form-section form-first-row">
     
     <!-- Employee Name -->
@@ -77,7 +80,9 @@ include('../navbar.php');
     <input type="text" id="entity_name" name="entity_name" placeholder="Employee Name" readonly required>
   </div>
 </div> -->
-<input type="hidden" id="bank_account" name="bank_account" value="Santhosh Sir" style="width: 100%; margin-top: 10px;" readonly required>
+<!-- <input type="hidden" id="bank_account" name="bank_account" value="Santhosh Sir" style="width: 100%; margin-top: 10px;" readonly required> -->
+
+
 
 <!-- Text input field for Employee ID -->
 <input type="hidden" id="entity_id" name="entity_id" placeholder="Employee ID" style="width: 100%; margin-top: 10px;" readonly required>
@@ -113,11 +118,42 @@ function updateEmployeeFields() {
 
       <!-- Expense Date -->
       <div class="col-md-4">
+  <div class="input-field-container">
+    <label class="input-label">Expense Date</label>
+    <input type="date" class="styled-input" name="expense_date" id="expense_date" required />
+  </div>
+</div>
+
+      <div class="col-md-4">
         <div class="input-field-container">
-          <label class="input-label">Expense Date</label>
-          <input type="date" class="styled-input" name="expense_date" required />
+          <label class="input-label">Paying Account</label>
+    <!-- <label class="input-label">Select Account</label> -->
+    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%;" required>
+    <option value="" disabled selected>Select Account</option>
+    <?php
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            echo "<option value='" . htmlspecialchars($row['account_name']) . "'>" . htmlspecialchars($row['account_name']) . "</option>";
+        }
+    } else {
+        echo "<option value='' disabled>No accounts available</option>";
+    }
+    ?>
+</select>
+
+</div>
+      </div>
+    
+    <div class="col-md-4">
+        <div class="input-field-container">
+          <label class="input-label">Description</label>
+          <input class="styled-input" name="description" placeholder="Describe the expense" required></input>
+
+          <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
         </div>
       </div>
+
   
       <!-- Amount Claimed -->
       <div class="col-md-4">
@@ -131,25 +167,14 @@ function updateEmployeeFields() {
 
       <!-- Status -->
       <div class="col-md-4">
-        <div class="input-field-container">
-          <label class="input-label">Status</label>
-          <select class="styled-input" name="status" required>
-            <option value="" disabled selected>Select Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
-           
-          </select>
-        </div>
-      </div>
+  <div class="input-field-container">
+    <label class="input-label">Status</label>
+    <input type="text" class="styled-input" name="status" value="Paid" readonly required>
+  </div>
+</div>
+
        
-<div class="col-md-4">
-        <div class="input-field-container">
-          <label class="input-label">Description</label>
-          <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea>
-        </div>
-      </div>
-    </div>
+
 
     <input type="hidden" name="expense_type" value="Employee Expense Claim">
   
@@ -315,8 +340,14 @@ function searchEmployee(searchTerm) {
     });
 }
 
+</script>
 
-
+<script>
+  // Set the current date as default
+  document.addEventListener("DOMContentLoaded", function () {
+    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    document.getElementById("expense_date").value = today;
+  });
 </script>
 
 </body>

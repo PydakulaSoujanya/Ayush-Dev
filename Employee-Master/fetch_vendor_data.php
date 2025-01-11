@@ -3,7 +3,7 @@ include '../config.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT id, vendor_name, phone_number, bank_name, branch, account_number, ifsc FROM vendors";
+$sql = "SELECT id, vendor_name, phone_number, contact_person, bank_name, branch, account_number, ifsc FROM vendors";
 $result = mysqli_query($conn, $sql);
 
 if (!$result) {

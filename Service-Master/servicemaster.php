@@ -7,50 +7,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   
-  <!-- <style>
-    /* General Styles */
-    .input-field-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .input-label {
-      position: absolute;
-      top: -10px;
-      left: 10px;
-      background-color: white;
-      padding: 0 5px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #A26D2B;
-    }
-
-    .styled-input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      outline: none;
-      box-sizing: border-box;
-      border: 1px solid #A26D2B;
-      border-radius: 5px;
-    }
-
-    .styled-input:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    h3 {
-      color: #A26D2B;
-      font-weight: bold;
-    }
-
-    @media (max-width: 768px) {
-      .btn {
-        width: 100%; 
-      }
-    }
-  </style> -->
+ 
 </head>
 <body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

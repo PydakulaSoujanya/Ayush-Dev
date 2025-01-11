@@ -438,7 +438,7 @@ unset($_SESSION['alert_message'], $_SESSION['alert_type']);
 
   <div class="row emp-submit">
     <div class="col-md-12 text-center">
-      <button type="submit" class="btn btn-primary w-100">Submit</button>
+      <button type="submit" class="btn w-100">Submit</button>
     </div>
   </div>
 </form>
@@ -501,6 +501,7 @@ function fetchVendorData() {
   if (this.value === 'vendors') {
     vendorFields.style.display = 'block';
     vendorContactField.style.display = 'block';
+    fetchVendorData();
   } else {
     vendorFields.style.display = 'none';
     vendorContactField.style.display = 'none';

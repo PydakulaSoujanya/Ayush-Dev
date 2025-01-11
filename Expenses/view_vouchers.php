@@ -259,18 +259,22 @@ include('../navbar.php');
     <select class="form-control" id="paid_by" name="paid_by" required>
       <option value="" disabled selected>Select Paid By</option>
       <option value="Ayush">Ayush</option>
-      <option value="Satish Sir">Satish Sir</option>
+      <option value="Santhosh Sir">Santhosh Sir</option>
     </select>
   </div>
   <div class="col-md-6 mb-3">
     <label for="payment_mode" class="form-label">Payment Mode</label>
-    <select class="form-control" id="payment_mode" name="payment_mode" required>
-      <option value="" disabled selected>Select Payment Mode</option>
-      <option value="UPI">UPI</option>
-      <option value="Cash">Cash</option>
-      <option value="Bank Transfer">Bank Transfer</option>
-    </select>
-  </div>
+    <input 
+        type="text" 
+        class="form-control" 
+        id="payment_mode" 
+        name="payment_mode" 
+        value="Bank Transfer" 
+        readonly 
+        required
+    >
+</div>
+
   <div class="col-md-6 mb-3" id="transaction_id_container" style="display: none;">
     <label for="transaction_id" class="form-label">Transaction ID</label>
     <input type="text" class="form-control" id="transaction_id" name="transaction_id" placeholder="Enter Transaction ID">
@@ -322,20 +326,6 @@ document.getElementById('voucherForm').addEventListener('submit', function (e) {
     const paidAmount = parseFloat(document.getElementById('paid_amount').value) || 0;
     const dueAmount = parseFloat(document.getElementById('invoice_amount').value.replace(/,/g, '')) || 0;
     const remainingBalance = dueAmount - paidAmount;
-    const paymentMode = document.getElementById('payment_mode').value;
-    const transactionId = document.getElementById('transaction_id').value.trim();
-    const referenceNumber = document.getElementById('reference_number').value.trim();
-
-     // Validate based on payment mode
-     if (paymentMode === 'UPI' && !transactionId) {
-        alert('Transaction ID is required for UPI payments.');
-        return;
-    }
-
-    if (paymentMode === 'Bank Transfer' && !referenceNumber) {
-        alert('Reference Number is required for Bank Transfer payments.');
-        return;
-    }
 
     let paymentStatus = '';
     if (paidAmount === 0) {
@@ -370,8 +360,6 @@ document.getElementById('voucherForm').addEventListener('submit', function (e) {
     .catch(error => console.error('Error:', error));
 });
 
-  
-
 document.getElementById('paid_amount').addEventListener('input', function () {
     const dueAmount = parseFloat(document.getElementById('invoice_amount').value.replace(/,/g, '')) || 0;
     const currentPayingAmount = parseFloat(this.value) || 0;
@@ -391,8 +379,7 @@ document.getElementById('paid_amount').addEventListener('input', function () {
     }
     document.getElementById('payment_status').value = paymentStatus; // Update the input
 });
-  </script>
-  <script>
+
 // Search functionality
 document.getElementById('globalSearch').addEventListener('input', function () {
     const query = this.value.toLowerCase(); // Convert search text to lowercase
@@ -407,22 +394,7 @@ document.getElementById('globalSearch').addEventListener('input', function () {
         }
     });
 });
-document.getElementById('payment_mode').addEventListener('change', function () {
-    const selectedMode = this.value;
-    const transactionIdContainer = document.getElementById('transaction_id_container');
-    const referenceNumberContainer = document.getElementById('reference_number_container');
-
-    // Hide all conditional fields by default
-    transactionIdContainer.style.display = 'none';
-    referenceNumberContainer.style.display = 'none';
-
-    // Show the relevant field based on the selected payment mode
-    if (selectedMode === 'UPI') {
-        transactionIdContainer.style.display = 'block';
-    } else if (selectedMode === 'Bank Transfer') {
-        referenceNumberContainer.style.display = 'block';
-    }
-});
 </script>
+
 </body>
 </html>
