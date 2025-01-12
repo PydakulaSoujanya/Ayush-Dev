@@ -71,22 +71,25 @@ include('../navbar.php');
             
             <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
-    <div class="form-group">
-    <label class="input-label">Select Customer</label>
-   
-    <select class="form-control" id="customerSelect" onchange="updateCustomerFields()">
-        <option value="">Select Customer</option>
-        <?php while ($row = mysqli_fetch_assoc($customer_result)) { ?>
-            <option value="<?php echo $row['id']; ?>" data-name="<?php echo $row['customer_name']; ?>" data-phone="<?php echo $row['contact_no']; ?>">
-                <?php echo $row['customer_name']; ?> - <?php echo $row['contact_no']; ?>
-            </option>
-        <?php } ?>
-    </select>
-    
-    <input type="hidden" id="entity_id" name="entity_id" placeholder="Customer ID" style="width: 100%; margin-top: 10px;" required>
-    
-    <input type="hidden" id="entity_name" name="entity_name" placeholder="Customer Name" style="width: 100%; margin-top: 10px;" required>
+    <div class="input-field-container">
+  <label class="input-label">Select Customer</label>
+  <input
+    type="text"
+    id="customer_search"
+    name="customer_search"
+    class="form-control"
+    placeholder="Search by Name or Mobile Number"
+    onkeyup="searchCustomer(this.value)"
+    autocomplete="off"
+    required
+  />
+  <!-- Suggestions box -->
+  <div id="customer_suggestions" class="suggestions-box" style="display: none;"></div>
+
+  <input type="hidden" id="entity_id" name="entity_id" required />
+  <input type="hidden" id="entity_name" name="entity_name" required />
 </div>
+
 
 <script>
 function updateCustomerFields() {
@@ -178,7 +181,59 @@ function updateCustomerFields() {
 
 
 
+<script>
+function searchCustomer(query) {
+    if (query.length === 0) {
+        document.getElementById('customer_suggestions').style.display = 'none';
+        return;
+    }
 
+    // Make an AJAX request
+    $.ajax({
+        url: 'search_customer.php',
+        method: 'GET',
+        data: { query: query },
+        dataType: 'json',
+        success: function (data) {
+            const suggestionsBox = document.getElementById('customer_suggestions');
+            suggestionsBox.innerHTML = '';
+
+            if (data.length > 0) {
+                data.forEach((customer) => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.classList.add('suggestion-item');
+                    
+                    // Display ID in the dropdown, but not in the input field
+                    suggestionItem.textContent = `${customer.patient_name} (${customer.emergency_contact_number}) [ID: ${customer.id}]`;
+                    suggestionItem.onclick = () => selectCustomer(customer);
+
+                    suggestionsBox.appendChild(suggestionItem);
+                });
+
+                suggestionsBox.style.display = 'block';
+            } else {
+                suggestionsBox.style.display = 'none';
+            }
+        },
+        error: function () {
+            console.error('An error occurred while fetching customer data.');
+        }
+    });
+}
+
+function selectCustomer(customer) {
+    // Populate the input field with only the patient name and phone number
+    document.getElementById('customer_search').value = `${customer.patient_name} (${customer.emergency_contact_number})`;
+
+    // Populate the hidden fields with the ID and patient name
+    document.getElementById('entity_id').value = customer.id;
+    document.getElementById('entity_name').value = customer.patient_name;
+
+    // Hide suggestions box
+    document.getElementById('customer_suggestions').style.display = 'none';
+}
+
+</script>
 
 
 </body>

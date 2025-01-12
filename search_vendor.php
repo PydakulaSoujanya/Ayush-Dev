@@ -17,9 +17,8 @@ if ($query) {
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            // Include the ID in the displayed suggestion text
             echo "<div class='suggestion-item' onclick=\"selectVendor('{$row['id']}', '{$row['vendor_name']}', '{$row['phone_number']}')\">" .
-                 "ID: {$row['id']} | " . htmlspecialchars($row['vendor_name']) . " - " . htmlspecialchars($row['phone_number']) .
+                 htmlspecialchars($row['vendor_name'] . " - " . $row['phone_number']) .
                  "</div>";
         }
     } else {
