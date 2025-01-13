@@ -93,11 +93,11 @@ if ($servcieduraitonResult->num_rows > 0) {
     // Fetch the row data
     $row = $servcieduraitonResult->fetch_assoc();
     
-    
+    // Concatenate 'daily_rate' prefix with 'service_duration'
     $serviceDuration = 'daily_rate' . $row['service_duration'];  // Concatenate string
     $serviceTotalDays = $row['total_days'];  // Concatenate string
     
-   // echo "<script type='text/javascript'>alert('Service Duration with Prefix: " . $serviceDuration . "');</script>";
+    echo "<script type='text/javascript'>alert('Service Duration with Prefix: " . $serviceDuration . "');</script>";
 } else {
   echo "<script type='text/javascript'>alert('Service Duration with Prefix: no rive dutraion');</script>";
 }
@@ -111,14 +111,11 @@ if ($empServiceRateHourResult->num_rows > 0) {
     
     // Check which column matches the serviceDuration
     if ($serviceDuration === 'daily_rate8') {
-      $rate = intval($row['daily_rate8']) * intval($serviceTotalDays);
-
+        $rate = $row['daily_rate8']*$serviceTotalDays;
     } elseif ($serviceDuration === 'daily_rate12') {
-      $rate = intval($row['daily_rate12']) * intval($serviceTotalDays);
-
+        $rate = $row['daily_rate12']*$serviceTotalDays;
     } elseif ($serviceDuration === 'daily_rate24') {
-      $rate = intval($row['daily_rate24']) * intval($serviceTotalDays);
-
+        $rate = $row['daily_rate24']*$serviceTotalDays;
     } else {
         // Handle invalid or unexpected serviceDuration values
         $rate = "Rate not found"; // You can set this to a default value or handle as needed
@@ -126,7 +123,7 @@ if ($empServiceRateHourResult->num_rows > 0) {
 
     
 
-//echo "<script type='text/javascript'>alert('Service Duration with Prefix: " . $rate . "');</script>";
+echo "<script type='text/javascript'>alert('Service Duration with Prefix: " . $rate . "');</script>";
 } else {
   echo "<script type='text/javascript'>alert('Service Duration with Prefix: no rive dutraion');</script>";
 }
@@ -180,13 +177,13 @@ $invoiceSql = "
     $status="Pending";
 
     $expenseStmt = $conn->prepare("
-    INSERT INTO Expenses (expense_type, entity_id, service_id,entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
-    VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    INSERT INTO Expenses (expense_type, entity_id, entity_name, status, payment_status, description, amount, date_incurred, additional_details, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
     $expenseStmt->bind_param(
-      "ssssssdsss", 
-      $expense_type, $empId,$serviceId, $empName, $status, $payment_status, $description, $rate, $expense_date, $additional_details
+      "sssssdsss", 
+      $expense_type, $empId, $empName, $status, $payment_status, $description, $rate, $expense_date, $additional_details
   );
   
     if ($expenseStmt->execute()) {
@@ -620,9 +617,7 @@ if ($result1->num_rows > 0) {
                 data-role="<?= htmlspecialchars($row['service_type'], ENT_QUOTES, 'UTF-8'); ?>" 
                 data-from-date="<?= htmlspecialchars($row['from_date'], ENT_QUOTES, 'UTF-8'); ?>" 
                 data-end-date="<?= htmlspecialchars($row['end_date'], ENT_QUOTES, 'UTF-8'); ?>"
-                data-service-id="<?= htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>" 
-               data-service-duration="<?= htmlspecialchars('daily_rate' . $row['service_duration'], ENT_QUOTES, 'UTF-8'); ?>"
-                >
+                data-service-id="<?= htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>" >
                 
                 Reassign Employee
             </button>
@@ -781,30 +776,17 @@ echo "</tr>";
         const endDate = button.getAttribute('data-end-date');
         const serviceId = button.getAttribute('data-service-id');
 
-        const serviceDuration = button.getAttribute('data-service-duration');  // Added this line
-
-// Update modal content for service ID and service duration
-modal.querySelector('#modalServiceId').value = serviceId;
-modal.querySelector('#modalServiceDuration').value = serviceDuration;  
+        // Update modal content
+        modal.querySelector('#modalServiceId').value = serviceId;
         modal.querySelector('#modalEmployeeId').value = employeeId;
         modal.querySelector('#modalEmployeeName').textContent = employeeName;
         modal.querySelector('#modalEmployeeRole').value = role;
 modal.querySelector('#modalFromDate').value = fromDate;
 modal.querySelector('#modalEndDate').value = endDate;
 
-const alertMessage = `
-Service ID: ${serviceId}
-Employee ID: ${employeeId}
-Employee Name: ${employeeName}
-Role: ${role}
-From Date: ${fromDate}
-End Date: ${endDate}
-`;
-
 
         
         fetch('exclude_assigned_employee.php', {
-        //  fetch('role.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -818,7 +800,7 @@ End Date: ${endDate}
         })
         .then(response => response.json())
         .then(data => {
-          
+           
             const select = modal.querySelector('#newEmployee');
             select.innerHTML = '<option value="">Select Employee</option>';
             data.forEach(employee => {
@@ -852,7 +834,7 @@ End Date: ${endDate}
                 <form id="reassignEmployeeForm" method="POST" action="reassign_employee_handler.php">
                     <!-- Hidden field to hold the current employee ID -->
                     <input type="text" id="modalEmployeeId" name="employee_id" hidden/>
-                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2" hidden/>
+                    <input type="text" id="modalEmployeeRole" name="role" readonly class="form-control mb-2"/>
 <input type="text" id="modalFromDate" name="from_date" readonly class="form-control mb-2" />
 <input type="text" id="modalEndDate" name="end_date" readonly class="form-control mb-2" />
 
@@ -864,12 +846,11 @@ End Date: ${endDate}
                     <!-- Reason for reassignment -->
                     <div class="form-group mb-3">
                         <label for="reason">Reason for Reassignment</label>
-                        <textarea id="reason" name="reason" class="form-control" rows="3" placeholder="Enter the reason for changing the employee" >
-</textarea>
+                        <textarea id="reason" name="reason" class="form-control" rows="3" placeholder="Enter the reason for changing the employee" required></textarea>
                     </div>
                     <div class="form-group mb-3">
     <label for="from_date">From Date</label>
-    <input type="date" id="from_date" name="from_date" class="form-control"  required>
+    <input type="date" id="from_date" name="from_date" class="form-control" required>
 </div>
 
 
@@ -911,7 +892,6 @@ document.getElementById('from_date').min = formattedDate;
 
                     <!-- Hidden field to hold service ID -->
                     <input type="text" id="modalServiceId" name="service_id" hidden>
-                    <input type="text" id="modalServiceDuration" name="service_duration" hidden>
 
                     <!-- Submit and Cancel buttons -->
                     <div class="form-group text-end">
@@ -958,34 +938,31 @@ formData.append('reason', reason);
 formData.append('service_id', serviceId);
 formData.append('from_date', document.getElementById('from_date').value);  // Add 'from_date' by ID
 formData.append('end_date', document.getElementById('end_date').value);  // Add 'end_date' by ID
-formData.append('service_duration', document.getElementById('modalServiceDuration').value);  
+
 
 
 
 
         fetch('update_reassigned_employee_details.php', {
-       // fetch('ure.php', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-             // alert('Received Data:\n' + JSON.stringify(data, null, 2));
                 alert('Employee reassignment successfully completed!');
                 const modal = document.getElementById('reassignEmployeePopupModal');
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
                 bootstrapModal.hide(); // Hide modal after successful submission
                 window.location.href = 'pdf.php';
             } else {
-                alert(data);
+                alert(data.message);
 
             }
         })
         .catch(error => {
-           // console.error('Error:', error);
-           alert('An error occurred while processing the request: ' + error) 
-            //window.location.href = 'view_services.php';
+            //console.error('Error:', error);
+            alert('An error occurred while processing the request.');
         });
    
 });

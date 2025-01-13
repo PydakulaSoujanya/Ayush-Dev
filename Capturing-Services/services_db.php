@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $comments = $_POST['comments'] ?? null;
     $customer_id = $_POST['customer_id'] ?? null;
     $email = $_POST['email'] ?? null; // Fetch email from the form
+    $service_duration=$_POST['service_duration']??[];
 
     // Validate required fields
     if (!$customer_name || !$contact_no || !$enquiry_date || !$email) {
@@ -70,11 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert into `service_requests` table
         $sql = "INSERT INTO service_requests (
-            customer_name, contact_no, patient_name, customer_id, relationship, enquiry_date, enquiry_time, 
+            service_duration, customer_name, contact_no, patient_name, customer_id, relationship, enquiry_date, enquiry_time, 
             service_type, per_day_service_price, from_date, end_date, total_days, service_price, 
             discount_price, total_service_price, total_price, enquiry_source, priority_level, status, 
             request_details, resolution_notes, comments
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
@@ -82,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $stmt->bind_param(
-            "ssssssssssssssssssssss",
-            $customer_name, $contact_no, $patient_name, $customer_id, $relationship, $enquiry_date, $enquiry_time,
+            "sssssssssssssssssssssss",
+            $service_duration[$index], $customer_name, $contact_no, $patient_name, $customer_id, $relationship, $enquiry_date, $enquiry_time,
             $service_type, $per_day_service_prices[$index], $from_dates[$index], $end_dates[$index], 
             $total_days_list[$index], $service_prices[$index], 
             $discount_price, $total_service_prices[$index], $total_price, $enquiry_source, 
