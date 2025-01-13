@@ -36,19 +36,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Call stored procedure to insert customer data
-        $sql = "CALL insert_customer(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "CALL insert_customer(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @customer_id)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(
-            "sssssssssss",
-            $patient_name, $relationship, $customer_name, $emergency_contact_number,
-            $blood_group, $medical_conditions, $email, $patient_age, $gender,
-            $mobility_status, $discharge
+            "sssssssssss",  // Adjusted to match the number and types of parameters
+            $patient_name, 
+            $relationship, 
+            $customer_name, 
+            $emergency_contact_number,
+            $blood_group, 
+            $medical_conditions, 
+            $email, 
+            $patient_age, 
+            $gender,
+            $mobility_status, 
+            $discharge
         );
         $stmt->execute();
-        
-        // Get the customer_id for address relationships
         $stmt->close();
-        $customer_id = $conn->insert_id;
+
+        // Retrieve the customer_id (from the OUT parameter)
+        $result = $conn->query("SELECT @customer_id AS customer_id");
+        $row = $result->fetch_assoc();
+        $customer_id = $row['customer_id'];
+
+        if (!$customer_id) {
+            throw new Exception("Failed to retrieve customer ID.");
+        }
 
         // Validate and handle multiple addresses
         $pincodes = $_POST['pincode'] ?? [];
@@ -64,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert each address
         for ($i = 0; $i < count($pincodes); $i++) {
-            // Assign variables before binding
             $pincode = $pincodes[$i] ?? null;
             $address_line1 = $address_line1s[$i] ?? null;
             $address_line2 = $address_line2s[$i] ?? null;
@@ -76,12 +89,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!empty($pincode) && !empty($address_line1)) {
                 $addr_stmt->bind_param(
                     "issssss",
-                    $customer_id,
-                    $pincode,
-                    $address_line1,
-                    $address_line2,
-                    $landmark,
-                    $city,
+                    $customer_id, 
+                    $pincode, 
+                    $address_line1, 
+                    $address_line2, 
+                    $landmark, 
+                    $city, 
                     $state
                 );
                 
