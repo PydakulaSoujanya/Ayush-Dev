@@ -519,8 +519,7 @@ $pdf_path_stmt->close();
     </thead>
     <tbody>
 <?php
-$sql1 = "SELECT * FROM service_requests 
-        ";
+$sql1 = "SELECT * FROM service_requests ORDER BY created_at DESC";
         $result1 = mysqli_query($conn, $sql1);
 
 

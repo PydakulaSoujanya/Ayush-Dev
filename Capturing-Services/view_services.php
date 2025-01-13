@@ -506,6 +506,7 @@ $pdf_path_stmt->close();
     <tbody>
 <?php
 $start = 0;
+
 $sql1 = "SELECT * FROM service_requests ORDER BY created_at DESC";
         $result1 = mysqli_query($conn, $sql1);
 
@@ -914,7 +915,7 @@ formData.append('end_date', document.getElementById('end_date').value);  // Add 
                 const modal = document.getElementById('reassignEmployeePopupModal');
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
                 bootstrapModal.hide(); // Hide modal after successful submission
-                window.location.href = 'pdf.php';
+                window.location.href = 'view_services.php';
             } else {
                 alert(data.message);
 

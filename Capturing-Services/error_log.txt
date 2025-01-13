@@ -1,0 +1,2 @@
+Transaction error: Incorrect number of arguments for PROCEDURE ayush_db.insert_customer; expected 12, got 11
+Transaction error: Incorrect number of arguments for PROCEDURE ayush_db.insert_customer; expected 12, got 11

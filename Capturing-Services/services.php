@@ -26,6 +26,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
     exit();
 }
 ?>
+<?php
+// Fetch the data from service_master table
+include '../config.php';
+
+$sql = "SELECT `id`, `service_name` FROM `service_master` WHERE `status` = 'active'"; // Assuming 'active' status for services you want to show
+$result = $conn->query($sql);
+
+// Prepare dropdown options
+$options = "";
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $options .= "<option value='" . $row['id'] . "'>" . $row['service_name'] . "</option>";
+    }
+} else {
+    $options = "<option value='' disabled>No services available</option>";
+}
+
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
     <input type="hidden" id="customer_id" name="customer_id" >
   
         <!-- Customer Name -->
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
   <div class="form-group">
     <label class="form-group">Customer Name</label>
     <div style="display: flex; align-items: center;">
@@ -99,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 </div>
 
 <!-- Phone Number -->
-<div class="col-md-6 col-lg-6">
+<div class="col-md-6 col-lg-3">
   <div class="form-group">
     <label class="form-group">Phone Number</label>
     <input type="text" id="emergency_contact_number" class="form-control" name="emergency_contact_number" placeholder="Phone Number" readonly />
@@ -108,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 
 
         <!-- Patient Name -->
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
           <div class="form-group">
             <label class="form-group">Patient Name</label>
             <input type="text" class="form-control" name="patient_name" id="patient_name" placeholder="Patient Name" readonly />
@@ -116,20 +135,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
 
         <!-- Relationship -->
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
           <div class="form-group">
             <label class="form-group">Patient Relation With Customer</label>
             <input type="text" class="form-control" name="relationship" id="relationship" placeholder="Patient Relation With Customer" readonly />
           </div>
         </div>
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
           <div class="form-group">
             <label class="form-group">Email</label>
             <input type="text" class="form-control" name="email" id="email" placeholder="Email" readonly />
           </div>
         </div>
         <!-- Enquiry Time -->
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
           <div class="form-group">
             <label class="form-group">Enquiry Time</label>
             <input type="time" name="enquiry_time" class="form-control" id="enquiry-time" />
@@ -137,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
 
         <!-- Enquiry Date -->
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
           <div class="input-field-container">
             <label class="form-group">Enquiry Date</label>
             <input type="date" class="form-control" name="enquiry_date" id="enquiry-date" />
@@ -150,31 +169,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       
       <div id="field-container">
     <div class="row field-set bordered-field">
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Start Date</label>
                 <input type="date" class="form-control" name="from_date[]" id="fromDate" />
             </div>
         </div>
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">End Date</label>
                 <input type="date" class="form-control" name="end_date[]" id="endDate" />
             </div>
         </div>
-        <div class="col-md-6 col-lg-6">
-            <div class="form-group">
-                <label class="form-group">Service Type</label>
-                <select class="form-control" name="service_type[]" id="service_type">
-                    <option value="" disabled selected>Select Service Type</option>
-                    <option value="care_taker">Care Taker</option>
-                    <option value="fully_trained_nurse">Fully Trained Nurse</option>
-                    <option value="semi_trained_nurse">Semi Trained Nurse</option>
-                    <option value="nannies">Nannies</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
+  <div class="form-group position-relative">
+    <label class="form-group">Service Type</label>
+    <select class="form-control" name="service_type[]" id="service_type" style="appearance: none; padding-right: 2.5rem;">
+      <option value="" disabled selected>Select Service Type</option>
+      <option value="care_taker">Care Taker</option>
+      <option value="fully_trained_nurse">Fully Trained Nurse</option>
+      <option value="semi_trained_nurse">Semi Trained Nurse</option>
+      <option value="nannies">Nannies</option>
+    </select>
+    <span class="dropdown-icon position-absolute" style="top: 45px; right: 15px;">
+      ▼
+    </span>
+  </div>
+</div>
+<!-- <div class="col-md-6 col-lg-3">
+  <div class="form-group position-relative">
+    <label class="form-group">Service Type</label>
+    <select class="form-control" name="service_type[]" id="service_type" style="appearance: none; padding-right: 2.5rem;">
+      <option value="" disabled selected>Select Service Type</option>
+      <?php echo $options; ?>  
+    </select>
+    <span class="dropdown-icon position-absolute" style="top: 45px; right: 15px;">
+      ▼
+    </span>
+  </div>
+</div> -->
+
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Service Duration (in Hours)</label>
                 <select class="form-control" name="service_duration[]" id="service_duration">
@@ -183,33 +218,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
                     <option value="12">12 Hours</option>
                     <option value="24">24 Hours</option>
                 </select>
+                <span class="dropdown-icon position-absolute" style="top: 45px; right: 15px;">
+      ▼
+    </span>
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Total Days</label>
                 <input type="number" class="form-control" name="total_days[]" id="total_days" placeholder="Total Days" readonly />
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Per Day Service Price</label>
                 <input type="text" class="form-control" name="per_day_service_price[]" placeholder="Service Price" id="per_day_service_price" readonly />
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Total Service Price</label>
                 <input type="text" class="form-control" name="service_price[]" id="service_price" placeholder="Service Price" readonly />
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Discount Price</label>
                 <input type="text" class="form-control" name="discount_price[]" id="discount_price" placeholder="Discount Price" />
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <div class="form-group">
                 <label class="form-group">Total Service Price (After Discount)</label>
                 <input type="text" class="form-control total_service_price" id="total_service_price" name="total_service_price[]" placeholder="Total Price" readonly />
@@ -223,25 +261,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 </div>
 </div>
 <!-- Highlighted Total Price Section -->
-<div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+<div class="row">
+<div class="col-lg-3"></div>
+<div class="col-lg-3"></div>
+<div class="col-lg-3"></div>
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
   <div class="form-group">
     <label class="form-group">Total Price</label>
     <input
       type="text"
       id="total_price"
-      class="form-control highlighted-total-price"
+      class="form-control highlighted-total-price text-align:right"
       name="total_price[]"
       readonly
       placeholder="Total Price"
     />
- 
+    </div>
   </div>
 </div>
 
       <!-- Additional Inputs -->
          
       <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="form-group">
             <label class="form-group">Enquiry Source</label>
             <select class="form-control" name="enquiry_source">
@@ -253,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             </select>
           </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="form-group">
             <label class="form-group">Priority Level</label>
             <select class="form-control" name="priority_level">
@@ -264,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             </select>
           </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="form-group">
             <label class="form-group">Status</label>
             <select class="form-control" name="status">
@@ -275,19 +317,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             </select>
           </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="form-group">
             <label class="form-group">Request Details</label>
             <input type="text" class="form-control" name="request_details" placeholder="Enter Request Details" />
           </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="form-group">
             <label class="form-group">Resolution Notes</label>
             <textarea class="form-control" rows="1" name="resolution_notes" placeholder="Enter Resolution Notes"></textarea>
           </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
           <div class="form-group">
             <label class="form-group">Comments</label>
             <textarea class="form-control" rows="1" name="comments" placeholder="Enter Comments"></textarea>
@@ -470,7 +512,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <label class="form-group">Pincode</label>
       <input 
         type="text" 
-        name="pincode" 
+        name="pincode[]" 
         class="form-control" 
         placeholder="6 digits [0-9] PIN code" 
          
@@ -485,7 +527,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <label class="form-group">Flat, House No., Building, Company, Apartment</label>
       <input 
         type="text" 
-        name="address_line1" 
+        name="address_line1[]"
         class="form-control" 
         placeholder="Enter Flat, House No., Building, etc." 
          />
@@ -500,7 +542,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <label class="form-group">Area, Street, Sector, Village</label>
       <input 
         type="text" 
-        name="address_line2" 
+        name="address_line2[]"
         class="form-control" 
         placeholder="Enter Area, Street, Sector, Village" />
     </div>
@@ -512,7 +554,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <label class="form-group">Landmark</label>
       <input 
         type="text" 
-        name="landmark" 
+        name="landmark[]" 
         class="form-control" 
         placeholder="E.g. near Apollo Hospital" />
     </div>
@@ -526,7 +568,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <label class="form-group">Town/City</label>
       <input 
         type="text" 
-        name="city" 
+       name="city[]"
         class="form-control" 
         placeholder="Enter Town/City" 
          required />
@@ -538,7 +580,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
     <div class="input-field-container">
       <label class="form-group">State</label>
       <select 
-        name="state" 
+        name="state[]" 
         class="form-control" 
         >
         <option value="" disabled selected>Choose a state</option>
