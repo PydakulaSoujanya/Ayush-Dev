@@ -3,7 +3,6 @@ include('../config.php');
 $query = "CALL GetRefundExpenses();";
 $result = mysqli_query($conn, $query);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,24 +10,31 @@ $result = mysqli_query($conn, $query);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <title>Refunds</title>
+  <title>Refunds Claims</title>
+  
 </head>
 <body>
-<?php include('../navbar.php'); ?>
+<?php
+include('../navbar.php');?>
 
 <div class="container mt-7">
-  <div class="dataTable_card card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 table-title">Refunds Info </h5>
-      <a href="refunds.php"  class="add_button"><strong class="add_button_plus">+</strong> Add Refunds </a>
-    </div>
+    <div class="dataTable_card card">
+      <!-- Card Header -->
+      <div class="card-header">Refunds</div>
 
-    <div class="table-responsive mt-3 p-4">
-      <table id="employeeTable" class="display table table-striped" style="width:100%">
-        <thead>
-          <tr>
+      <!-- Card Body -->
+      <div class="card-body">
+        <!-- Search Input -->
+        <div class="dataTable_search mb-3 d-flex align-items-center">
+          <input type="text" class="form-control me-2" id="globalSearch" placeholder="Search...">
+           <a href="refunds.php" class="btn btn-primary ms-auto">Refunds Form</a> 
+        </div>
+        <!-- Table -->
+        <div class="table-responsive">
+        <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
     <th>S.No</th>
     <th>Entity Name</th>
     <th>Description</th>
@@ -36,9 +42,9 @@ $result = mysqli_query($conn, $query);
     <th>Date Incurred</th>
    
 </tr>
-        </thead>
-        <tbody>
-          <?php
+    </thead>
+    <tbody id="tableBody">
+        <?php
         if (mysqli_num_rows($result) > 0) {
             $sno=0;
             while ($row = mysqli_fetch_assoc($result)) {
@@ -60,32 +66,12 @@ $result = mysqli_query($conn, $query);
             echo "<tr><td colspan='9' class='text-center'>No records found</td></tr>";
         }
         ?>
-        </tbody>
-      </table>
+    </tbody>
+</table>
+
+      </div>
     </div>
   </div>
-</div>
-
-<!-- Modal -->
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<script>
-$(document).ready(function() {
-  $('#employeeTable').DataTable({
-    paging: true,
-    searching: true,
-    ordering: true,
-    pageLength: 5,
-    lengthMenu: [5, 10, 20, 50],
-    language: { search: "Search Employees:" }
-  });
-});
-
-</script>
 
 </body>
 </html>

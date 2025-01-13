@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,8 +51,8 @@
       display: none;
     }
 
-    h3 {
-      color: #A26D2B;
+    .login-container h2 {
+      color: #6c757d;
     }
     .styled-input {
   width: 100%;
@@ -84,7 +86,7 @@
   border-radius: 0%;
 }
 .forgot-class a {
-  color: #A26D2B; /* Sets the desired color */
+  color: #6c757d; /* Sets the desired color */
   text-decoration: none; /* Optional: Removes underline */
 }
 
@@ -113,18 +115,18 @@
        
 
         <div class="col-md-12">
-        <div class="input-field-container">
-          <label for="email" class="input-label">Email address</label>
-          <input type="email" class="styled-input" id="email" name="email" placeholder="Enter your email" required />
+        <div class="form-group custom-form-group">
+          <label for="email" class="custom-label">Email address</label>
+          <input type="email" class="form-control custom-input" id="email" name="email" placeholder="Enter your email" required />
         </div>
       </div>
 
-      <div class="col-md-12">
-  <div class="input-field-container" style="position: relative;">
-    <label for="password" class="input-label">Password</label>
+      <div class="col-md-12 mt-2">
+  <div class="form-group custom-form-group" style="position: relative;">
+    <label for="password" class="custom-label">Password</label>
     <input 
       type="password" 
-      class="styled-input" 
+      class="form-control custom-input" 
       id="password" 
       name="password" 
       placeholder="Enter your password" 
@@ -134,7 +136,7 @@
     <span 
       class="toggle-password" 
       onclick="togglePasswordVisibility()" 
-      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+      style="position: absolute; right: 10px; top: 70%; transform: translateY(-50%); cursor: pointer;"
     >
       <i class="fa fa-eye" id="password-icon"></i>
     </span>
@@ -152,9 +154,11 @@
     <p class="forgot-class"><a href="forgot_password.php" >Forgot Password?</a></p>
 </div>
 
-
-        <button type="submit" id="submit-button">Login</button>
-    </form>
+<div class="submit-btn-container text-center">
+        <button type="submit" class="btn btn-secondary submit-btn p-2 w-50">Login</button>
+</div>
+   
+      </form>
 
     <!-- <div class="login-footer mt-3">
         <p>Don't have an account? <a href="register.php">Register here</a></p>

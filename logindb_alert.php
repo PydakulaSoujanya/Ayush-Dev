@@ -17,25 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // If passwords are stored as plain text (not recommended)
         if ($password == $user['password']) {
-            // Generate OTP
             $otp = random_int(100000, 999999);
             $_SESSION['otp'] = $otp;
             $_SESSION['email'] = $email;
-            $otp_expires = date('Y-m-d H:i:s', time() + 600); // OTP expiration time (10 minutes)
+            $otp_expires = date('Y-m-d H:i:s', time() + 600);
 
-            // Update the OTP and expiry time in the database
             $update_sql = "UPDATE `login` SET otp = '$otp', otp_expires = '$otp_expires' WHERE email = '$email'";
             if ($conn->query($update_sql) === TRUE) {
-                // Send OTP to email
                 $mail = new PHPMailer(true);
                 try {
                     $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com'; // Update SMTP server
+                    $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'uppalahemanth4@gmail.com'; // Your email
-                    $mail->Password = 'oimoftsgtwradkux'; // Your email password
+                    $mail->Username = 'your-email@gmail.com';
+                    $mail->Password = 'your-app-password';
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                     $mail->Port = 587;
 
@@ -47,24 +43,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->Body = "Your OTP is <b>$otp</b>. It is valid for 10 minutes.";
 
                     $mail->send();
-                    header("Location: verify_otp.php");
-                    exit;
+
+                    $_SESSION['alert'] = [
+                        'title' => 'Success!',
+                        'message' => 'OTP sent to your email!',
+                        'icon' => 'success',
+                        'redirect' => 'verify_otp.php'
+                    ];
                 } catch (Exception $e) {
-                    header("Location: index.php?error=email");
-                    exit;
+                    $_SESSION['alert'] = [
+                        'title' => 'Error!',
+                        'message' => 'Error sending OTP: ' . $mail->ErrorInfo,
+                        'icon' => 'error',
+                        'redirect' => 'index.php'
+                    ];
                 }
             } else {
-                header("Location: index.php?error=otp_storage");
-                exit;
+                $_SESSION['alert'] = [
+                    'title' => 'Error!',
+                    'message' => 'Error storing OTP.',
+                    'icon' => 'error',
+                    'redirect' => 'index.php'
+                ];
             }
         } else {
-            header("Location: index.php?error=invalid_password");
-            exit;
+            $_SESSION['alert'] = [
+                'title' => 'Invalid Password!',
+                'message' => 'Please check your credentials and try again.',
+                'icon' => 'error',
+                'redirect' => 'index.php'
+            ];
         }
     } else {
-        header("Location: index.php?error=email_not_found");
-        exit;
+        $_SESSION['alert'] = [
+            'title' => 'Email Not Found!',
+            'message' => 'No account is associated with this email.',
+            'icon' => 'error',
+            'redirect' => 'index.php'
+        ];
     }
+
+    // Redirect to trigger the alert
+    header("Location: index.php");
+    exit;
 }
 
 $conn->close();
