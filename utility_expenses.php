@@ -30,89 +30,69 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dywxE7Dbauy0ZdO9IMIAgFbKk8c0Lx0nvW0Uj+ks9qqRhj2uP/zLwsiXccCD9dQrcxJjpHZB5Q72n11KH4cOZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <link rel="stylesheet" href="../assets/css/style.css">
   
-
-  
 </head>
+
 <style>
-  .suggestions-box {
-  position: absolute;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  width: 95%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.suggestions-box {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 .suggestion-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.suggestion-item:last-child {
-  border-bottom: none;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .suggestion-item:hover {
-  background: #f1f1f1;
-  cursor: pointer;
+    background: #f0f0f0;
 }
-</style>
 
+  </style>
 <body>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <?php
 include('../navbar.php');
 ?>
 <div class="container mt-7">
   
-<div class="card custom-card">
-<div class="card-header custom-card-header">Utility Expenses Claim</div>
-
-<div class="card-body">
+  <h3 class="mb-4">Utility Expenses Claim</h3>
   <form action="expenses_db.php" method="POST" enctype="multipart/form-data">
 
-  <div class="row ">
-          
+  <div class="row form-section form-first-row">
+            <h2 class="section-title1">Utility Expenses</h2>
             <div class="row mt-3">
     <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
 
     <!-- <div class="row form-section form-first-row"> -->
-    
+
     <div class="col-md-4">
+    <div class="input-field-container">
+        <label class="input-label">Select Vendor</label>
+        <!-- Search input -->
+        <input
+            type="text"
+            id="vendor_search"
+            name="vendor_search"
+            class="styled-input"
+            placeholder="Search by Name or Mobile Number"
+            onkeyup="searchVendor(this.value)"
+            autocomplete="off"
+            required
+        />
+        <!-- Suggestions box -->
+        <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
 
-<div class="form-group">
-  <!-- <label class="input-label">Select Vendor</label> -->
-  <!-- Dropdown for selecting a vendor -->
- 
-
-  <div class="input-field-container">
-      <label class="input-label">Select Vendor</label>
-      <!-- Search input -->
-      <input
-          type="text"
-          id="vendor_search"
-          name="vendor_search"
-          class="form-control"
-          placeholder="Search by Name or Mobile Number"
-          onkeyup="searchVendor(this.value)"
-          autocomplete="off"
-          required
-      />
-      <!-- Suggestions box -->
-      <div id="employee_suggestions" class="suggestions-box" style="display: none;"></div>
-
-
-      <!-- Hidden fields for vendor ID and name -->
-      <input type="hidden" id="entity_id" name="entity_id" readonly required>
-      <input type="hidden" id="entity_name" name="entity_name" readonly required>
-  </div>
+        <!-- Hidden fields for vendor ID and name -->
+        <input type="hidden" id="entity_id" name="entity_id" readonly required>
+        <input type="hidden" id="entity_name" name="entity_name" readonly required>
+    </div>
 </div>
-</div>
-
 
 
 <!-- JavaScript to auto-fill both text inputs -->
@@ -144,17 +124,17 @@ function updateVendorFields() {
       <!-- Expense Date -->
       <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-6 mt-3"> -->
           <div class="col-md-4">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Expense Date</label>
-          <input type="date" class="form-control" name="expense_date" id="expense_date" required />
+          <input type="date" class="styled-input" name="expense_date" id="expense_date" required />
         </div>
       </div>
 
        <div class="col-md-4">
-        <div class="form-group">
-          <label class="input-lable">Paying Account</label>
+        <div class="input-field-container">
+          <label class="input-label">Paying Account</label>
     <!-- <label class="input-label">Select Account</label> -->
-    <select class="form-control" id="bank_account" name="bank_account" style="width: 100%;" required>
+    <select class="styled-input" id="bank_account" name="bank_account" style="width: 100%;" required>
     <option value="" disabled selected>Select Account</option>
     <?php
     if ($result->num_rows > 0) {
@@ -177,9 +157,9 @@ function updateVendorFields() {
       <!-- Amount to be Paid -->
       <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
           <div class="col-md-4">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Amount to be Paid</label>
-          <input type="number" class="form-control" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
+          <input type="number" class="styled-input" name="amount_to_be_paid" placeholder="Enter Amount to be Paid" required />
         </div>
       </div>
 
@@ -188,9 +168,9 @@ function updateVendorFields() {
       <!-- Status -->
       <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
           <div class="col-md-4">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Status</label>
-          <select class="form-control" name="status" required>
+          <select class="styled-input" name="status" required>
             <option value="" disabled selected>Select Status</option>
             <option value="Pending">Pending</option>
             <option value="Paid">Paid </option>
@@ -201,10 +181,10 @@ function updateVendorFields() {
        
 <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3"> -->
     <div class="col-md-4">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Description</label>
           <!-- <textarea class="styled-input" name="description" placeholder="Describe the expense" required></textarea> -->
-              <input class="form-control" name="description" placeholder="Describe the expense" required></input>
+              <input class="styled-input" name="description" placeholder="Describe the expense" required></input>
 
         </div>
       </div>
@@ -219,17 +199,14 @@ function updateVendorFields() {
 
     
 
-    <!-- <div class="row emp-submit mt-2"> -->
+    <div class="row emp-submit mt-2">
     
-    <div class="text-center mt-4">
-            <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
-          </div>
-
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn" name="submit" value="Submit">Submit</button>
+      </div>
     </div>
   </form>
 </div>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
@@ -334,7 +311,6 @@ function updateVendorFields() {
   });
 </script>
 
-
 <script>
 
 function searchVendor(query) {
@@ -350,31 +326,19 @@ function searchVendor(query) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             const suggestionsBox = document.getElementById("employee_suggestions");
-            suggestionsBox.innerHTML = xhr.responseText; // Backend already formats the response
+            suggestionsBox.innerHTML = xhr.responseText;
             suggestionsBox.style.display = "block";
         }
     };
     xhr.send();
 }
 
-// function selectVendor(vendorId, vendorName, vendorPhone) {
-//     // Populate the main input with vendor name and phone number
-//     const inputField = document.getElementById("vendor_search");
-//     inputField.value = `ID: ${vendorId} | ${vendorName} - ${vendorPhone}`;
-
-//     // Populate the hidden fields for vendor ID and name
-//     document.getElementById("entity_id").value = vendorId;
-//     document.getElementById("entity_name").value = vendorName;
-
-//     // Hide the suggestions box
-//     document.getElementById("employee_suggestions").style.display = "none";
-// }
 function selectVendor(vendorId, vendorName, vendorPhone) {
-    // Populate the input field with vendor name and phone only
+    // Populate the main input with vendor name and phone number
     const inputField = document.getElementById("vendor_search");
     inputField.value = `${vendorName} - ${vendorPhone}`;
 
-    // Populate the hidden fields with the vendor ID and name
+    // Populate the hidden fields for vendor ID and name
     document.getElementById("entity_id").value = vendorId;
     document.getElementById("entity_name").value = vendorName;
 
@@ -383,7 +347,5 @@ function selectVendor(vendorId, vendorName, vendorPhone) {
 }
 
   </script>
-
-
 </body>
 </html>

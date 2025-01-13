@@ -37,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    
+     <link rel="stylesheet" href="../assets/css/style.css">
     <title>Verify OTP</title>
     <style>
         body {
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .otp-container h3 {
             text-align: center;
             margin-bottom: 20px;
-            color: #007bff;
+            color: #6c757d;
         }
         .styled-input {
             font-size: 16px;
@@ -67,17 +69,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
             margin-top: 10px;
         }
+
+        .login-header {
+    color: #6c757d; /* A subtle gray color */
+}
     </style>
 </head>
 <body>
     <div class="otp-container">
-        <h3>OTP Verification</h3>
+        <h3 class="login-header">OTP Verification</h3>
         <form method="POST">
-            <div class="mb-3">
-                <label for="otp" class="form-label">Enter OTP</label>
-                <input type="text" class="form-control styled-input" id="otp" name="otp" placeholder="Enter your 6-digit OTP" required>
+            <div class="col-md-12 mb-3">
+                <div class="form-group custom-form-group">
+                <label for="otp" class="custom-label">Enter OTP</label>
+                <input type="text" class="form-control custom-input" id="otp" name="otp" placeholder="Enter your 6-digit OTP" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-submit">Verify OTP</button>
+            </div>
+
+            <div class="submit-btn-container text-center">
+            <button type="submit" class="btn btn-secondary submit-btn p-2 w-50">Verify OTP</button>
+</div>
+   
             <p class="note">The OTP is valid for 5 minutes.</p>
         </form>
     </div>

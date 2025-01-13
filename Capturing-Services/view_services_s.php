@@ -523,24 +523,25 @@ $pdf_path_stmt->close();
         <!-- Table -->
         <div class="table-responsive">
         <table class="table table-striped">
+            
     <thead>
-        <tr class="dataTable_headerRow">
-            <th>S.no</th>
-            <th>Customer Info</th>
-            <th>Details</th>
-            <th>Total Days & Service Type</th> 
-            <th>Payment Details</th>
-            <th>Total Price</th>
+        <tr></tr>
+            <th class="s_th">S.no</th>
+            <th class="customer_info_th">Customer Info</th>
+            <th class="details_th">Details Date</th>
+            <th class="total_days_th">Total Days & Service </th> 
+            <th class="payment_details_th">Payment Details</th>
+            <th class="total_price_th">Total Price</th>
             <th>Status</th>
             <th>Invoice ID</th>
-            <th>Action</th>
+            
             <th>Assign Employee</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
 <?php
-$sql1 = "SELECT * FROM service_requests 
-        ";
+$sql1 = "SELECT * FROM service_requests ORDER BY created_at DESC";
         $result1 = mysqli_query($conn, $sql1);
 
 
@@ -564,7 +565,7 @@ if ($result1->num_rows > 0) {
         $invoiceRow = $invoiceResult->fetch_assoc();
         $invoiceId = $invoiceRow['invoice_id'];
     }
-        echo "<tr class='dataTable_row'>
+        echo "<tr>
                 <td>{$serial}</td>
                 <td>
                   <strong>Name:</strong> " . htmlspecialchars($row['customer_name']) . "<br>
@@ -1221,6 +1222,24 @@ formData.append('service_duration', document.getElementById('modalServiceDuratio
       })
       .catch(error => console.error('Error fetching data:', error));
   }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('#employeeTable').DataTable({
+    paging: true,
+    searching: true,
+    ordering: true,
+    pageLength: 5,
+    lengthMenu: [5, 10, 20, 50],
+    language: { search: "Search Employees:" }
+  });
+});
+
 </script>
 
 </body>

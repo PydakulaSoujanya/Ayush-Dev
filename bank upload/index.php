@@ -145,7 +145,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['excel_file'])) {
                     <label for="excel_file" class="form-label me-2">Choose Excel File:</label>
                     <input type="file" class="form-control w-50" name="excel_file" id="excel_file" accept=".xlsx, .xls" required>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">Upload</button>
+                <div class="submit-btn-container">
+                <button type="submit" class="btn btn-secondary submit-btn">Upload</button>
+                </div>
             </form>
             <div id="response" class="mt-3"></div>
         </div>

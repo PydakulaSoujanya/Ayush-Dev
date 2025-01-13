@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         <!-- Customer Name -->
         <div class="col-md-6">
   <div class="input-field-container">
-    <label class="input-label">Customer Name</label>
+    <label class="custom-label">Customer Name</label>
     <div style="display: flex; align-items: center;">
       <input
         id="customer-name"
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 <!-- Phone Number -->
 <div class="col-md-6">
   <div class="input-field-container">
-    <label class="input-label">Phone Number</label>
+    <label class="custom-label">Phone Number</label>
     <input type="text" id="emergency_contact_number" class="styled-input" name="emergency_contact_number" placeholder="Phone Number" readonly />
   </div>
 </div>
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         <!-- Patient Name -->
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Patient Name</label>
+            <label class="custom-label">Patient Name</label>
             <input type="text" class="styled-input" name="patient_name" id="patient_name" placeholder="Patient Name" readonly />
           </div>
         </div>
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         <!-- Relationship -->
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Patient Relation With Customer</label>
+            <label class="custom-label">Patient Relation With Customer</label>
             <input type="text" class="styled-input" name="relationship" id="relationship" placeholder="Patient Relation With Customer" readonly />
           </div>
         </div>
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         <!-- Enquiry Time -->
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Enquiry Time</label>
+            <label class="custom-label">Enquiry Time</label>
             <input type="time" name="enquiry_time" class="styled-input" id="enquiry-time" />
           </div>
         </div>
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         <!-- Enquiry Date -->
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Enquiry Date</label>
+            <label class="custom-label">Enquiry Date</label>
             <input type="date" class="styled-input" name="enquiry_date" id="enquiry-date" />
           </div>
         </div>
@@ -136,19 +136,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
     <div class="row field-set bordered-field row form-section form-second-row-full">
         <div class="col-md-6">
             <div class="input-field-container">
-                <label class="input-label">Start Date</label>
+                <label class="custom-label">Start Date</label>
                 <input type="date" class="styled-input" name="from_date[]" id="fromDate" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="input-field-container">
-                <label class="input-label">End Date</label>
+                <label class="custom-label">End Date</label>
                 <input type="date" class="styled-input" name="end_date[]" id="endDate" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="input-field-container">
-                <label class="input-label">Service Type</label>
+                <label class="custom-label">Service Type</label>
                 <select class="styled-input" name="service_type[]" id="service_type">
                     <option value="" disabled selected>Select Service Type</option>
                     <option value="care_taker">Care Taker</option>
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
         <div class="col-md-6">
             <div class="input-field-container">
-                <label class="input-label">Service Duration (in Hours)</label>
+                <label class="custom-label">Service Duration (in Hours)</label>
                 <select class="styled-input" name="service_duration[]" id="service_duration">
                     <option value="" disabled selected>Select Service Duration</option>
                     <option value="8">8 Hours</option>
@@ -171,31 +171,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
         <div class="col-md-4">
             <div class="input-field-container">
-                <label class="input-label">Total Days</label>
+                <label class="custom-label">Total Days</label>
                 <input type="number" class="styled-input" name="total_days[]" id="total_days" placeholder="Total Days" readonly />
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-field-container">
-                <label class="input-label">Per Day Service Price</label>
+                <label class="custom-label">Per Day Service Price</label>
                 <input type="text" class="styled-input" name="per_day_service_price[]" placeholder="Service Price" id="per_day_service_price" readonly />
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-field-container">
-                <label class="input-label">Total Service Price</label>
+                <label class="custom-label">Total Service Price</label>
                 <input type="text" class="styled-input" name="service_price[]" id="service_price" placeholder="Service Price" readonly />
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-field-container">
-                <label class="input-label">Discount Price</label>
+                <label class="custom-label">Discount Price</label>
                 <input type="text" class="styled-input" name="discount_price[]" id="discount_price" placeholder="Discount Price" />
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-field-container">
-                <label class="input-label">Total Service Price (After Discount)</label>
+                <label class="custom-label">Total Service Price (After Discount)</label>
                 <input type="text" class="styled-input total_service_price" id="total_service_price" name="total_service_price[]" placeholder="Total Price" readonly />
             </div>
         </div>
@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
 <!-- Highlighted Total Price Section -->
 <div class="col-md-6">
   <div class="input-field-container">
-    <label class="input-label">Total Price</label>
+    <label class="custom-label">Total Price</label>
     <input
       type="text"
       id="total_price"
@@ -228,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       <div class="row form-section form-first-row">
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Enquiry Source</label>
+            <label class="custom-label">Enquiry Source</label>
             <select class="styled-input" name="enquiry_source">
               <option value="" disabled selected>Select Enquiry Source</option>
               <option value="phone">Phone Call</option>
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Priority Level</label>
+            <label class="custom-label">Priority Level</label>
             <select class="styled-input" name="priority_level">
               <option value="" disabled selected>Select Priority Level</option>
               <option value="low">Low</option>
@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Status</label>
+            <label class="custom-label">Status</label>
             <select class="styled-input" name="status">
               <option value="" disabled selected>Select Status</option>
               <option value="pending">Pending</option>
@@ -262,19 +262,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
         </div>
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Request Details</label>
+            <label class="custom-label">Request Details</label>
             <input type="text" class="styled-input" name="request_details" placeholder="Enter Request Details" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Resolution Notes</label>
+            <label class="custom-label">Resolution Notes</label>
             <textarea class="styled-input" rows="1" name="resolution_notes" placeholder="Enter Resolution Notes"></textarea>
           </div>
         </div>
         <div class="col-md-6">
           <div class="input-field-container">
-            <label class="input-label">Comments</label>
+            <label class="custom-label">Comments</label>
             <textarea class="styled-input" rows="1" name="comments" placeholder="Enter Comments"></textarea>
           </div>
         </div>
@@ -303,7 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Are you a patient? -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Are you a patient?</label>
+                <label class="custom-label">Are you a patient?</label>
                 <select class="styled-input" id="patientStatus" name="patient_status" >
                   <option value="" disabled selected>Select an option</option>
                   <option value="yes">Yes</option>
@@ -315,7 +315,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Patient Name -->
             <div class="col-md-6 hidden" id="patientNameField">
               <div class="input-field-container">
-                <label class="input-label">Patient Name</label>
+                <label class="custom-label">Patient Name</label>
                 <input type="text" class="styled-input" name="patient_name" placeholder="Enter patient name" required/>
               </div>
             </div>
@@ -326,7 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Relationship with Patient -->
             <div class="col-md-6 hidden" id="relationshipField">
               <div class="input-field-container">
-                <label class="input-label" for="relationship">Relationship with Patient</label>
+                <label class="custom-label" for="relationship">Relationship with Patient</label>
                 <select class="styled-input" id="relationship" name="relationship">
                   <option value="" disabled selected>Select relationship</option>
                   <option value="parent">Parent</option>
@@ -343,7 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Customer Name -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Customer Name</label>
+                <label class="custom-label">Customer Name</label>
                 <input type="text" class="styled-input" name="customer_name" placeholder="Enter your name"  required/>
               </div>
             </div>
@@ -354,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Contact Number -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Contact Number</label>
+                <label class="custom-label">Contact Number</label>
                 <input type="text" class="styled-input" name="emergency_contact_number" placeholder="Enter your emergency contact number"  required/>
               </div>
             </div>
@@ -362,7 +362,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Blood Group -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Blood Group</label>
+                <label class="custom-label">Blood Group</label>
                 <select class="styled-input" name="blood_group" >
                   <option value="" disabled selected>Select blood group</option>
                   <option value="A+">A+</option>
@@ -383,7 +383,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Known Medical Conditions -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Known Medical Conditions</label>
+                <label class="custom-label">Known Medical Conditions</label>
                 <input type="text" class="styled-input" name="medical_conditions" placeholder="Enter known medical conditions"  />
               </div>
             </div>
@@ -391,7 +391,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Email -->
             <div class="col-md-6">
       <div class="input-field-container">
-        <label class="input-label">Email</label>
+        <label class="custom-label">Email</label>
         <input type="email" class="styled-input" name="email" id="email" placeholder="Enter Email" />
       </div>
     </div>
@@ -402,7 +402,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Patient Age -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Patient Age</label>
+                <label class="custom-label">Patient Age</label>
                 <input type="number" class="styled-input" name="patient_age" placeholder="Enter patient age" />
               </div>
             </div>
@@ -410,7 +410,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Gender -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Gender</label>
+                <label class="custom-label">Gender</label>
                 <select class="styled-input" name="gender">
                   <option value="" disabled selected>Select gender</option>
                   <option value="male">Male</option>
@@ -426,7 +426,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Mobility Status -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Mobility Status</label>
+                <label class="custom-label">Mobility Status</label>
                 <select class="styled-input" name="mobility_status" >
                   <option value="" disabled selected>Select Mobility Status</option>
                   <option value="Walking">Walking</option>
@@ -439,7 +439,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
             <!-- Discharge Summary Sheet -->
             <div class="col-md-6">
               <div class="input-field-container">
-                <label class="input-label">Discharge Summary Sheet</label>
+                <label class="custom-label">Discharge Summary Sheet</label>
                 <input type="file" class="styled-input" name="discharge" accept=".pdf,.doc,.docx,.txt" />
               </div>
             </div>
@@ -449,7 +449,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <!-- Pincode Field -->
   <div class="col-md-4">
     <div class="input-field-container">
-      <label class="input-label">Pincode</label>
+      <label class="custom-label">Pincode</label>
       <input 
         type="text" 
         name="pincode" 
@@ -464,7 +464,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <!-- Flat, House No., Building, etc. Field -->
   <div class="col-md-8">
     <div class="input-field-container">
-      <label class="input-label">Flat, House No., Building, Company, Apartment</label>
+      <label class="custom-label">Flat, House No., Building, Company, Apartment</label>
       <input 
         type="text" 
         name="address_line1" 
@@ -479,7 +479,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <!-- Area, Street, Sector, Village Field -->
   <div class="col-md-6">
     <div class="input-field-container">
-      <label class="input-label">Area, Street, Sector, Village</label>
+      <label class="custom-label">Area, Street, Sector, Village</label>
       <input 
         type="text" 
         name="address_line2" 
@@ -491,7 +491,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <!-- Landmark Field -->
   <div class="col-md-6">
     <div class="input-field-container">
-      <label class="input-label">Landmark</label>
+      <label class="custom-label">Landmark</label>
       <input 
         type="text" 
         name="landmark" 
@@ -505,7 +505,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <!-- Town/City Field -->
   <div class="col-md-6">
     <div class="input-field-container">
-      <label class="input-label">Town/City</label>
+      <label class="custom-label">Town/City</label>
       <input 
         type="text" 
         name="city" 
@@ -518,7 +518,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
   <!-- State Field -->
   <div class="col-md-6">
     <div class="input-field-container">
-      <label class="input-label">State</label>
+      <label class="custom-label">State</label>
       <select 
         name="state" 
         class="styled-input" 
@@ -570,7 +570,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
       
             <div class="col-md-12">
               <div class="input-field-container">
-                <label class="input-label">Address</label>
+                <label class="custom-label">Address</label>
                 <textarea class="styled-input" name="address" placeholder="Enter address"></textarea>
               </div>
             </div>
@@ -600,7 +600,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_customer'])) {
     margin-bottom: 15px;
   }
 
-  .input-label {
+  .custom-label {
     font-size: 14px;
     font-weight: bold;
     color: #A26D2B;
