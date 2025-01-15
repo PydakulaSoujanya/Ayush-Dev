@@ -337,24 +337,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 </div>
 
 
-<div class="col-md-6 col-lg-3 custom-padding" id="vendorFields" style="<?= $employee['reference'] === 'vendors' ? '' : 'display: none;' ?>">
-    <div class="form-group custom-form-group">
-        <div class="d-flex align-items-center">
-            <label class="custom-label me-2 mb-0">Vendor Name</label>
-            <select name="vendor_name" id="vendor_name" class="form-control custom-input form-control me-2">
-                <option value="" disabled <?= empty($vendor_name) ? 'selected' : '' ?>>Select Vendor</option>
-                <option value="Vendor1" <?= $vendor_name === 'Vendor1' ? 'selected' : '' ?>>Vendor1</option>
-                <option value="Vendor2" <?= $vendor_name === 'Vendor2' ? 'selected' : '' ?>>Vendor2</option>
-            </select>
-            <i
-                class="fas fa-plus-square text-success"
-                id="addVendorBtn"
-                style="font-size: 1.5rem; cursor: pointer;"
-                title="Add Vendor">
-            </i>
-        </div>
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3" id="vendorFields" style="display: none;">
+  <div class="input-field-container">
+    <label class="input-label">Vendor Name</label>
+    <div class="d-flex align-items-center">
+      <select name="vendor_name" id="vendor_name" class="styled-input form-control me-2">
+        <option value="" disabled selected>Select Vendor</option>
+      </select>
+      <i 
+        class="fas fa-plus-square text-success" 
+        id="addVendorBtn" 
+        style="font-size: 1.5rem; cursor: pointer;" 
+        title="Add Vendor">
+      </i>
     </div>
-</div> 
+  </div>
+</div>
         <div class="col-md-6 col-lg-3 custom-padding">
           <div class="form-group custom-form-group">
             <label class="custom-label">Beneficiary Name</label>
@@ -603,42 +601,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                 }
               });
 
-              function fetchVendorData() {
-                fetch("fetch_vendor_data.php")
-                  .then(response => response.json())
-                  .then(data => {
-                    if (data.length > 0) {
-                      const vendorNameSelect = document.getElementById('vendor_name');
-                      vendorNameSelect.innerHTML = '<option value="" disabled selected>Select Vendor</option>';
+              
 
-                      data.forEach(vendor => {
-                        const option = document.createElement('option');
-                        option.value = vendor.id;
-                        option.text = `${vendor.vendor_name} (${vendor.phone_number})`; // Display name with phone number
-                        option.dataset.phone = vendor.phone_number;
-                        option.dataset.bank = vendor.bank_name;
-                        option.dataset.branch = vendor.branch;
-                        option.dataset.account = vendor.account_number;
-                        option.dataset.ifsc = vendor.ifsc;
 
-                        vendorNameSelect.appendChild(option);
-                      });
+function fetchVendorData() {
+  fetch("fetch_vendor_data.php")
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 0) {
+        const vendorNameSelect = document.getElementById('vendor_name');
+        vendorNameSelect.innerHTML = '<option value="" disabled selected>Select Vendor</option>';
 
-                      vendorNameSelect.addEventListener('change', function() {
-                        const selectedOption = vendorNameSelect.options[vendorNameSelect.selectedIndex];
+        data.forEach(vendor => {
+          const option = document.createElement('option');
+          option.value = vendor.id;
+          option.text = `${vendor.vendor_name} (${vendor.phone_number})`; // Display name with phone number
+          option.dataset.phone = vendor.phone_number;
+          option.dataset.bank = vendor.bank_name;
+          option.dataset.branch = vendor.branch;
+          option.dataset.account = vendor.account_number;
+          option.dataset.ifsc = vendor.ifsc;
 
-                        document.getElementById('vendor_contact').value = selectedOption.dataset.phone || '';
-                        document.getElementById('bank_name').value = selectedOption.dataset.bank || '';
-                        document.getElementById('branch').value = selectedOption.dataset.branch || '';
-                        document.getElementById('bank_account_no').value = selectedOption.dataset.account || '';
-                        document.getElementById('ifsc_code').value = selectedOption.dataset.ifsc || '';
-                      });
-                    } else {
-                      console.error("No vendors found.");
-                    }
-                  })
-                  .catch(error => console.error("Error fetching vendor data:", error));
-              }
+          vendorNameSelect.appendChild(option);
+        });
+
+        vendorNameSelect.addEventListener('change', function () {
+          const selectedOption = vendorNameSelect.options[vendorNameSelect.selectedIndex];
+
+          document.getElementById('vendor_contact').value = selectedOption.dataset.phone || '';
+          document.getElementById('bank_name').value = selectedOption.dataset.bank || '';
+          document.getElementById('branch').value = selectedOption.dataset.branch || '';
+          document.getElementById('bank_account_no').value = selectedOption.dataset.account || '';
+          document.getElementById('ifsc_code').value = selectedOption.dataset.ifsc || '';
+        });
+      } else {
+        console.error("No vendors found.");
+      }
+    })
+    .catch(error => console.error("Error fetching vendor data:", error));
+}
+
+
+
             </script>
        
        
@@ -646,119 +650,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
   <?php include 'vendormodal.php'; ?>
 
   <script>
-    function fetchVendorDetails() {
-      const reference = document.getElementById('reference').value;
+  function fetchVendorDetails() {
+  const reference = document.getElementById('reference').value;
 
-      if (reference === 'vendors') {
-        // Make AJAX request to fetch vendor details
-        fetch('get_vendor_details.php')
-          .then(response => response.json())
-          .then(data => {
-            // Populate the fields with vendor data
-            document.getElementById('vendor_name').value = data.vendor_name || '';
-            document.getElementById('vendor_contact').value = data.vendor_contact || '';
-          })
-          .catch(error => console.error('Error fetching vendor details:', error));
-      } else {
-        // Clear fields if reference is not vendors
-        document.getElementById('vendor_name').value = '';
-        document.getElementById('vendor_contact').value = '';
-      }
+  if (reference === 'vendors') {
+    // Make AJAX request to fetch vendor details
+    fetch('get_vendor_details.php')
+      .then(response => response.json())
+      .then(data => {
+        const vendorNameSelect = document.getElementById('vendor_name');
+        // Clear the existing options
+        vendorNameSelect.innerHTML = '<option value="" disabled selected>Select Vendor</option>';
+
+        if (data && data.vendors && Array.isArray(data.vendors)) {
+          // Populate the dropdown with vendor names
+          data.vendors.forEach(vendor => {
+            const option = document.createElement('option');
+            option.value = vendor.vendor_name; // Use vendor_name as value
+            option.textContent = vendor.vendor_name; // Display vendor_name
+            option.dataset.id = vendor.id; // Optionally store additional vendor data
+            option.dataset.phone = vendor.phone_number; // Optionally store phone number
+            vendorNameSelect.appendChild(option);
+          });
+        }
+      })
+      .catch(error => console.error('Error fetching vendor details:', error));
+  } else {
+    // Clear fields if reference is not vendors
+    document.getElementById('vendor_name').value = '';
+    document.getElementById('vendor_contact').value = '';
+  }
+}
+
+// Submit handler for adding a new vendor
+document.querySelector('#addVendorModal form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Collect field values manually
+  const vendorName = document.querySelector('#popup_vendor_name').value;
+  const gstin = document.querySelector('#gstin').value;
+  const phoneNumber = document.querySelector('#phone_number').value;
+  const email = document.querySelector('#email').value;
+  const vendorType = document.querySelector('#vendor_type').value;
+  const bankName = document.querySelector('#bank_name').value;
+  const accountNumber = document.querySelector('#account_number').value;
+
+  // Create a JSON object or plain object
+  const requestData = {
+    vendor_name: vendorName,
+    gstin: gstin,
+    phone_number: phoneNumber,
+    email: email,
+    vendor_type: vendorType,
+    bank_name: bankName,
+    account_number: accountNumber,
+    address: document.querySelector('#address').value,
+    services_provided: document.querySelector('#services_provided').value,
+    additional_notes: document.querySelector('#additional_notes').value,
+    ifsc: document.querySelector('#ifsc').value,
+    payment_terms: document.querySelector('#payment_terms').value,
+  };
+
+  // Send the data using fetch
+  fetch('add_vendor.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // Sending JSON data
+    },
+    body: JSON.stringify(requestData), // Serialize object to JSON
+  })
+  .then(response => {
+    if (!response.ok) {
+      alert('Error: ' + response.statusText);
+      throw new Error(response.statusText); 
     }
+    return response.json();
+  })
+  .then(data => {
+    if (data.success) {
+      // Close the modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('addVendorModal'));
+      modal.hide();
 
+      // Add the new vendor to the dropdown
+      const vendorNameSelect = document.getElementById('vendor_name');
+      const newOption = document.createElement('option');
+      newOption.value = data.vendor.vendor_name;
+      newOption.textContent = data.vendor.vendor_name;
+      newOption.dataset.phone = data.vendor.phone_number;
+      newOption.dataset.id = data.vendor.id;
 
-    document.querySelector('#addVendorModal form').addEventListener('submit', function(e) {
-      e.preventDefault();
+      vendorNameSelect.appendChild(newOption);
+      vendorNameSelect.value = data.vendor.vendor_name; // Select the newly added vendor
 
-      // Collect field values manually
-      const vendorName = document.querySelector('#popup_vendor_name').value;
-      const gstin = document.querySelector('#gstin').value;
+      // Update the contact field
+      document.querySelector('input[name="vendor_contact"]').value = data.vendor.phone_number;
+      document.querySelector('input[name="vendor_id"]').value = data.vendor.id;
+    } else {
+      console.error('Error:', data.message);
+      alert('An error occurred: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});
 
-      const phoneNumber = document.querySelector('#phone_number').value;
-      const email = document.querySelector('#email').value;
-      const vendorType = document.querySelector('#vendor_type').value;
-      const bankName = document.querySelector('#bank_name').value;
-      const accountNumber = document.querySelector('#account_number').value;
-
-      // Create a JSON object or plain object
-      const requestData = {
-        vendor_name: vendorName,
-        gstin: gstin,
-
-        phone_number: phoneNumber,
-        email: email,
-        vendor_type: vendorType,
-        bank_name: bankName,
-        account_number: accountNumber,
-        address: document.querySelector('#address').value,
-        services_provided: document.querySelector('#services_provided').value,
-        additional_notes: document.querySelector('#additional_notes').value,
-        ifsc: document.querySelector('#ifsc').value,
-        payment_terms: document.querySelector('#payment_terms').value,
-      };
-      // Log to console
-      console.log(requestData);
-
-      // Or use alert to display it
-      //alert(JSON.stringify(requestData, null, 2));  // Pretty prints the object
-      // Send the data using fetch
-      fetch('add_vendor.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', // Sending JSON data
-          },
-          body: JSON.stringify(requestData), // Serialize object to JSON
-        })
-        .then(response => {
-          if (!response.ok) {
-            //throw new Error(HTTP error! status: ${response.status});
-            alert(Error $ {
-              response.status
-            }: $ {
-              text
-            }); // Display the error as an alert
-            throw new Error($ {
-              response.status
-            }: $ {
-              text
-            }); // Continue to propagate the error
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.success) {
-            // Close the modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addVendorModal'));
-            modal.hide();
-
-            // Add the new vendor to the dropdown
-            const vendorNameSelect = document.getElementById('vendor_name');
-            const newOption = document.createElement('option');
-            newOption.value = data.vendor.vendor_name;
-            newOption.textContent = data.vendor.vendor_name;
-            newOption.dataset.phone = data.vendor.phone_number;
-            newOption.dataset.id = data.vendor.id;
-
-            vendorNameSelect.appendChild(newOption);
-            vendorNameSelect.value = data.vendor.vendor_name; // Select the newly added vendor
-
-            // Update the contact field
-            document.querySelector('input[name="vendor_contact"]').value = data.vendor.phone_number;
-            document.querySelector('input[name="vendor_id"]').value = data.vendor.id;
-
-            //  alert('Vendor added successfully!');
-          } else {
-            console.error('Error:', data.message, 'SQL:', data.sql);
-            // Display the SQL query returned from the server
-            alert('An error occurred: ' + data.message + '\nSQL: ' + data.sql);
-
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          //  alert('from catch block An error occurred while adding the vendor.');
-        });
-    });
   </script>
 
 

@@ -157,10 +157,7 @@
     </div>
   </div>
 </div>
-<!-- 
-    <div class="col-md-12 mt-4">
-      <div class="card" style="border: 1px solid #8B4513; border-radius: 8px;">
-        <div class="card-body"> -->
+
           <div id="address-container">
             <div class="address-entry" id="address-1">
             <div class="row ">
@@ -177,12 +174,14 @@
                     <input type="text" name="address_line1[]" class="form-control" placeholder="Enter Flat, House No., Building, etc." required />
                   </div>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
                   <div class="form-group">
                     <label class="input-label">Area, Street, Sector, Village</label>
                     <input type="text" name="address_line2[]" class="form-control" placeholder="Enter Area, Street, Sector, Village" />
                   </div>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
                   <div class="form-group">
                     <label class="input-label">Landmark</label>
@@ -190,14 +189,56 @@
                   </div>
                 </div>
                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-                  <div class="form-group">
-                    <label class="input-label">Town/City</label>
-                    <input type="text" name="city[]" class="form-control" placeholder="Enter Town/City" required />
-                  </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-                  <?php include('states_dropdown.php'); ?>
-                </div>
+    <div class="form-group">
+        <label class="input-label">Town/City</label>
+        <input type="text" name="city[]" class="form-control" placeholder="Enter Town/City" required />
+    </div>
+</div>
+
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+    <div class="form-group">
+    <label class="input-label">State</label>
+    <select name="state[]" class="form-control" required>
+    <option value="">Choose a state</option>
+    <option value="Andhra Pradesh">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+    <option value="Assam">Assam</option>
+    <option value="Bihar">Bihar</option>
+    <option value="Chhattisgarh">Chhattisgarh</option>
+    <option value="Goa">Goa</option>
+    <option value="Gujarat">Gujarat</option>
+    <option value="Haryana">Haryana</option>
+    <option value="Himachal Pradesh">Himachal Pradesh</option>
+    <option value="Jharkhand">Jharkhand</option>
+    <option value="Karnataka">Karnataka</option>
+    <option value="Kerala">Kerala</option>
+    <option value="Madhya Pradesh">Madhya Pradesh</option>
+    <option value="Maharashtra">Maharashtra</option>
+    <option value="Manipur">Manipur</option>
+    <option value="Meghalaya">Meghalaya</option>
+    <option value="Mizoram">Mizoram</option>
+    <option value="Nagaland">Nagaland</option>
+    <option value="Odisha">Odisha</option>
+    <option value="Punjab">Punjab</option>
+    <option value="Rajasthan">Rajasthan</option>
+    <option value="Sikkim">Sikkim</option>
+    <option value="Tamil Nadu">Tamil Nadu</option>
+    <option value="Telangana">Telangana</option>
+    <option value="Tripura">Tripura</option>
+    <option value="Uttar Pradesh">Uttar Pradesh</option>
+    <option value="Uttarakhand">Uttarakhand</option>
+    <option value="West Bengal">West Bengal</option>
+    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+    <option value="Chandigarh">Chandigarh</option>
+    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+    <option value="Daman and Diu">Daman and Diu</option>
+    <option value="Delhi">Delhi</option>
+    <option value="Lakshadweep">Lakshadweep</option>
+    <option value="Puducherry">Puducherry</option>
+</select>
+    </div>
+</div>
+
                 <div class="col-md-12">
                   <i class="fas fa-plus-square text-success add-more" title="Add More"></i>
                   <i class="fas fa-trash-alt text-danger delete-icon" title="Delete"></i>
@@ -206,16 +247,18 @@
             </div>
           </div>
         </div>
-      </div>
-    </div> 
-</div>
-
-<div class="col-md-12 mt-4 text-center">
+        <div class="col-md-12 mt-4 text-center">
 <div class="text-center mt-4">
             <button type="submit" class="btn btn-secondary" style="width: 150px;">Submit</button>
           </div>
 
     </div>
+    
+      </div>
+
+    </div> 
+</div>
+
 </div>
 
 
@@ -254,42 +297,87 @@
     var newAddressEntry = document.createElement('div');
     newAddressEntry.classList.add('address-entry');
     newAddressEntry.innerHTML = `
-     <div id="address-container">
+         <div id="address-container">
             <div class="address-entry" id="address-1">
-            <div class="row form-section form-third-row mt-3">
-   
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Pincode</label>
-            <input type="text" name="pincode[]" class="styled-input" placeholder="6 digits [0-9] PIN code" required pattern="\\d{6}" maxlength="6" />
+            <div class="row ">
+            <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+                  <div class="form-group">
+                    <label class="input-label">Pincode</label>
+                    <input type="text" name="pincode[]" class="form-control" placeholder="6 digits [0-9] PIN code" required pattern="\d{6}" maxlength="6" />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+                  <div class="form-group">
+                    <label class="input-label">Flat, House No., Building, Apartment</label>
+                    <input type="text" name="address_line1[]" class="form-control" placeholder="Enter Flat, House No., Building, etc." required />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+                  <div class="form-group">
+                    <label class="input-label">Area, Street, Sector, Village</label>
+                    <input type="text" name="address_line2[]" class="form-control" placeholder="Enter Area, Street, Sector, Village" />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+                  <div class="form-group">
+                    <label class="input-label">Landmark</label>
+                    <input type="text" name="landmark[]" class="form-control" placeholder="E.g. near Apollo Hospital" />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+    <div class="form-group">
+        <label class="input-label">Town/City</label>
+        <input type="text" name="city[]" class="form-control" placeholder="Enter Town/City" required />
+    </div>
+</div>
+
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
+    <div class="form-group">
+    <label class="input-label">State</label>
+    <select name="state[]" class="form-control" required>
+    <option value="">Choose a state</option>
+    <option value="Andhra Pradesh">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+    <option value="Assam">Assam</option>
+    <option value="Bihar">Bihar</option>
+    <option value="Chhattisgarh">Chhattisgarh</option>
+    <option value="Goa">Goa</option>
+    <option value="Gujarat">Gujarat</option>
+    <option value="Haryana">Haryana</option>
+    <option value="Himachal Pradesh">Himachal Pradesh</option>
+    <option value="Jharkhand">Jharkhand</option>
+    <option value="Karnataka">Karnataka</option>
+    <option value="Kerala">Kerala</option>
+    <option value="Madhya Pradesh">Madhya Pradesh</option>
+    <option value="Maharashtra">Maharashtra</option>
+    <option value="Manipur">Manipur</option>
+    <option value="Meghalaya">Meghalaya</option>
+    <option value="Mizoram">Mizoram</option>
+    <option value="Nagaland">Nagaland</option>
+    <option value="Odisha">Odisha</option>
+    <option value="Punjab">Punjab</option>
+    <option value="Rajasthan">Rajasthan</option>
+    <option value="Sikkim">Sikkim</option>
+    <option value="Tamil Nadu">Tamil Nadu</option>
+    <option value="Telangana">Telangana</option>
+    <option value="Tripura">Tripura</option>
+    <option value="Uttar Pradesh">Uttar Pradesh</option>
+    <option value="Uttarakhand">Uttarakhand</option>
+    <option value="West Bengal">West Bengal</option>
+    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+    <option value="Chandigarh">Chandigarh</option>
+    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+    <option value="Daman and Diu">Daman and Diu</option>
+    <option value="Delhi">Delhi</option>
+    <option value="Lakshadweep">Lakshadweep</option>
+    <option value="Puducherry">Puducherry</option>
+</select>
+    </div>
+</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Flat, House No., Building, Apartment</label>
-            <input type="text" name="address_line1[]" class="styled-input" placeholder="Enter Flat, House No., Building, etc." required />
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Area, Street, Sector, Village</label>
-            <input type="text" name="address_line2[]" class="styled-input" placeholder="Enter Area, Street, Sector, Village" />
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Landmark</label>
-            <input type="text" name="landmark[]" class="styled-input" placeholder="E.g. near Apollo Hospital" />
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <div class="input-field-container">
-            <label class="input-label">Town/City</label>
-            <input type="text" name="city[]" class="styled-input" placeholder="Enter Town/City" required />
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-          <?php include('states_dropdown.php'); ?>
         </div>
         <div class="col-md-12">
           <i class="fas fa-plus-square text-success add-more" title="Add More"></i>

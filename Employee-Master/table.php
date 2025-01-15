@@ -111,40 +111,47 @@ $(document).ready(function() {
   });
 });
 
-$(document).on('click', '.view-btn', function(e) {
-            e.preventDefault();
-            const employeeId = $(this).data('id');
+$(document).on('click', '.view-btn', function (e) {
+    e.preventDefault();
+    const employeeId = $(this).data('id');
 
-            $.ajax({
-                url: 'fetch_employee_data.php',
-                type: 'POST',
-                data: { id: employeeId },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.error) {
-                        alert(response.error);
-                    } else {
-                        let detailsHtml = '';
-                        for (let key in response) {
-                            // Check for document fields and create links
-                            if (key === 'police_verification_document' || key === 'adhar_upload_doc' || key === 'other_doc_name') {
-                                if (response[key]) {
-                                    detailsHtml += `<tr><th>${key.replace(/_/g, ' ').toUpperCase()}</th><td><a href="${response[key]}" target="_blank">View Document</a></td></tr>`;
-                                }
-                            } else {
-                                detailsHtml += `<tr><th>${key.replace(/_/g, ' ').toUpperCase()}</th><td>${response[key]}</td></tr>`;
-                            }
+    $.ajax({
+        url: 'fetch_employee_data.php',
+        type: 'POST',
+        data: { id: employeeId },
+        dataType: 'json',
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                let detailsHtml = '';
+                for (let key in response) {
+                    if (key === 'file_path' || key === 'police_verification_document' || key === 'adhar_upload_doc' || key === 'other_doc_name') {
+                        if (response[key] && Array.isArray(response[key])) {
+                            response[key].forEach(doc => {
+                                detailsHtml += `
+                                    <tr>
+                                        <th>${key.replace(/_/g, ' ').toUpperCase()}</th>
+                                        <td><a href="${doc.download_link}" download="${doc.document_name}" target="_blank">Download</a></td>
+                                    </tr>
+                                `;
+                            });
                         }
-
-                        $('#employeeDetails').html(detailsHtml);
-                        $('#employeeDetailsModal').modal('show');
+                    } else {
+                        detailsHtml += `<tr><th>${key.replace(/_/g, ' ').toUpperCase()}</th><td>${response[key]}</td></tr>`;
                     }
-                },
-                error: function() {
-                    alert('Failed to fetch employee details.');
                 }
-            });
-        });
+
+                $('#employeeDetails').html(detailsHtml);
+                $('#employeeDetailsModal').modal('show');
+            }
+        },
+        error: function () {
+            alert('Failed to fetch employee details.');
+        }
+    });
+});
+
 
 function confirmDeletion(id) {
   if (confirm("Are you sure you want to delete this employee?")) {

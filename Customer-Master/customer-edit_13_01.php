@@ -9,6 +9,7 @@ $customerId = $editMode ? intval($_GET['id']) : null;
 // Initialize form variables for customer and address
 $customerData = [
     'id' => '',
+    'patient_status' => '', // Added key for patient_status
     'patient_name' => '',
     'relationship' => '',
     'customer_name' => '',
@@ -33,13 +34,7 @@ $addressData = [
 
 // Fetch data for edit
 if ($editMode) {
-    $query = "SELECT cm.*, 
-                     ca.pincode, 
-                     ca.address_line1, 
-                     ca.address_line2, 
-                     ca.landmark, 
-                     ca.city, 
-                     ca.state
+    $query = "SELECT cm.*, ca.pincode, ca.address_line1, ca.address_line2, ca.landmark, ca.city, ca.state
               FROM customer_master_new cm
               LEFT JOIN customer_addresses ca ON cm.id = ca.customer_id
               WHERE cm.id = ?";
@@ -47,19 +42,10 @@ if ($editMode) {
     $stmt->bind_param('i', $customerId);
     $stmt->execute();
     $result = $stmt->get_result();
-
     if ($result->num_rows > 0) {
         $data = $result->fetch_assoc();
-        // Merge address data with customer data if address exists
-        $addressData = [
-            'pincode' => $data['pincode'] ?? '',
-            'address_line1' => $data['address_line1'] ?? '',
-            'address_line2' => $data['address_line2'] ?? '',
-            'landmark' => $data['landmark'] ?? '',
-            'city' => $data['city'] ?? '',
-            'state' => $data['state'] ?? '',
-        ];
         $customerData = array_merge($customerData, $data);
+        $addressData = array_merge($addressData, $data);
     } else {
         echo "<script>alert('Customer not found!'); window.location.href = 'customer_table.php';</script>";
         exit;
@@ -71,6 +57,7 @@ if ($editMode) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Fetch customer and address values from POST request
     $id = intval($_POST['id']);
+    $patientStatus = $_POST['patient_status'] ?? '';
     $patientName = $_POST['patient_name'] ?? '';
     $relationship = $_POST['relationship'] ?? '';
     $customerName = $_POST['customer_name'] ?? '';
@@ -114,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         WHERE id = ?";
     $stmt = $conn->prepare($updateCustomerQuery);
     $stmt->bind_param(
-        'ssssssssssi',
+        'sssssssssssi',
         $patientName,
         $relationship,
         $customerName,
@@ -130,71 +117,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt->execute()) {
-        // Check if address exists
-        $checkAddressQuery = "SELECT id FROM customer_addresses WHERE customer_id = ?";
-        $checkStmt = $conn->prepare($checkAddressQuery);
-        $checkStmt->bind_param('i', $id);
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
-
-        if ($checkResult->num_rows > 0) {
-            // Update existing address
-            $updateAddressQuery = "UPDATE customer_addresses SET 
-                pincode = ?, 
-                address_line1 = ?, 
-                address_line2 = ?, 
-                landmark = ?, 
-                city = ?, 
-                state = ?
-                WHERE customer_id = ?";
-            $addressStmt = $conn->prepare($updateAddressQuery);
-            $addressStmt->bind_param(
-                'ssssssi',
-                $pincode,
-                $addressLine1,
-                $addressLine2,
-                $landmark,
-                $city,
-                $state,
-                $id
-            );
-        } else {
-            // Insert new address
-            $insertAddressQuery = "INSERT INTO customer_addresses 
-                (customer_id, pincode, address_line1, address_line2, landmark, city, state) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $addressStmt = $conn->prepare($insertAddressQuery);
-            $addressStmt->bind_param(
-                'issssss',
-                $id,
-                $pincode,
-                $addressLine1,
-                $addressLine2,
-                $landmark,
-                $city,
-                $state
-            );
-        }
-
-        if ($addressStmt->execute()) {
-            echo "<script>alert('Customer details updated successfully!'); window.location.href = 'customer_table.php';</script>";
-        } else {
-            echo "<script>alert('Error updating address details: " . $addressStmt->error . "');</script>";
-        }
+        // Update address data
+        $updateAddressQuery = "UPDATE customer_addresses SET 
+            pincode = ?, 
+            address_line1 = ?, 
+            address_line2 = ?, 
+            landmark = ?, 
+            city = ?, 
+            state = ?
+            WHERE customer_id = ?";
+        $addressStmt = $conn->prepare($updateAddressQuery);
+        $addressStmt->bind_param(
+            'ssssssi',
+            $pincode,
+            $addressLine1,
+            $addressLine2,
+            $landmark,
+            $city,
+            $state,
+            $id
+        );
+        $addressStmt->execute();
         $addressStmt->close();
-        $checkStmt->close();
+
+        echo "<script>alert('Customer details updated successfully!'); window.location.href = 'customer_table.php';</script>";
     } else {
         echo "<script>alert('Error updating customer details: " . $stmt->error . "');</script>";
     }
     $stmt->close();
 }
 ?>
-
-
-
-
-
-
 
 
 
@@ -211,7 +163,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
 </head>
 <style>
-
+@media (min-width: 1025px) and (max-width: 1920px) {
+  .section-title2 {
+ 
+    position: absolute;
+        top: 45%;
+        left: 125px;
+    }
+  .section-title3 {
+      position: absolute;
+      top: 85%;
+      left: 125px; 
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px){
+  .section-title2 {
+    position: absolute;
+        top: 30%;
+        left: 38px;
+    }
+  .section-title3 {
+    position: absolute;
+        top: 63%;
+        left: 40px;
+  }
+  .form-third-row {
+    width:103%;
+  }
+}
+@media (min-width: 425px) and (max-width: 767px){
+  .section-title2 {
+    position: absolute;
+        top: 48%;
+        left: 19px;
+    }
+  .section-title3 {
+    position: absolute;
+        top: 124%;
+        left: 17px;
+  }
+  .form-third-row {
+    width:103%;
+  }
+}
 
 </style>
 <body>
@@ -220,20 +214,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php include('../navbar.php'); ?>
 
-<div class="container mt-9">
- 
-<div class="card custom-card">
-<div class="card-header custom-card-header">Edit Customer</div>
-<div class="card-body">
+
+<div class="container mt-7">
+  <h3 class="mb-4">Customer Details Form</h3>
+  
   <form action="" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= htmlspecialchars($customerData['id']); ?>" />
-    <div class="row ">
- 
- <div class="row">
- <div class="col-12 col-sm-6 col-md-3 col-lg-4 mt-3">
-        <div class="form-group">
+    <div class="row form-section form-first-row">
+  <h2 class="section-title1">Basic Details</h2>
+  <div class="row">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Are you a patient?</label>
-          <select class="form-control" name="patient_status" required>
+          <select class="styled-input" name="patient_status" required>
             <option value="" disabled>Select an option</option>
             <option value="yes" <?= $customerData['patient_status'] === 'yes' ? 'selected' : ''; ?>>Yes</option>
             <option value="no" <?= $customerData['patient_status'] === 'no' ? 'selected' : ''; ?>>No</option>
@@ -241,17 +234,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-3 col-lg-4 mt-3 hidden" id="patientNameField">
-        <div class="form-group">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Patient Name</label>
-          <input type="text" class="form-control" name="patient_name" placeholder="Enter patient name" value="<?= htmlspecialchars($customerData['patient_name']); ?>" />
+          <input type="text" class="styled-input" name="patient_name" placeholder="Enter patient name" value="<?= htmlspecialchars($customerData['patient_name']); ?>" />
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Relationship with Patient</label>
-          <select class="form-control" name="relationship">
+          <select class="styled-input" name="relationship">
             <option value="" disabled>Select relationship</option>
             <option value="parent" <?= $customerData['relationship'] === 'parent' ? 'selected' : ''; ?>>Parent</option>
             <option value="sibling" <?= $customerData['relationship'] === 'sibling' ? 'selected' : ''; ?>>Sibling</option>
@@ -265,28 +258,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     </div>
 
-    <div class="row ">
+    <div class="row form-section form-first-row mt-3">
+<!-- <div class="row form-second-row-full mt-3"> -->
+  <h2 class="section-title2">Customer Details</h2>
   <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Customer Name</label>
-          <input type="text" class="form-control" name="customer_name" placeholder="Enter customer name" value="<?= htmlspecialchars($customerData['customer_name']); ?>" required />
+          <input type="text" class="styled-input" name="customer_name" placeholder="Enter customer name" value="<?= htmlspecialchars($customerData['customer_name']); ?>" required />
         </div>
       </div>
 
 
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Contact Number</label>
-          <input type="text" class="form-control" name="emergency_contact_number" placeholder="Enter contact number" value="<?= htmlspecialchars($customerData['emergency_contact_number']); ?>" required />
+          <input type="text" class="styled-input" name="emergency_contact_number" placeholder="Enter contact number" value="<?= htmlspecialchars($customerData['emergency_contact_number']); ?>" required />
         </div>
       </div>
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Blood Group</label>
-          <select class="form-control" name="blood_group" required>
+          <select class="styled-input" name="blood_group" required>
             <option value="" disabled>Select blood group</option>
             <option value="A+" <?= $customerData['blood_group'] === 'A+' ? 'selected' : ''; ?>>A+</option>
             <option value="A-" <?= $customerData['blood_group'] === 'A-' ? 'selected' : ''; ?>>A-</option>
@@ -299,37 +294,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </select>
         </div>
       </div>
- 
-
-   
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
-          <label class="input-label">Known Medical Conditions</label>
-          <input type="text" class="form-control" name="medical_conditions" placeholder="Enter medical conditions" value="<?= htmlspecialchars($customerData['medical_conditions']); ?>" />
-        </div>
-      </div>
       </div>
 
       <div class="row">
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+        <div class="input-field-container">
+          <label class="input-label">Known Medical Conditions</label>
+          <input type="text" class="styled-input" name="medical_conditions" placeholder="Enter medical conditions" value="<?= htmlspecialchars($customerData['medical_conditions']); ?>" />
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Email</label>
-          <input type="email" class="form-control" name="email" placeholder="Enter email" value="<?= htmlspecialchars($customerData['email']); ?>" />
+          <input type="email" class="styled-input" name="email" placeholder="Enter email" value="<?= htmlspecialchars($customerData['email']); ?>" />
         </div>
       </div>
-     
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Patient Age</label>
-          <input type="number" class="form-control" name="patient_age" placeholder="Enter patient age" value="<?= htmlspecialchars($customerData['patient_age']); ?>" />
+          <input type="number" class="styled-input" name="patient_age" placeholder="Enter patient age" value="<?= htmlspecialchars($customerData['patient_age']); ?>" />
         </div>
       </div>
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
-        <div class="form-group">
+        <div class="input-field-container">
           <label class="input-label">Gender</label>
-          <select class="form-control" name="gender" required>
+          <select class="styled-input" name="gender" required>
             <option value="" disabled>Select gender</option>
             <option value="male" <?= $customerData['gender'] === 'male' ? 'selected' : ''; ?>>Male</option>
             <option value="female" <?= $customerData['gender'] === 'female' ? 'selected' : ''; ?>>Female</option>
@@ -338,10 +330,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Mobility Status</label>
-          <select class="form-control" name="mobility_status">
+          <select class="styled-input" name="mobility_status">
             <option value="" disabled>Select mobility status</option>
             <option value="walking" <?= $customerData['mobility_status'] === 'walking' ? 'selected' : ''; ?>>Walking</option>
             <option value="wheelchair" <?= $customerData['mobility_status'] === 'wheelchair' ? 'selected' : ''; ?>>Wheelchair</option>
@@ -349,10 +341,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Discharge Summary Sheet</label>
-          <input type="file" class="form-control" name="discharge_summary_sheet" />
+          <input type="file" class="styled-input" name="discharge_summary_sheet" />
           <small>Current File: <?= htmlspecialchars($customerData['discharge_summary_sheet']); ?></small>
         </div>
       </div>
@@ -363,72 +355,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Address Row -->
     <div id="address-container">
             <div class="address-entry" id="address-1">
-            <div class="row ">
+            <div class="row form-section form-third-row mt-3">
+            <h2 class="section-title3">Address Details</h2>
             <div class="row">
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-                  <div class="form-group">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                  <div class="input-field-container">
           <label class="input-label">Pincode</label>
-          <input type="text" class="form-control" name="pincode" placeholder="Enter Pincode" value="<?= htmlspecialchars($customerData['pincode']); ?>" />
+          <input type="text" class="styled-input" name="pincode" placeholder="Enter Pincode" value="<?= htmlspecialchars($customerData['pincode']); ?>" />
         </div>
       </div>
-
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
           <label class="input-label">Flat/House No./Apartment</label>
-          <input type="text" class="form-control" name="flat_house_building_apartment" placeholder="Enter Flat/House No./Apartment" value="<?= htmlspecialchars($customerData['address_line2']); ?>" />
-        </div>
-      </div>
-
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
-          <label class="input-label">Area, Street, Sector</label>
-          <input type="text" class="form-control" name="area" placeholder="Enter Area, Street, Sector" value="<?= htmlspecialchars($customerData['address_line1']); ?>" />
-        </div>
-      </div>
-
-    
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
-          <label class="input-label">Landmark</label>
-          <input type="text" class="form-control" name="landmark" placeholder="Enter Landmark" value="<?= htmlspecialchars($customerData['landmark']); ?>" />
-        </div>
-      </div>
-
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3 mt-3">
-        <div class="form-group">
-          <label class="input-label">Town/City</label>
-          <input type="text" class="form-control" name="town_city" placeholder="Enter Town/City" value="<?= htmlspecialchars($customerData['city']); ?>" />
+          <input type="text" class="styled-input" name="flat_house_building_apartment" placeholder="Enter Flat/House No./Apartment" value="<?= htmlspecialchars($customerData['address_line2']); ?>" />
         </div>
       </div>
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
-    <div class="form-group">
-        <label class="input-label">State</label>
-        <select class="form-control" name="state">
-            <?php
-            // Include the states array (or use states_dropdown.php if it contains the list)
-            $states = [
-                'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
-                'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-                'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
-                'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-                'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands',
-                'Chandigarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Lakshadweep', 'Puducherry'
-            ];
+        <div class="input-field-container">
+          <label class="input-label">Area, Street, Sector</label>
+          <input type="text" class="styled-input" name="area" placeholder="Enter Area, Street, Sector" value="<?= htmlspecialchars($customerData['address_line1']); ?>" />
+        </div>
+      </div>
 
-            // Get the selected state from the database
-            $selectedState = $customerData['state'] ?? '';
+    
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
+          <label class="input-label">Landmark</label>
+          <input type="text" class="styled-input" name="landmark" placeholder="Enter Landmark" value="<?= htmlspecialchars($customerData['landmark']); ?>" />
+        </div>
+      </div>
 
-            // Generate the options dynamically
-            foreach ($states as $state) {
-                $selected = ($state == $selectedState) ? 'selected' : '';
-                echo "<option value='$state' $selected>$state</option>";
-            }
-            ?>
-        </select>
-    </div>
-</div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
+          <label class="input-label">Town/City</label>
+          <input type="text" class="styled-input" name="town_city" placeholder="Enter Town/City" value="<?= htmlspecialchars($customerData['city']); ?>" />
+        </div>
+      </div>
 
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+        <div class="input-field-container">
+          <label class="input-label">State</label>
+          <input type="text" class="styled-input" name="state" placeholder="Enter State" value="<?= htmlspecialchars($customerData['state']); ?>" />
+        </div>
+      </div>
       <div class="col-md-12">
                   <i class="fas fa-plus-square text-success add-more" title="Add More"></i>
                   <i class="fas fa-trash-alt text-danger delete-icon" title="Delete"></i>
@@ -437,21 +407,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
           </div>
         </div>
-        <div class="col-md-12 mt-4 text-center">
-<div class="text-center mt-4">
-            <button type="submit" class="btn btn-secondary" style="width: 150px;">Update</button>
-          </div>
-
-    </div>
-
       </div>
     </div>
 </div>
-</div>
+  
+<div class="row form-submit emp-submit mt-2">
+<div class="col-md-12 text-center">
+      <button type="submit" class="btn w-100"><?= $editMode ? 'Update' : 'Submit' ?></button>
+      </div>
+      </div>
   </form>
 </div>
-
-
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
