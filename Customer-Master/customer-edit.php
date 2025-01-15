@@ -231,20 +231,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
  <div class="row">
  <div class="col-12 col-sm-6 col-md-3 col-lg-4 mt-3">
-        <div class="form-group">
-          <label class="input-label">Are you a patient?</label>
-          <select class="form-control" name="patient_status" required>
-            <option value="" disabled>Select an option</option>
-            <option value="yes" <?= $customerData['patient_status'] === 'yes' ? 'selected' : ''; ?>>Yes</option>
-            <option value="no" <?= $customerData['patient_status'] === 'no' ? 'selected' : ''; ?>>No</option>
-          </select>
-        </div>
-      </div>
+  <div class="form-group">
+    <label class="input-label">Are you a patient?</label>
+    <select class="form-control" name="patient_status_display" disabled>
+      <option value="" disabled>Select an option</option>
+      <option value="yes" <?= $customerData['patient_status'] === 'yes' ? 'selected' : ''; ?>>Yes</option>
+      <option value="no" <?= $customerData['patient_status'] === 'no' ? 'selected' : ''; ?>>No</option>
+    </select>
+    <!-- Hidden input to retain the value for form submission -->
+    <input type="hidden" name="patient_status" value="<?= $customerData['patient_status']; ?>">
+  </div>
+</div>
+
 
       <div class="col-12 col-sm-6 col-md-3 col-lg-4 mt-3 hidden" id="patientNameField">
         <div class="form-group">
           <label class="input-label">Patient Name</label>
-          <input type="text" class="form-control" name="patient_name" placeholder="Enter patient name" value="<?= htmlspecialchars($customerData['patient_name']); ?>" />
+          <input type="text" class="form-control" name="patient_name" readonly placeholder="Enter patient name" value="<?= htmlspecialchars($customerData['patient_name']); ?>" />
         </div>
       </div>
 
