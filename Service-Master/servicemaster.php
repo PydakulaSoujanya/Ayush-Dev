@@ -36,6 +36,9 @@
                   <option value="nannies">Nannies</option>
                   <option value="other">Other</option>
                 </select>
+                <span class="dropdown-icon position-absolute" style="top: 40px; right: 15px;">
+      ▼
+    </span>
               </div>
             </div>
             <div class="col-md-6 col-lg-6">
@@ -45,6 +48,9 @@
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>
+                <span class="dropdown-icon position-absolute" style="top: 40px; right: 15px;">
+      ▼
+    </span>
               </div>
             </div>
           </div>

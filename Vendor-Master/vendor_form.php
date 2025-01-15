@@ -1,3 +1,22 @@
+<?php
+// Fetch the data from service_master table
+include '../config.php';
+
+$sql = "SELECT `id`, `service_name` FROM `service_master` WHERE `status` = 'active'"; // Assuming 'active' status for services you want to show
+$result = $conn->query($sql);
+
+// Prepare dropdown options
+$options = "";
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $options .= "<option value='" . $row['id'] . "'>" . $row['service_name'] . "</option>";
+    }
+} else {
+    $options = "<option value='' disabled>No services available</option>";
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,12 +78,10 @@
             <div class="col-md-6 col-lg-3 custom-padding">
               <div class="form-group custom-form-group">
                 <label for="services_provided" class="custom-label">Services Provided</label>
-                <select name="services_provided" id="services_provided" class="form-control custom-input">
-                  <option value="Fully Trained Nurse">Fully Trained Nurse</option>
-                  <option value="Semi-Trained Nurse">Semi-Trained Nurse</option>
-                  <option value="Caretaker">Caretaker</option>
-                  <option value="Nanny">Nanny</option>
-                </select>
+                <select class="form-control" name="service_type[]" id="service_type" style="appearance: none; padding-right: 2.5rem;">
+      <option value="" disabled selected>Select Role</option>
+      <?php echo $options; ?>  <!-- Dynamically populated options -->
+    </select>
               </div>
             </div>
             <div class="col-md-6 col-lg-3 custom-padding">

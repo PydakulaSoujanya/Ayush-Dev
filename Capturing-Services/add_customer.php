@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $customer_name = $_POST['customer_name'];
         
         // If patient name is not provided, set it to customer name
-        if ($patient_name === null || $patient_name === '') {
+        if (empty($patient_name)) {
             $patient_name = $customer_name;
         }
         
@@ -36,26 +36,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Call stored procedure to insert customer data
-        $sql = "CALL insert_customer(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "CALL insert_customer(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @customer_id)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(
-            "sssssssssss",
-            $patient_name, $relationship, $customer_name, $emergency_contact_number,
-            $blood_group, $medical_conditions, $email, $patient_age, $gender,
-            $mobility_status, $discharge
+            "sssssssssss",  // Adjusted to match the number and types of parameters
+            $patient_name, 
+            $relationship, 
+            $customer_name, 
+            $emergency_contact_number,
+            $blood_group, 
+            $medical_conditions, 
+            $email, 
+            $patient_age, 
+            $gender,
+            $mobility_status, 
+            $discharge
         );
         $stmt->execute();
-        
-        // Get the customer_id for address relationships
-        $customer_id = $conn->insert_id;
+        $stmt->close();
 
-        // Handle multiple addresses
-        $pincodes = isset($_POST['pincode']) && is_array($_POST['pincode']) ? $_POST['pincode'] : [];
-        $address_line1s = isset($_POST['address_line1']) && is_array($_POST['address_line1']) ? $_POST['address_line1'] : [];
-        $address_line2s = isset($_POST['address_line2']) && is_array($_POST['address_line2']) ? $_POST['address_line2'] : [];
-        $landmarks = isset($_POST['landmark']) && is_array($_POST['landmark']) ? $_POST['landmark'] : [];
-        $cities = isset($_POST['city']) && is_array($_POST['city']) ? $_POST['city'] : [];
-        $states = isset($_POST['state']) && is_array($_POST['state']) ? $_POST['state'] : [];
+        // Retrieve the customer_id (from the OUT parameter)
+        $result = $conn->query("SELECT @customer_id AS customer_id");
+        $row = $result->fetch_assoc();
+        $customer_id = $row['customer_id'];
+
+        if (!$customer_id) {
+            throw new Exception("Failed to retrieve customer ID.");
+        }
+
+        // Validate and handle multiple addresses
+        $pincodes = $_POST['pincode'] ?? [];
+        $address_line1s = $_POST['address_line1'] ?? [];
+        $address_line2s = $_POST['address_line2'] ?? [];
+        $landmarks = $_POST['landmark'] ?? [];
+        $cities = $_POST['city'] ?? [];
+        $states = $_POST['state'] ?? [];
 
         // Call stored procedure to insert each address
         $addr_sql = "CALL insert_customer_address(?, ?, ?, ?, ?, ?, ?)";
@@ -63,32 +78,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert each address
         for ($i = 0; $i < count($pincodes); $i++) {
-            if (!empty($pincodes[$i]) && !empty($address_line1s[$i])) {
+            $pincode = $pincodes[$i] ?? null;
+            $address_line1 = $address_line1s[$i] ?? null;
+            $address_line2 = $address_line2s[$i] ?? null;
+            $landmark = $landmarks[$i] ?? null;
+            $city = $cities[$i] ?? null;
+            $state = $states[$i] ?? null;
+
+            // Only insert if pincode and address_line1 are provided
+            if (!empty($pincode) && !empty($address_line1)) {
                 $addr_stmt->bind_param(
                     "issssss",
-                    $customer_id,
-                    $pincodes[$i],
-                    $address_line1s[$i],
-                    $address_line2s[$i],
-                    $landmarks[$i],
-                    $cities[$i],
-                    $states[$i]
+                    $customer_id, 
+                    $pincode, 
+                    $address_line1, 
+                    $address_line2, 
+                    $landmark, 
+                    $city, 
+                    $state
                 );
-                $addr_stmt->execute();
+                
+                if (!$addr_stmt->execute()) {
+                    throw new Exception("Failed to insert address: " . $addr_stmt->error);
+                }
             }
         }
+
+        $addr_stmt->close();
 
         // Commit transaction
         $conn->commit();
         
         echo '<script>
-            alert("Customer/Patient created successfully"); 
+            alert("Customer/Patient and addresses created successfully."); 
             window.location.href = "services.php";
         </script>';
         
     } catch (Exception $e) {
         // Rollback transaction on error
         $conn->rollback();
+        file_put_contents('error_log.txt', "Transaction error: " . $e->getMessage() . "\n", FILE_APPEND);
         echo "Error: " . $e->getMessage();
     }
 
